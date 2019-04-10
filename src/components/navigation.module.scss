@@ -1,0 +1,7 @@
+.navigation {
+    display: flex;
+
+    &__item  + .navigation__item {
+        margin-left: 1rem;
+    }
+}

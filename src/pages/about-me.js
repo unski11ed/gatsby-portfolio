@@ -1,13 +1,13 @@
 import React from 'react';
 
-class RootIndex extends React.Component {
+class AboutMe extends React.Component {
     render() {
         return (
             <div>
-                Gówno
+                About Me
             </div>
         );
     }
 }
 
-export default RootIndex;
+export default AboutMe;
