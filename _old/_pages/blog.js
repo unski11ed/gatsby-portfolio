@@ -1,3 +1,4 @@
+/*
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 import get from 'lodash/get'
@@ -67,3 +68,4 @@ export const pageQuery = graphql`
     }
   }
 `
+*/
