@@ -47,11 +47,9 @@ class Layout extends React.Component {
                             </NavigationItem>
                         </Navigation>
                     </header>
-                    <div style={{ display: 'flex', alignItems: 'center', height: 'calc(100vh - 3rem)', textAlign: 'center' }}>
-                        <PageTransition transitionKey={ pageSlug }>
-                            { children }
-                        </PageTransition>
-                    </div>
+                    <PageTransition transitionKey={ pageSlug }>
+                        { children }
+                    </PageTransition>
                 </main>
             </React.Fragment>
         );

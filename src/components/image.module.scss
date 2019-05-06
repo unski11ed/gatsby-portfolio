@@ -1,0 +1,35 @@
+$blurSize: 4px;
+
+.image-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+.image {
+    display: block;
+}
+
+.image--low-res {
+    @extend .image;
+
+    position: absolute;
+    top: -$blurSize;
+    left: -$blurSize;
+    right: -$blurSize;
+    bottom: -$blurSize;
+    z-index: 0;
+    width: calc(100% + #{$blurSize * 2});
+    height: calc(100% + #{$blurSize * 2});
+
+    filter: blur($blurSize);
+}
+
+.image--high-res {
+    @extend .image;
+
+    width: 100%;
+
+    :not(.loaded) {
+        visibility: hidden;
+    }
+}
