@@ -1,0 +1,34 @@
+$shadow-first: 10px 10px 8px 0px rgba(0,0,0,0.55);
+$shadow-second: 5px 5px 4px 0px rgba(0,0,0,0.55);
+$shadow-third: 2px 2px 4px 0px rgba(0,0,0,0.55);
+
+.gallery {
+    position: relative;
+}
+
+.galleryItem {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    max-width: calc(100% - 40px);
+    border-radius: 5px;
+    transform-origin: center right;
+}
+
+.active {
+    z-index: 2;
+    box-shadow: $shadow-first;
+
+    + .galleryItem {
+        transform: translateX(20px) scale(0.95);
+        opacity: 0.6;
+        box-shadow: $shadow-second;
+
+        + .galleryItem {
+            transform: translateX(40px) scale(0.9);
+            opacity: 0.2;
+            box-shadow: $shadow-third;
+        }
+    }
+}

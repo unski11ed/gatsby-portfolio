@@ -35,7 +35,8 @@ class Image extends React.Component {
             srcPlaceholder,
             src,
             style,
-            alt
+            alt,
+            innerRef,
         } = this.props;
 
         const wrapClass = classNames(classes.imageWrap, wrapClassName);
@@ -48,7 +49,7 @@ class Image extends React.Component {
             classes.imageHighRes
         );
         return (
-            <div className={ wrapClass } style={ style }>
+            <div className={ wrapClass } style={ style } ref={ innerRef }>
                 <img
                     src={ src }
                     className={ imageHighClass }
@@ -79,6 +80,7 @@ Image.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     alt: PropTypes.string,
+    innerRef: PropTypes.any,
 }
 
 export default Image;
