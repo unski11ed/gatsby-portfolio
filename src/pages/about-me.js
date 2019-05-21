@@ -1,11 +1,15 @@
 import React from 'react';
 
+import TransitionWrap from './../components/transitionWrap';
+
 class AboutMe extends React.Component {
     render() {
         return (
-            <div>
-                About Me
-            </div>
+            <TransitionWrap>
+                <div>
+                    About Me
+                </div>
+            </TransitionWrap>
         );
     }
 }

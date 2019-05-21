@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { graphql } from 'gatsby';
+import { graphql, navigate } from 'gatsby';
 import { get, map } from 'lodash';
 import anime from 'animejs';
+import classNames from 'classnames';
 
 import Container from './../components/container';
 import Grid from './../components/grid';
@@ -11,12 +12,17 @@ import ContentfulImage from './../components/contentfulImage';
 import Image from './../components/image';
 import ShortDescription from './../components/shortDescription';
 import TechIcon from './../components/techIcon';
+import TransitionWrap from './../components/transitionWrap';
+
+import LayoutContext from './../layouts/layoutContext';
 
 import classes from './portfolio.module.scss';
 
 const CHILD_FADE_DURATION = 200; //ms
 
 class PortfolioItem extends React.Component {
+    static contextType = LayoutContext;
+
     constructor(props) {
         super(props);
 
@@ -24,7 +30,10 @@ class PortfolioItem extends React.Component {
         this.titleRef = React.createRef();
     }
 
-    async clickHandler() {
+    async clickHandler(targetUrl) {
+        // Disable Page Transition Animation
+        this.context.toggleTransitionAnimations(false);
+
         // Hide all of the Children sequentially
         const itemsAnimPromises = Array
             .from(this.itemRef.current.children)
@@ -57,17 +66,35 @@ class PortfolioItem extends React.Component {
             left: 0,
             width: typeof window !== 'undefined' ? window.innerWidth : 0,
             height: typeof window !== 'undefined' ? window.innerHeight : 0,
-            easing: 'spring(1, 80, 100, 10)'
+            easing: 'spring(1, 80, 100, 10)',
+            complete: () => {
+                // When animation complete - redirect to target element
+                navigate(targetUrl);
+
+                // After navigation completes - reenable animations
+                //this.context.toggleTransitionAnimations(true);
+            }
         }).finished;
+    }
+
+    componentDidMount() {
+        console.log(window.history);
     }
 
     render() {
         const { data } = this.props;
 
         return (
-            <div
-                className={ classes.portfolioItem }
-                onClick={ this.clickHandler.bind(this) }
+            <a
+                className={ classNames(classes.portfolioItem, 'portfolio-post-bg') }
+                onClick={(e) => {
+                    e.preventDefault();
+
+                    this.clickHandler(`/portfolio-entry/${data.slug}/`);
+
+                    return false;
+                }}
+                href={ `/portfolio-entry/${data.slug}/` }
                 ref={ this.itemRef }
             >
                 <ContentfulImage imageData={ get(data, 'heroImage.fluid') }>
@@ -100,7 +127,7 @@ class PortfolioItem extends React.Component {
                         }
                     </div>
                 </div>
-            </div>
+            </a>
         );
     }   
 }
@@ -117,9 +144,11 @@ class Portfolio extends React.Component {
                 <Grid>
                     {
                         map(projects, (project) => (
-                            <GridItem key={ project.node.id }>
-                                <PortfolioItem data={ project.node } />
-                            </GridItem>
+                            <TransitionWrap key={ project.node.id }>
+                                <GridItem>
+                                    <PortfolioItem data={ project.node } />
+                                </GridItem>
+                            </TransitionWrap>
                         ))
                     }
                 </Grid>

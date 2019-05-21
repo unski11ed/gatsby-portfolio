@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import classes from './grid.module.scss';
 
-const GridItem = ({ children }) => (
-    <div className={ classes['grid__item'] }>
+const GridItem = ({ children, className }) => (
+    <div className={ classNames(classes['grid__item'], className) }>
         { children }
     </div>
 );

@@ -3,25 +3,47 @@ import PropTypes from 'prop-types';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import anime from 'animejs';
 
-const appearAnimation = (containerElement) => {
-    anime({
-        targets: containerElement,
-        opacity: 1,
-        translateY: [-100, 0],
-        easing: 'easeOutElastic'
-    });
-}
-const exitAnimation = (containerElement, index, removeElement) => {
-    anime({
-        targets: containerElement,
-        opacity: 0,
-        translateY: 100,
-        complete: removeElement,
-        easing: 'easeInElastic'
-    });
-}
+import LayoutContext from './../layouts/layoutContext';
+import {
+    entryAnimationConfig,
+    leaveAnimationConfig
+} from './../common/transitionAnimations';
 
 class PageTransition extends React.Component {
+    static contextType = LayoutContext;
+
+    appearAnimation(containerElement) {
+        containerElement.style.opacity = 1;
+
+        if (this.context.transitionAnimationEnabled) {
+            const transitionElements = 
+                containerElement.querySelectorAll('.transition-element');
+            
+            anime({
+                ...entryAnimationConfig,
+                targets: transitionElements,
+                complete: () => {
+                    // Reset element styles
+                    for (const transitionElement of transitionElements) {
+                        transitionElement.style.opacity = '';
+                    }
+                },
+            });
+        }
+    }
+
+    exitAnimation(containerElement, index, removeElement) {
+        if (this.context.transitionAnimationEnabled) {
+            anime({
+                ...leaveAnimationConfig,
+                targets: containerElement,
+                complete: removeElement,
+            });
+        } else {
+            removeElement();
+        }
+    }
+
     render() {
         const { children: page, transitionKey } = this.props;
 
@@ -31,8 +53,8 @@ class PageTransition extends React.Component {
                     <Flipped
                         key={ `page-${transitionKey}` }
                         flipId={ `page-${transitionKey}` }
-                        onAppear={ appearAnimation }
-                        onExit={ exitAnimation }
+                        onAppear={ this.appearAnimation.bind(this) }
+                        onExit={ this.exitAnimation.bind(this) }
                     >
                         <div>
                             { page }

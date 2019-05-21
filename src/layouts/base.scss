@@ -13,7 +13,18 @@
 body {
     background-color: $background-color;
     color: $color;
-    font-family: 'Avenir'
+    font-family: 'Avenir';
+    margin: 0;
+    overflow: overlay;
+
+    &::-webkit-scrollbar {
+        width: 0.3rem;
+    }
+    &::-webkit-scrollbar-track {
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #222;
+    }
 }
 
 a {
