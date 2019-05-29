@@ -17,18 +17,6 @@ $shadow-third: 2px 2px 4px 0px rgba(0,0,0,0.55);
 }
 
 .active {
-    z-index: 2;
-    box-shadow: $shadow-first;
-
-    + .galleryItem {
-        transform: translateX(20px) scale(0.95);
-        opacity: 0.6;
-        box-shadow: $shadow-second;
-
-        + .galleryItem {
-            transform: translateX(40px) scale(0.9);
-            opacity: 0.2;
-            box-shadow: $shadow-third;
-        }
-    }
+    position: relative;
+    z-index: 1;
 }

@@ -10,11 +10,42 @@ import Image from './image';
 import classes from './gallery.module.scss';
 
 const imageStyles = [
-    { translateX: -20, opacity:   0, boxShadow: '15px 15px 8px 0px rgba(0,0,0,0.55)' },
-    { translateX:   0, opacity:   1, boxShadow: '10px 10px 8px 0px rgba(0,0,0,0.55)' },
-    { translateX:  20, opacity: 0.6, boxShadow: '5px 5px 4px 0px rgba(0,0,0,0.55)' },
-    { translateX:  40, opacity: 0.2, boxShadow: '2px 2px 4px 0px rgba(0,0,0,0.55)' },
+    { translateX: -20, scale: 1.05, opacity:   0, boxShadow: '15px 15px 8px 0px rgba(0, 0, 0, 0.55)' },
+    { translateX:   0, scale: 1.00, opacity:   1, boxShadow: '10px 10px 8px 0px rgba(0, 0, 0, 0.55)' },
+    { translateX:  20, scale: 0.95, opacity: 0.6, boxShadow: '5px 5px 4px 0px rgba(0, 0, 0, 0.55)' },
+    { translateX:  40, scale: 0.90, opacity: 0.2, boxShadow: '2px 2px 4px 0px rgba(0, 0, 0, 0.55)' },
+    { translateX:  60, scale: 0.85, opacity:   0, boxShadow: '0 0 0 0 rgba(0, 0, 0, 0.55)' }
 ];
+
+const getAnimeTransforms = (targetIndex, delta) => {
+    let toStyle, fromStyle;
+
+    if (delta > 0) {
+        fromStyle = imageStyles[targetIndex + 1];
+        toStyle = imageStyles[targetIndex];
+    }
+    if (delta < 0) {
+        fromStyle = imageStyles[targetIndex];
+        toStyle = imageStyles[targetIndex + 1];
+    }
+    
+    return {
+        translateX: {
+            value: [fromStyle.translateX, toStyle.translateX],
+        },
+        scale: {
+            value: [fromStyle.scale, toStyle.scale],
+        },
+        opacity: {
+            value: [fromStyle.opacity, toStyle.opacity],
+        },
+        boxShadow: {
+            value: [fromStyle.boxShadow, toStyle.boxShadow],
+        }
+    };
+}
+
+const VISIBLE_ELEMENTS = 3;
 
 class Gallery extends React.Component {
     static propTypes = {
@@ -30,15 +61,31 @@ class Gallery extends React.Component {
         this.itemsRefs = { };
     }
 
-    animateElements(elementsSet) {
+    animateElements(elementsSet, delta) {
         const animationsFinishes = map(elementsSet, (element, index) => {
-            // TODO: Generate animation declarations and provide it to anime
+            // Build an Animation Definition for a particular element
+            const animDef = {
+                ...getAnimeTransforms(index, delta),
+                begin: () => {
+                    element.style.zIndex = elementsSet.length - index;
 
-            return anime({
+                    // First Element which is invisible shouldn't react to events
+                    element.style.pointerEvents = index === 0 ? 'none' : 'all';
+                },
                 targets: element,
-                translateX: '-=20px',
-                scale: 1.05,
-                opacity: [1, 0],
+                duration: 500,
+                easing: 'easeInOutQuart',
+            };
+
+            // Execute animation and Setup Easings
+            return anime({
+                ...animDef,
+                /*
+                opacity: {
+                    ...animDef.opacity,
+                    easing: 'easeInOutQuad'
+                }
+                */
             }).finished;
         });
 
@@ -50,18 +97,18 @@ class Gallery extends React.Component {
         const { currentPhotoIndex } = this.state;
         
         // Calculate New Photo Index
-        let nextIndex = currentPhotoIndex + delta < 0;
+        let nextIndex = currentPhotoIndex + delta;
         if (nextIndex < 0) {
-            nextIndex = images.length - currentPhotoIndex;
+            nextIndex = images.length - 1;
         }
         if (nextIndex >= images.length) {
             nextIndex = nextIndex % images.length;
         }
         
         // Animate Out The Current Element
-        const elementsToAnimate = times(4, (index) =>
-            this.getElementAtIndex(index + currentPhotoIndex));
-        await this.animateElements(elementsToAnimate);
+        const elementsToAnimate = times(VISIBLE_ELEMENTS + 1, (index) =>
+            this.getElementAtIndex(index + (delta < 0 ? nextIndex : currentPhotoIndex)));
+        await this.animateElements(elementsToAnimate, delta);
 
         // Set it in the state
         this.setState({ currentPhotoIndex: nextIndex });
@@ -69,8 +116,8 @@ class Gallery extends React.Component {
 
     getElementAtIndex(index) {
         const { images } = this.props;
-        let normalizedIndex = index;
 
+        let normalizedIndex = index;
         if (normalizedIndex < 0) {
             normalizedIndex = images.length - currentPhotoIndex;
         }
@@ -84,15 +131,30 @@ class Gallery extends React.Component {
         return targetRef;
     }
 
+    componentDidMount() {
+        // Apply initial styles
+        const { currentPhotoIndex } = this.state;
+
+        // Get references for visible images
+        const elementsToInitialize = times(VISIBLE_ELEMENTS, (index) =>
+            this.getElementAtIndex(index + currentPhotoIndex));
+        
+        // Set initial styling for those images
+        for (let [index, element] of elementsToInitialize.entries()) {
+            const styleDef = imageStyles[index + 1];
+
+            element.style.transform = `translateX(${styleDef.translateX}px) scale(${styleDef.scale})`;
+            element.style.opacity = styleDef.opacity;
+            element.style.boxShadow = styleDef.boxShadow;
+        }
+    }
+
     render() {
         const { images } = this.props;
         const { currentPhotoIndex } = this.state;
         
-        // TODO: Provide styles to image instead of classes
         return (
             <React.Fragment>
-                <button type="button" onClick={() => this.changeCurrentElement(+1)}>Next</button>
-
                 <div className={ classes.gallery }>
                     {
                         map(images, (image, index) => (
@@ -114,6 +176,9 @@ class Gallery extends React.Component {
                         ))
                     }
                 </div>
+
+                <button type="button" onClick={() => this.changeCurrentElement(-1)}>Prev</button>
+                <button type="button" onClick={() => this.changeCurrentElement(+1)}>Next</button>
             </React.Fragment>
         );
     }
