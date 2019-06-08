@@ -1,6 +1,31 @@
+@import './../styles/variables';
+
 $shadow-first: 10px 10px 8px 0px rgba(0,0,0,0.55);
 $shadow-second: 5px 5px 4px 0px rgba(0,0,0,0.55);
 $shadow-third: 2px 2px 4px 0px rgba(0,0,0,0.55);
+
+.container {
+    position: relative;
+}
+
+.navigation {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigationButton {
+    flex: 0 0 auto;
+
+    --icon-size: 2rem;
+    --icon-color: #{$text-main};
+}
 
 .gallery {
     position: relative;

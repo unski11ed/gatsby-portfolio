@@ -1,12 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 import anime from 'animejs';
-import { get } from 'lodash';
+import { get, map, startCase } from 'lodash';
 import { Link, graphql } from 'gatsby';
 
 import TransitionWrap from './../components/transitionWrap';
 import Container from './../components/container';
 import Gallery from './../components/gallery';
+import TechIcon from './../components/techIcon';
+import Icon from './../components/icon';
+import IntersectionObserver from './../components/intersectionObserver';
+import Tooltip from './../components/tooltip';
 
 import LayoutConext from './../layouts/layoutContext';
 import { entryAnimationConfig } from './../common/transitionAnimations';
@@ -20,6 +24,10 @@ class PortfolioEntry extends React.Component {
         super(props);
 
         this.containerRef = React.createRef();
+
+        this.state = {
+            headerOutOfViewPort: true,
+        }
     }
 
     animateContentEntry() {
@@ -36,30 +44,122 @@ class PortfolioEntry extends React.Component {
         this.context.toggleTransitionAnimations(true);
 
         this.animateContentEntry();
-
-        console.log(this.props);
     }
 
     render() {
         const item = get(this.props, 'data.contentfulPortfolioProject');
+        const textHtml = get(item, 'body.childMarkdownRemark.html');
+        const descriptionHtml = get(item, 'description.childMarkdownRemark.html');
 
         return (
             <div className={ classNames(classes.portfolioEntry, 'portfolio-post-bg') } ref={ this.containerRef }>
-                <Link to="/portfolio">
-                    Close
-                </Link>
-                <div>
+                <div className={ classes.contentWrap }>
                     <Container>
-                        <TransitionWrap>
-                            <h1>
-                                { item.title }
-                            </h1>
-                        </TransitionWrap>
-                        <TransitionWrap>
-                            <Gallery
-                                images={ item.gallery }
-                            />
-                        </TransitionWrap>
+                        <article className={ classes.content }>
+                            <TransitionWrap>
+                                <div
+                                    className={ classes.contentHeader }
+                                >
+                                    <h1>
+                                        { item.title }
+                                    </h1>
+
+                                    <Tooltip text="Close">
+                                        <Link to="/portfolio" className={ classes.close }>
+                                            <Icon glyph="times" className={ classes.closeIcon }/>
+                                        </Link>
+                                    </Tooltip>
+                                </div>
+                            </TransitionWrap>
+
+                            <TransitionWrap>
+                                <div className={ classes.contentInfo }>
+                                    <header className={  classes.infoBox }>
+                                        <div className={ classNames(classes.infoBoxContent, classes.info) }>
+                                            { /*    Info: Date     */}
+                                            <div className={ classNames(classes.infoTitle, 'text-icon') }>
+                                                <Icon glyph="calendar" className="text-muted" />
+                                                <span>Timespan</span>
+                                            </div>
+                                            <div className={ classes.infoContent }>
+                                                { item.startDate } - { item.endDate ? item.endDate : 'Now' }
+                                            </div>
+
+                                            { /*    Info: Description   */}
+                                            <div className={ classNames(classes.infoTitle, 'text-icon') }>
+                                                <Icon glyph="pen-alt" className="text-muted" />
+                                                <span>Description</span>
+                                            </div>
+                                            <div className={ classes.infoContent } dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+
+                                            { /*    Info: Tags   */}
+                                            {
+                                                item.tags && (
+                                                    <React.Fragment>
+                                                        <div className={ classNames(classes.infoTitle, 'text-icon') }>
+                                                            <Icon glyph="tags" className="text-muted" />
+                                                            <span>Tags</span>
+                                                        </div>
+                                                        <div className={ classNames(classes.infoContent, 'tag-cloud') }>
+                                                            {
+                                                                map(item.tags, (tag) => (
+                                                                    <div
+                                                                        className={
+                                                                            classNames(
+                                                                                classes.techEntry,
+                                                                                'tag-cloud__tag',
+                                                                                'text-icon',
+                                                                                'badge',
+                                                                                'badge--bg'
+                                                                            ) 
+                                                                        }
+                                                                    >
+                                                                        <span>{ startCase(tag) }</span>
+                                                                    </div>
+                                                                ))
+                                                            }
+                                                        </div>
+                                                    </React.Fragment>
+                                                )
+                                            }
+
+                                            { /*    Info: Technologies   */}
+                                            <div className={ classNames(classes.infoTitle, 'text-icon') }>
+                                                <Icon glyph="tools" className="text-muted" />
+                                                <span>Technologies</span>
+                                            </div>
+                                            <div className={ classNames(classes.infoContent, 'tag-cloud') }>
+                                                {
+                                                    map(item.technologies, (techName) => (
+                                                        <div className={ classNames(classes.techEntry, 'tag-cloud__tag', 'text-icon', 'badge', 'badge--bg') }>
+                                                            <Icon>
+                                                                <TechIcon name={ techName } />
+                                                            </Icon>
+                                                            <span>{ startCase(techName) }</span>
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
+                                    </header>
+                                </div>
+                            </TransitionWrap>
+                            
+                            <section id="project-gallery" className={ classes.contentGallery }>
+                                <TransitionWrap>
+                                    <Gallery
+                                        images={ item.gallery }
+                                    />
+                                </TransitionWrap>
+                            </section>
+
+                            <section id="project-text" className={ classes.contentText }>
+                                <TransitionWrap>
+                                    <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
+                                    </div>
+                                </TransitionWrap>
+                            </section>
+                        </article>
                     </Container>
                 </div>
             </div>
@@ -80,8 +180,9 @@ export const pageQuery = graphql`
         contentfulPortfolioProject(slug: { eq: $slug }) {
             title
             technologies
-            startDate(formatString: "MMMM Do, YYYY")
-            endDate(formatString: "MMMM Do, YYYY")
+            tags
+            startDate(formatString: "MMM YYYY")
+            endDate(formatString: "MMM YYYY")
             gallery {
                 id
                 title

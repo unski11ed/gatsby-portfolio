@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
+
+import 'water.css/src/parts/_core.css';
 import './base.scss';
-import classes from './layout.module.scss';
+import './../styles/styles.scss';
 
 import avenirFont from './../fonts/avenir-400.woff2';
-import './../styles/styles.scss';
+import classes from './layout.module.scss';
 
 import Navigation from './../components/navigation';
 import NavigationItem from './../components/navigationItem';

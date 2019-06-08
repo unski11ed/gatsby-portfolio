@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .portfolio-item-image-wrap {

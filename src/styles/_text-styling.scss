@@ -1,0 +1,26 @@
+.text-styling {
+    /*
+    h2 {
+        margin-bottom: 2rem;
+        margin-top: 1rem;
+    }
+
+    p {
+        color: #ccc;
+        margin-bottom: 2rem;
+    }
+    */
+}
+
+.text-icon {
+    display: flex;
+    align-items: center;
+    
+    .icon:first-child {
+        margin-right: 0.5rem;
+    }
+
+    .icon:last-child {
+        margin-left: 0.5rem;
+    }
+}

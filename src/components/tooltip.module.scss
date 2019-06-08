@@ -1,0 +1,101 @@
+.tooltip {
+    position: relative;
+    --tooltip-color: rgba(0, 0, 0, 0.8);
+    color: white !important;
+}
+.tooltip:before {
+    pointer-events: none;
+    position: absolute;
+    z-index: 10;
+    content: attr(data-tooltip);
+    font-weight: 200;
+    font-size: 0.8em;
+    background-color: var(--tooltip-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.tooltip::after {
+    pointer-events: none;
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: 10;
+}
+
+/* LEFT (Default) */
+.tooltip::before,
+.tooltipLeft::before {
+    left: 0;
+    top: 50%;
+    transform: translate(calc(-100% - 15px), -50%);
+}
+.tooltip::after,
+.tooltipLeft::after {
+    border-top: 0.4em solid transparent;
+    border-bottom: 0.4em solid transparent;
+    border-left: 0.4em solid var(--tooltip-color);
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* TOP */
+.tooltipTop::before {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 15px));
+}
+.tooltipTop::after {
+    border-left: 0.4em solid transparent;
+    border-right: 0.4em solid transparent;
+    border-top: 0.4em solid var(--tooltip-color);
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* RIGHT */
+.tooltipRight::before {
+    top: 50%;
+    left: 100%;
+    transform: translate(15px, -50%);
+}
+.tooltipRight::after {
+    border-top: 0.4em solid transparent;
+    border-bottom: 0.4em solid transparent;
+    border-right: 0.4em solid var(--tooltip-color);
+    border-left: none;
+    top: 50%;
+    left: auto;
+    right: 0;
+    transform: translate(15px, -50%);
+}
+
+/* BOTTOM */
+.tooltipBottom::before {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 15px);
+}
+.tooltipBottom::after {
+    border-left: 0.4em solid transparent;
+    border-right: 0.4em solid transparent;
+    border-bottom: 0.4em solid var(--tooltip-color);
+    top: auto;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 15px);
+}
+
+/* Show / Hide */
+.tooltip::after,
+.tooltip::before {
+    opacity: 0;
+    transition: opacity 100ms ease-in-out;
+}
+.tooltip:hover::after,
+.tooltip:hover::before {
+    opacity: 1;
+}

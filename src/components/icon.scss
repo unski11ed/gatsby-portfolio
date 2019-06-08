@@ -1,0 +1,32 @@
+@import './../styles/variables';
+
+.icon {
+    display: inline-block;
+    width: var(--icon-size, 1rem);
+    height: var(--icon-size, 1rem);
+    
+    + * {
+        vertical-align: middle;
+    }
+
+    &-fixed-width {
+        width: 1.2rem;
+    }
+}
+
+.icon-fa {
+    mask-position: center center;
+    mask-repeat: no-repeat;
+    vertical-align: middle;
+    background: var(--icon-color, $text-muted);
+}
+
+.icon--angle-left { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/angle-left.svg'); }
+.icon--calendar { mask-image: url('~@fortawesome/fontawesome-free/svgs/regular/calendar.svg'); }
+.icon--align-justify { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/align-justify.svg'); }
+.icon--tags { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/tags.svg'); }
+.icon--pen-alt { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/pen-alt.svg'); }
+.icon--tools { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/tools.svg'); }
+.icon--times { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/times.svg'); }
+.icon--angle-left { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/angle-left.svg'); }
+.icon--angle-right { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/angle-right.svg'); }

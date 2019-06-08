@@ -1,5 +1,8 @@
 .navigation {
     display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 
     &__item  + .navigation__item {
         margin-left: 1rem;

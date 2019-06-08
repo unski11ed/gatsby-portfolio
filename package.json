@@ -7,8 +7,10 @@
     "url": "https://github.com/contentful-userland/gatsby-contentful-starter/issues"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "animejs": "^3.0.1",
     "classnames": "^2.2.6",
+    "date-fns": "^1.30.1",
     "gatsby-image": "^2.0.41",
     "gatsby-plugin-layout": "^1.0.15",
     "gatsby-plugin-react-helmet": "^3.0.12",
@@ -24,7 +26,8 @@
     "react-flip-toolkit": "^6.5.9",
     "react-helmet": "^5.2.1",
     "react-lazyload": "^2.5.0",
-    "sharp": "^0.22.1"
+    "sharp": "^0.22.1",
+    "water.css": "git+https://github.com/kognise/water.css.git"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

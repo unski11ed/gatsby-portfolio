@@ -1,1 +1,32 @@
+@import './variables';
 @import './portfolio-post';
+@import './text-styling';
+@import './badges';
+@import './tag-cloud';
+
+// Pass water.css variables
+:root {
+    --background-body: #{$background-body};
+    --background: #{$background};
+    --background-alt: #{$background-alt};
+  
+    --selection: #{$selection};
+  
+    --text-main: #{$text-main};
+    --text-bright: #{$text-bright};
+  
+    --links: #{$links};
+    --focus: #{$focus};
+    --border: #{$border};
+    --code: #{$code};
+  
+    --animation-duration: #{$animation-duration};
+    --button-hover: #{$button-hover};
+  
+    --scrollbar-thumb: #{$scrollbar-thumb};
+    --scrollbar-thumb-hover: #{$scrollbar-thumb-hover};
+  
+    --form-placeholder: #{$form-placeholder};
+    --form-text: #{$form-text};
+}
+  

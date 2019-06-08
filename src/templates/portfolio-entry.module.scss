@@ -1,5 +1,7 @@
-@import './../styles/mixins/scrollbar.scss';
+@import './../styles/mixins/scrollbar';
+@import './../styles/variables';
 
+// Main Container
 .portfolio-entry {
     position: fixed;
     top: 0;
@@ -8,6 +10,129 @@
     bottom: 0;
     z-index: 100;
     min-height: 100vh;
-
+    overflow: auto;
+    
     @include scrollbar;
+}
+
+.close {
+    --icon-size: 2rem;
+
+    &-icon {
+        background-color: $links;
+
+        &:hover {
+            background-color: $focus;
+        }
+    }
+}
+
+// Info Box
+.info-box {
+    position: sticky;
+    top: 0.5rem;
+
+    background: $background-alt;
+    padding: 1rem;
+    border-radius: 8px;
+    flex: 0 0 auto;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+
+    &-content {
+        + .info-title {
+            margin-top: 1rem;
+        }
+
+        // Inner content Styling
+        color: #868a8e;
+
+        p {
+            margin: 0;
+        }
+    }
+}
+
+// Content
+.contentWrap {
+    padding: 2rem 1rem;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 320px auto;
+    grid-gap: 1rem;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "entry-header entry-header" "entry-gallery entry-gallery" "entry-info entry-text";
+}
+
+.content-header {
+    grid-area: entry-header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    > * {
+        margin: none;
+    }
+}
+
+.content-text { grid-area: entry-text; }
+
+.content-info { grid-area: entry-info; }
+
+.content-gallery { grid-area: entry-gallery; }
+
+// Text Styling
+.content-text {
+    h2 {
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid $color-primary;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #c6cbd0;
+    }
+
+    color: #868a8e;
+    font-size: 1.07rem;
+
+    li + li {
+        margin-top: 1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.main-header {
+    padding: 0.5rem 1rem;
+
+    &-sticky {
+        position: fixed;
+        z-index: 100;
+        top: 0.5rem;
+        background-color: $background-alt;
+        padding: 1rem;
+        border-radius: 8px;
+    }
 }

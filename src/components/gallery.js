@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import ContentfulImage from './contentfulImage';
 import Image from './image';
+import Icon from './icon';
 
 import classes from './gallery.module.scss';
 
@@ -154,7 +155,24 @@ class Gallery extends React.Component {
         const { currentPhotoIndex } = this.state;
         
         return (
-            <React.Fragment>
+            <div className={ classes.container }>
+                <div className={ classes.navigation }>
+                    <button
+                        type="button"
+                        className={classes.navigationButton}
+                        onClick={() => this.changeCurrentElement(-1)}
+                    >
+                        <Icon glyph="angle-left" />
+                    </button>
+                    <button
+                        type="button"
+                        className={classes.navigationButton}
+                        onClick={() => this.changeCurrentElement(+1)}
+                    >
+                        <Icon glyph="angle-right" />
+                    </button>
+                </div>
+                
                 <div className={ classes.gallery }>
                     {
                         map(images, (image, index) => (
@@ -176,10 +194,7 @@ class Gallery extends React.Component {
                         ))
                     }
                 </div>
-
-                <button type="button" onClick={() => this.changeCurrentElement(-1)}>Prev</button>
-                <button type="button" onClick={() => this.changeCurrentElement(+1)}>Next</button>
-            </React.Fragment>
+            </div>
         );
     }
 }

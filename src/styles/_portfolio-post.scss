@@ -1,3 +1,6 @@
+@import './variables';
+
 .portfolio-post-bg {
-    background: linear-gradient(45deg, #000000 0%, lighten(#000, 15%) 30%, lighten(#000, 15%) 100%);
+    background: $background;
+    //background: linear-gradient(45deg, #000000 0%, lighten(#000, 15%) 30%, lighten(#000, 15%) 100%);
 }

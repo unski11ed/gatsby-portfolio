@@ -1,0 +1,16 @@
+@import './variables';
+
+.badge {
+    border-radius: 7px;
+    line-height: 1.2em;
+    font-size: 0.87rem;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+
+    --icon-size: 1.2em;
+}
+
+.badge--bg { background-color: $background; }
+.badge--bg-alt { background-color: $background-alt; }
