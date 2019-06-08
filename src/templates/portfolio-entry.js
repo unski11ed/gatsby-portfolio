@@ -17,6 +17,12 @@ import { entryAnimationConfig } from './../common/transitionAnimations';
 
 import classes from './portfolio-entry.module.scss';
 
+const tagColors = {
+    'fullstack': 'success',
+    'techlead': 'warning',
+    'production': 'danger'
+};
+
 class PortfolioEntry extends React.Component {
     static contextType = LayoutConext;
 
@@ -110,7 +116,8 @@ class PortfolioEntry extends React.Component {
                                                                                 'tag-cloud__tag',
                                                                                 'text-icon',
                                                                                 'badge',
-                                                                                'badge--bg'
+                                                                                'badge--small',
+                                                                                `badge--${tagColors[tag] || 'bg'}`
                                                                             ) 
                                                                         }
                                                                     >
