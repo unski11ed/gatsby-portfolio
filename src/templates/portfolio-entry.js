@@ -50,6 +50,8 @@ class PortfolioEntry extends React.Component {
         this.context.toggleTransitionAnimations(true);
 
         this.animateContentEntry();
+
+        console.log(this.props);
     }
 
     render() {
@@ -155,7 +157,7 @@ class PortfolioEntry extends React.Component {
                             <section id="project-gallery" className={ classes.contentGallery }>
                                 <TransitionWrap>
                                     <Gallery
-                                        images={ item.gallery }
+                                        assets={ item.gallery }
                                     />
                                 </TransitionWrap>
                             </section>
@@ -195,6 +197,9 @@ export const pageQuery = graphql`
                 title
                 fluid(maxWidth: 1880, resizingBehavior: SCALE) {
                     ...GatsbyContentfulFluid_tracedSVG
+                }
+                file {
+                    url
                 }
             }
             description {

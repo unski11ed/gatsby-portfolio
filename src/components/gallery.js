@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import anime from 'animejs';
-import { map, get, times, reduce, find } from 'lodash';
+import { map, get, times, reduce, find, filter } from 'lodash';
 import classNames from 'classnames';
 
 import ContentfulImage from './contentfulImage';
+import ContentfulVideo from './contentfulVideo';
 import Image from './image';
 import Icon from './icon';
 
@@ -50,7 +51,7 @@ const VISIBLE_ELEMENTS = 3;
 
 class Gallery extends React.Component {
     static propTypes = {
-        images: PropTypes.array,
+        assets: PropTypes.array,
     }
 
     constructor(props) {
@@ -94,16 +95,16 @@ class Gallery extends React.Component {
     }
 
     async changeCurrentElement(delta) {
-        const { images } = this.props;
+        const { assets } = this.props;
         const { currentPhotoIndex } = this.state;
         
         // Calculate New Photo Index
         let nextIndex = currentPhotoIndex + delta;
         if (nextIndex < 0) {
-            nextIndex = images.length - 1;
+            nextIndex = assets.length - 1;
         }
-        if (nextIndex >= images.length) {
-            nextIndex = nextIndex % images.length;
+        if (nextIndex >= assets.length) {
+            nextIndex = nextIndex % assets.length;
         }
         
         // Animate Out The Current Element
@@ -116,17 +117,17 @@ class Gallery extends React.Component {
     }
 
     getElementAtIndex(index) {
-        const { images } = this.props;
+        const { assets } = this.props;
 
         let normalizedIndex = index;
         if (normalizedIndex < 0) {
-            normalizedIndex = images.length - currentPhotoIndex;
+            normalizedIndex = assets.length - currentPhotoIndex;
         }
-        if (normalizedIndex >= images.length) {
-            normalizedIndex = normalizedIndex % images.length;
+        if (normalizedIndex >= assets.length) {
+            normalizedIndex = normalizedIndex % assets.length;
         }
 
-        const { id } = images[normalizedIndex];
+        const { id } = assets[normalizedIndex];
         const targetRef = this.itemsRefs[id];
 
         return targetRef;
@@ -151,9 +152,9 @@ class Gallery extends React.Component {
     }
 
     render() {
-        const { images } = this.props;
+        const { assets } = this.props;
         const { currentPhotoIndex } = this.state;
-        
+
         return (
             <div className={ classes.container }>
                 <div className={ classes.navigation }>
@@ -175,23 +176,49 @@ class Gallery extends React.Component {
                 
                 <div className={ classes.gallery }>
                     {
-                        map(images, (image, index) => (
-                            <ContentfulImage imageData={ get(image, 'fluid') } key={ image.id }>
-                            {
-                                (imageSrcs) => (
-                                    <Image
-                                        { ...imageSrcs }
-                                        wrapClassName={
-                                            classNames(classes.galleryItem, {
-                                                [classes.active]: index === currentPhotoIndex
-                                            })
-                                        }
-                                        innerRef={(ref) => { this.itemsRefs[image.id] = ref; }}
+                        map(assets, (asset, index) => {
+                            const fileUrl = get(asset, 'file.url');
+
+                            const isVideo = fileUrl.indexOf('.mp4') >= 0;
+                            const isImage = (
+                                fileUrl.indexOf('.png') >= 0 ||
+                                fileUrl.indexOf('.jpg') >= 0
+                            );
+                            const itemClassName = classNames(classes.galleryItem, {
+                                [classes.active]: index === currentPhotoIndex
+                            });
+
+                            //  Handle Video
+                            if (isVideo) {
+                                return (
+                                    <ContentfulVideo
+                                        key={ asset.id }
+                                        videoData={ asset }
+                                        innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
+                                        className={ itemClassName }
                                     />
-                                )
+                                );
                             }
-                            </ContentfulImage>
-                        ))
+
+                            // Handle Image
+                            if (isImage) {
+                                return (
+                                    <ContentfulImage imageData={ get(asset, 'fluid') } key={ asset.id }>
+                                    {
+                                        (imageSrcs) => (
+                                            <Image
+                                                { ...imageSrcs }
+                                                wrapClassName={ itemClassName }
+                                                innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
+                                            />
+                                        )
+                                    }
+                                    </ContentfulImage>
+                                );
+                            }
+
+                            return null;
+                        })
                     }
                 </div>
             </div>
