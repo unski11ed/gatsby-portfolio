@@ -8,6 +8,7 @@ import ContentfulImage from './contentfulImage';
 import ContentfulVideo from './contentfulVideo';
 import Image from './image';
 import Icon from './icon';
+import IntersectionObserver from './intersectionObserver';
 
 import classes from './gallery.module.scss';
 
@@ -59,6 +60,7 @@ class Gallery extends React.Component {
 
         this.state = {
             currentPhotoIndex: 0,
+            isGalleryVisible: true,
         }
         this.itemsRefs = { };
     }
@@ -156,72 +158,81 @@ class Gallery extends React.Component {
         const { currentPhotoIndex } = this.state;
 
         return (
-            <div className={ classes.container }>
-                <div className={ classes.navigation }>
-                    <button
-                        type="button"
-                        className={classes.navigationButton}
-                        onClick={() => this.changeCurrentElement(-1)}
-                    >
-                        <Icon glyph="angle-left" />
-                    </button>
-                    <button
-                        type="button"
-                        className={classes.navigationButton}
-                        onClick={() => this.changeCurrentElement(+1)}
-                    >
-                        <Icon glyph="angle-right" />
-                    </button>
-                </div>
-                
-                <div className={ classes.gallery }>
-                    {
-                        map(assets, (asset, index) => {
-                            const fileUrl = get(asset, 'file.url');
+            <IntersectionObserver
+                onIntersectionEnter={() => { this.setState({ isGalleryVisible: true }) }}
+                onIntersectionLeave={() => { this.setState({ isGalleryVisible: false }) }}
+                options={{
+                    rootMargin: "20vh 0 0 0"
+                }}
+            >
+                <div className={ classes.container }>
+                    <div className={ classes.navigation }>
+                        <button
+                            type="button"
+                            className={classes.navigationButton}
+                            onClick={() => this.changeCurrentElement(-1)}
+                        >
+                            <Icon glyph="angle-left" />
+                        </button>
+                        <button
+                            type="button"
+                            className={classes.navigationButton}
+                            onClick={() => this.changeCurrentElement(+1)}
+                        >
+                            <Icon glyph="angle-right" />
+                        </button>
+                    </div>
+                    
+                    <div className={ classes.gallery }>
+                        {
+                            map(assets, (asset, index) => {
+                                const fileUrl = get(asset, 'file.url');
 
-                            const isVideo = fileUrl.indexOf('.mp4') >= 0;
-                            const isImage = (
-                                fileUrl.indexOf('.png') >= 0 ||
-                                fileUrl.indexOf('.jpg') >= 0
-                            );
-                            const itemClassName = classNames(classes.galleryItem, {
-                                [classes.active]: index === currentPhotoIndex
-                            });
-
-                            //  Handle Video
-                            if (isVideo) {
-                                return (
-                                    <ContentfulVideo
-                                        key={ asset.id }
-                                        videoData={ asset }
-                                        innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
-                                        className={ itemClassName }
-                                    />
+                                const isVideo = fileUrl.indexOf('.mp4') >= 0;
+                                const isImage = (
+                                    fileUrl.indexOf('.png') >= 0 ||
+                                    fileUrl.indexOf('.jpg') >= 0
                                 );
-                            }
+                                const itemClassName = classNames(classes.galleryItem, {
+                                    [classes.active]: index === currentPhotoIndex
+                                });
 
-                            // Handle Image
-                            if (isImage) {
-                                return (
-                                    <ContentfulImage imageData={ get(asset, 'fluid') } key={ asset.id }>
-                                    {
-                                        (imageSrcs) => (
-                                            <Image
-                                                { ...imageSrcs }
-                                                wrapClassName={ itemClassName }
-                                                innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
-                                            />
-                                        )
-                                    }
-                                    </ContentfulImage>
-                                );
-                            }
+                                //  Handle Video
+                                if (isVideo) {
+                                    return (
+                                        <ContentfulVideo
+                                            key={ asset.id }
+                                            videoData={ asset }
+                                            innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
+                                            className={ itemClassName }
+                                            canBePlayed={ index === currentPhotoIndex && this.state.isGalleryVisible }
+                                        />
+                                    );
+                                }
 
-                            return null;
-                        })
-                    }
+                                // Handle Image
+                                if (isImage) {
+                                    return (
+                                        <ContentfulImage imageData={ get(asset, 'fluid') } key={ asset.id }>
+                                        {
+                                            (imageSrcs) => (
+                                                <Image
+                                                    { ...imageSrcs }
+                                                    wrapClassName={ itemClassName }
+                                                    innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
+                                                />
+                                            )
+                                        }
+                                        </ContentfulImage>
+                                    );
+                                }
+
+                                return null;
+                            })
+                        }
+                    </div>
                 </div>
-            </div>
+            </IntersectionObserver>
         );
     }
 }

@@ -1,3 +1,25 @@
+@import "./../styles/variables";
+
+.wrap {
+    position: relative;
+}
+
+.control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(#000, 0.4);
+
+    --icon-size: 5rem;
+    --icon-color: #{$text-bright};
+}
+
 .video {
     display: block;
     width: 100%;
