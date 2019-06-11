@@ -27,6 +27,7 @@
     "react-helmet": "^5.2.1",
     "react-lazyload": "^2.6.1",
     "sharp": "^0.22.1",
+    "url-join": "^4.0.0",
     "water.css": "git+https://github.com/kognise/water.css.git"
   },
   "devDependencies": {

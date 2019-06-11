@@ -1,6 +1,7 @@
 import React from 'react';
-import { first } from 'lodash';
+import { first, map } from 'lodash';
 import PropTypes from 'prop-types';
+import urlJoin from 'url-join';
 
 const ContentfulImage = ({ children, imageData }) => {
     if (!imageData) {
@@ -13,10 +14,21 @@ const ContentfulImage = ({ children, imageData }) => {
             width,
         }
     });
+    const placeholderImageUrl = first(images).url;
 
     return children({
-        src: imageData.src,
-        srcPlaceholder: first(images).url
+        src: {
+            jpeg: urlJoin(imageData.src, '?fm=jpg'),
+            webp: urlJoin(imageData.src, '?fm=webp')
+        },
+        srcPlaceholder: {
+            jpeg: urlJoin(placeholderImageUrl, '?fm=jpg'),
+            webp: urlJoin(placeholderImageUrl, '?fm=webp')
+        },
+        srcSet: {
+            jpeg: map(images, image => `${urlJoin(image.url, '?fm=jpeg')} ${image.width}`).join(',\n'),
+            webp: map(images, image => `${urlJoin(image.url, '?fm=webp')} ${image.width}`).join(',\n'), 
+        },
     });
 }
     

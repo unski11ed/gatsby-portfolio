@@ -162,7 +162,7 @@ class Gallery extends React.Component {
                 onIntersectionEnter={() => { this.setState({ isGalleryVisible: true }) }}
                 onIntersectionLeave={() => { this.setState({ isGalleryVisible: false }) }}
                 options={{
-                    rootMargin: "20vh 0 0 0"
+                    //rootMargin: "20% 0 0 0"
                 }}
             >
                 <div className={ classes.container }>

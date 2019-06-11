@@ -85,7 +85,10 @@ const ContentfulVideo = ({
 ContentfulVideo.propTypes = {
     className: PropTypes.string,
     videoData: PropTypes.object,
-    innerRef: PropTypes.object,
+    innerRef: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func
+    ]),
     canBePlayed: PropTypes.bool,
     showControls: PropTypes.bool,
 };

@@ -29,7 +29,7 @@ $blurSize: 4px;
 
     width: 100%;
 
-    :not(.loaded) {
+    &:not(.loaded) {
         visibility: hidden;
     }
 }

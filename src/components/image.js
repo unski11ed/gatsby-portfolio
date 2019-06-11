@@ -15,6 +15,8 @@ class Image extends React.Component {
         }
         this.placeholderRef = React.createRef();
         this.imageRef = React.createRef();
+
+        this.onImageLoaded = this.onImageLoaded.bind(this);
     }
 
     async transitionImages() {
@@ -28,12 +30,19 @@ class Image extends React.Component {
         this.setState({ placeholderVisible: false })
     }
 
+    onImageLoaded() {
+        console.log('image loaded');
+        this.setState({ imageLoaded: true });
+        this.transitionImages();
+    }
+
     render() {
         const {
             wrapClassName,
             className,
             srcPlaceholder,
             src,
+            srcSet,
             style,
             alt,
             innerRef,
@@ -46,27 +55,25 @@ class Image extends React.Component {
         );
         const imageHighClass = classNames(
             className,
-            classes.imageHighRes
+            classes.imageHighRes,
+            {
+                [classes.loaded]: !this.state.placeholderVisible
+            }
         );
         return (
             <div className={ wrapClass } style={ style } ref={ innerRef }>
-                <img
-                    src={ src }
-                    className={ imageHighClass }
-                    alt={ alt }
-                    onLoad={ () => {
-                        this.setState({ imageLoaded: true });
-                        this.transitionImages()
-                    } }
-                />
+                <picture className={ imageHighClass } onLoad={ this.onImageLoaded }>
+                    <source srcSet={ srcSet.webp } type="image/webp" />
+                    <source srcSet={ srcSet.jpeg } type="image/jpeg" />
+                    <img srcSet={ srcSet.jpeg } alt={ alt } />
+                </picture>
                 {
                     this.state.placeholderVisible && (
-                        <img
-                            src={ srcPlaceholder }
-                            className={ imageLowClass }
-                            alt={ alt && `${alt} (Low Quality)` }
-                            ref={ this.placeholderRef }
-                        />
+                        <picture className={ imageLowClass } ref={ this.placeholderRef }>
+                            <source srcSet={ srcPlaceholder.webp } type="image/webp" />
+                            <source srcSet={ srcPlaceholder.jpeg } type="image/jpeg" />
+                            <img src={ srcPlaceholder.jpeg } alt={ alt && `${alt} (Low Quality)` } />
+                        </picture>
                     )
                 }
             </div>
@@ -74,13 +81,17 @@ class Image extends React.Component {
     }
 }
 Image.propTypes = {
-    srcPlaceholder: PropTypes.string.isRequired,
-    src: PropTypes.string.isRequired,
+    srcPlaceholder: PropTypes.object.isRequired,
+    src: PropTypes.object.isRequired,
+    srcSet: PropTypes.object.isRequired,
     wrapClassName: PropTypes.string,
     className: PropTypes.string,
     style: PropTypes.object,
     alt: PropTypes.string,
-    innerRef: PropTypes.any,
+    innerRef: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func
+    ]),
 }
 
 export default Image;
