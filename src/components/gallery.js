@@ -162,26 +162,24 @@ class Gallery extends React.Component {
                 onIntersectionEnter={() => { this.setState({ isGalleryVisible: true }) }}
                 onIntersectionLeave={() => { this.setState({ isGalleryVisible: false }) }}
                 options={{
-                    //rootMargin: "20% 0 0 0"
+                    threshold: 0.5
                 }}
             >
                 <div className={ classes.container }>
-                    <div className={ classes.navigation }>
-                        <button
-                            type="button"
-                            className={classes.navigationButton}
-                            onClick={() => this.changeCurrentElement(-1)}
-                        >
-                            <Icon glyph="angle-left" />
-                        </button>
-                        <button
-                            type="button"
-                            className={classes.navigationButton}
-                            onClick={() => this.changeCurrentElement(+1)}
-                        >
-                            <Icon glyph="angle-right" />
-                        </button>
-                    </div>
+                    <button
+                        type="button"
+                        className={classes.navigationButtonLeft}
+                        onClick={() => this.changeCurrentElement(-1)}
+                    >
+                        <Icon glyph="angle-left" />
+                    </button>
+                    <button
+                        type="button"
+                        className={classes.navigationButtonRight}
+                        onClick={() => this.changeCurrentElement(+1)}
+                    >
+                        <Icon glyph="angle-right" />
+                    </button>
                     
                     <div className={ classes.gallery }>
                         {

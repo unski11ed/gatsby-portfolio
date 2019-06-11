@@ -14,9 +14,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(#000, 0.4);
+    
+}
 
-    --icon-size: 5rem;
+.controlIcon {
+    background-color: rgba(#000, 0.7);
+    padding: 1rem;
+    border-radius: 50%;
+
+    --icon-size: 6rem;
     --icon-color: #{$text-bright};
 }
 

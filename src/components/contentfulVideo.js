@@ -27,7 +27,7 @@ function reducer(state, action) {
             }
             return {};
         case 'ready':
-            return {};
+            return { videoReady: true };
         default:
             throw new Error();
     }
@@ -72,11 +72,19 @@ const ContentfulVideo = ({
                         href="javascript:;"
                         onClick={ () => { state.isPlaying ? dispatch({ type: 'pause' }) : dispatch({ type: 'play' }) } }
                     >
-                        <Icon glyph={ state.isPlaying ? 'pause' : 'play' } />
+                        <span className={ classes.controlIcon }>
+                            <Icon glyph={ state.isPlaying ? 'pause-circle' : 'play-circle' } />
+                        </span>
                     </a>
                 )
             }
-            <video loop preload="metadata" className={ classes.video } ref={ videoElement }>
+            <video
+                loop
+                preload="metadata"
+                className={ classes.video }
+                ref={ videoElement }
+                onCanPlay={ () => { dispatch({ type: 'ready' }) } }
+            >
                 <source src={ videoUrl } type="video/mp4" />
             </video>
         </div>
