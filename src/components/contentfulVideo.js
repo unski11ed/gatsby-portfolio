@@ -3,31 +3,55 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { get } from 'lodash';
 
+import ContentfulImage from './contentfulImage';
+import Delayed from './delayed';
 import Icon from './icon';
+import Image from './image';
 
 import classes from './contentfulVideo.module.scss';
 
 const initialState = {
     isPlaying: false,
     videoReady: false,
+    playProgress: 0,
 }
 
 function reducer(state, action) {
     switch (action.type) {
         case 'play':
-            return { isPlaying: true };
+            return {
+                ...state,
+                isPlaying: true,
+            };
         case 'pause':
-            return { isPlaying: false };
+            return {
+                ...state,
+                isPlaying: false,
+            };
         case 'canBePlayed':
             if (action.value === true && !state.isPlaying) {
-                return { isPlaying: true };
+                return {
+                    ...state,
+                    isPlaying: true
+                };
             }
             if (action.value === false && state.isPlaying) {
-                return { isPlaying: false };
+                return {
+                    ...state,
+                    isPlaying: false
+                };
             }
             return {};
         case 'ready':
-            return { videoReady: true };
+            return {
+                ...state,
+                videoReady: true
+            };
+        case 'changePlayProgress':
+            return {
+                ...state,
+                playProgress: action.value,
+            };
         default:
             throw new Error();
     }
@@ -39,6 +63,8 @@ const ContentfulVideo = ({
     canBePlayed,
     className,
     showControls,
+    placeholderImage,
+    muted,
     ...otherProps
 }) => {
     const videoUrl = get(videoData, 'file.url');
@@ -47,18 +73,35 @@ const ContentfulVideo = ({
     const [state, dispatch] = useReducer(reducer, initialState)
     
     // When canBePlayed prop is changed - dispatch an update action
-     useEffect(() => {
+    useEffect(() => {
         dispatch({ type: 'canBePlayed', value: canBePlayed })
     }, [canBePlayed]);
 
-    if (videoElement.current) {
+    // If controls are disabled - control the play state only by
+    // canBePlayed prop
+    useEffect(() => {
+        if (!showControls) {
+            if (canBePlayed) {
+                dispatch({ type: 'play' });
+            } else {
+                dispatch({ type: 'pause' });
+
+                if (videoElement.current) {
+                    videoElement.current.currentTime = 0;
+                }
+            }
+        }
+    }, [canBePlayed, showControls]);
+
+    if (videoElement.current && state.videoReady) {
         if (state.isPlaying) {
             videoElement.current.play();
+
         } else {
             videoElement.current.pause();
         }   
     }
-
+    
     return (
         <div
             ref={ innerRef }
@@ -66,9 +109,12 @@ const ContentfulVideo = ({
             { ...otherProps }
         >
             {
-                showControls && (
+                showControls && state.videoReady && (
                     <a
-                        className={ classes.control }
+                        className={ classNames(classes.control, {
+                            [classes.controlPaused]: !state.isPlaying,
+                            [classes.controlPlaying]: state.isPlaying
+                        })}
                         href="javascript:;"
                         onClick={ () => { state.isPlaying ? dispatch({ type: 'pause' }) : dispatch({ type: 'play' }) } }
                     >
@@ -78,15 +124,57 @@ const ContentfulVideo = ({
                     </a>
                 )
             }
+
+            {
+                showControls && !state.videoReady && placeholderImage &&  (
+                    <div className={ classNames(classes.control, classes.controlLoading) }>
+                        <ContentfulImage
+                            imageData={ placeholderImage.fluid }
+                            className={ classes.controlPlaceholder }
+                        >
+                        {
+                            (imageSrcs) => (
+                                <Image
+                                    wrapClassName={ classes.controlPlaceholder }
+                                    { ...imageSrcs }
+                                />
+                            )
+                        }
+                        </ContentfulImage>
+
+                        <Delayed delay={ 2000 }>
+                            <span className={ classes.controlIcon }>
+                                <Icon glyph="spinner" />
+                            </span>
+                        </Delayed>
+                    </div>
+                ) 
+            }
+
             <video
                 loop
                 preload="metadata"
                 className={ classes.video }
+                muted={ muted }
                 ref={ videoElement }
                 onCanPlay={ () => { dispatch({ type: 'ready' }) } }
+                onTimeUpdate={(e) => {
+                    const player = e.currentTarget;
+                    if (!isNaN(player.duration)) {
+                        dispatch({
+                            type: 'changePlayProgress',
+                            value: player.currentTime / player.duration * 100,
+                        })
+                    }
+                }}
             >
                 <source src={ videoUrl } type="video/mp4" />
             </video>
+
+            <div className={ classes.progress }>
+                <div className={ classes.progressBar } style={{ width: `${state.playProgress}%` }}>
+                </div>
+            </div>
         </div>
     );
 }
@@ -99,10 +187,13 @@ ContentfulVideo.propTypes = {
     ]),
     canBePlayed: PropTypes.bool,
     showControls: PropTypes.bool,
+    placeholderImage: PropTypes.object,
+    muted: PropTypes.bool,
 };
 ContentfulVideo.defaultProps = {
     canBePlayed: true,
     showControls: true,
+    muted: true,
 };
 
 export default ContentfulVideo;

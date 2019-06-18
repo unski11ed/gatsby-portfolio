@@ -53,6 +53,7 @@ const VISIBLE_ELEMENTS = 3;
 class Gallery extends React.Component {
     static propTypes = {
         assets: PropTypes.array,
+        videoPlaceholderImage: PropTypes.object,
     }
 
     constructor(props) {
@@ -154,7 +155,7 @@ class Gallery extends React.Component {
     }
 
     render() {
-        const { assets } = this.props;
+        const { assets, videoPlaceholderImage } = this.props;
         const { currentPhotoIndex } = this.state;
 
         return (
@@ -204,6 +205,7 @@ class Gallery extends React.Component {
                                             innerRef={(ref) => { this.itemsRefs[asset.id] = ref; }}
                                             className={ itemClassName }
                                             canBePlayed={ index === currentPhotoIndex && this.state.isGalleryVisible }
+                                            placeholderImage={ videoPlaceholderImage }
                                         />
                                     );
                                 }

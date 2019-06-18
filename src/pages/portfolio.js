@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql, navigate } from 'gatsby';
-import { get, map } from 'lodash';
+import { get, map, isEmpty } from 'lodash';
 import anime from 'animejs';
 import classNames from 'classnames';
 
@@ -9,6 +9,7 @@ import Container from './../components/container';
 import Grid from './../components/grid';
 import GridItem from './../components/gridItem';
 import ContentfulImage from './../components/contentfulImage';
+import ContentfulVideo from './../components/contentfulVideo';
 import Image from './../components/image';
 import ShortDescription from './../components/shortDescription';
 import TechIcon from './../components/techIcon';
@@ -82,7 +83,7 @@ class PortfolioItem extends React.Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, isActive, ...otherProps } = this.props;
 
         return (
             <a
@@ -96,18 +97,31 @@ class PortfolioItem extends React.Component {
                 }}
                 href={ `/portfolio-entry/${data.slug}/` }
                 ref={ this.itemRef }
+                { ...otherProps }
             >
-                <ContentfulImage imageData={ get(data, 'heroImage.fluid') }>
                 {
-                    (imageSrcs) => (
-                        <Image
-                            { ...imageSrcs }
-                            wrapClassName={ classes.portfolioItemImageWrap }
+                    isEmpty(data.heroVideo) ? (
+                        <ContentfulImage imageData={ get(data, 'heroImage.fluid') }>
+                        {
+                            (imageSrcs) => (
+                                <Image
+                                    { ...imageSrcs }
+                                    wrapClassName={ classes.portfolioItemImageWrap }
+                                    className={ classes.portfolioItemImage }
+                                />
+                            )
+                        }
+                        </ContentfulImage>
+                    ) : (
+                        <ContentfulVideo
+                            videoData={ get(data, 'heroVideo') }
+                            placeholderImage={ get(data, 'heroImage.fluid') }
+                            showControls={ false }
+                            canBePlayed={ isActive }
                             className={ classes.portfolioItemImage }
                         />
                     )
                 }
-                </ContentfulImage>
                 <h5
                     className={ classes.portfolioItemTitle }
                 >
@@ -133,9 +147,18 @@ class PortfolioItem extends React.Component {
 }
 PortfolioItem.propTypes = {
     data: PropTypes.object.isRequired,
+    isActive: PropTypes.bool.isRequired,
 }
 
 class Portfolio extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            hoveredItemId: null
+        };
+    }
+
     render() {
         const projects = get(this.props, 'data.allContentfulPortfolioProject.edges');
         console.log(projects)
@@ -145,8 +168,14 @@ class Portfolio extends React.Component {
                     {
                         map(projects, (project) => (
                             <TransitionWrap key={ project.node.id }>
-                                <GridItem>
-                                    <PortfolioItem data={ project.node } />
+                                <GridItem
+                                    onMouseEnter={ () => { this.setState({ hoveredItemId: project.node.id }) } }
+                                    onMouseLeave={ () => { this.setState({ hoveredItemId: null }) } }
+                                >
+                                    <PortfolioItem
+                                        data={ project.node }
+                                        isActive={ this.state.hoveredItemId === project.node.id }
+                                    />
                                 </GridItem>
                             </TransitionWrap>
                         ))
@@ -173,6 +202,11 @@ export const pageQuery = graphql`
                     heroImage {
                         fluid(maxWidth: 1080, resizingBehavior: SCALE) {
                             ...GatsbyContentfulFluid_tracedSVG
+                        }
+                    },
+                    heroVideo {
+                        file {
+                            url
                         }
                     }
                     description {

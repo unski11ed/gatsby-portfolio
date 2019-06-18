@@ -158,6 +158,7 @@ class PortfolioEntry extends React.Component {
                                 <TransitionWrap>
                                     <Gallery
                                         assets={ item.gallery }
+                                        videoPlaceholderImage={ item.heroImage }
                                     />
                                 </TransitionWrap>
                             </section>
@@ -192,6 +193,11 @@ export const pageQuery = graphql`
             tags
             startDate(formatString: "MMM YYYY")
             endDate(formatString: "MMM YYYY")
+            heroImage {
+                fluid(maxWidth: 1080, resizingBehavior: SCALE) {
+                    ...GatsbyContentfulFluid_tracedSVG
+                }
+            }
             gallery {
                 id
                 title
