@@ -14,14 +14,9 @@ import Tooltip from './../components/tooltip';
 
 import LayoutConext from './../layouts/layoutContext';
 import { entryAnimationConfig } from './../common/transitionAnimations';
+import { tagColors } from './../common/consts';
 
 import classes from './portfolio-entry.module.scss';
-
-const tagColors = {
-    'fullstack': 'success',
-    'techlead': 'warning',
-    'production': 'danger'
-};
 
 class PortfolioEntry extends React.Component {
     static contextType = LayoutConext;
@@ -119,10 +114,12 @@ class PortfolioEntry extends React.Component {
                                                                                 'text-icon',
                                                                                 'badge',
                                                                                 'badge--small',
-                                                                                `badge--${tagColors[tag] || 'bg'}`
+                                                                                'badge--bg'
                                                                             ) 
                                                                         }
                                                                     >
+                                                                        <Icon glyph="circle" className={`bg-${tagColors[tag]}`} />
+
                                                                         <span>{ startCase(tag) }</span>
                                                                     </div>
                                                                 ))

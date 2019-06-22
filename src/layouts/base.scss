@@ -17,6 +17,11 @@ body {
     line-height: $line-height;
 }
 
+// Disable Opera's Video Dettach
+html > div {
+    display: none;
+}
+
 /*
 body {
     background-color: $background-color;

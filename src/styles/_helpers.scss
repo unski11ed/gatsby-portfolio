@@ -1,0 +1,16 @@
+@import './variables';
+
+$colors: (
+    'primary': $color-primary,
+    'success': $color-success,
+    'warning': $color-warning,
+    'danger': $color-danger,
+    'black': $color-black,
+    'imperial': $color-imperial
+);
+
+@each $key, $value in $colors {
+    .bg-#{$key} {
+        background-color: $value !important;
+    }
+}

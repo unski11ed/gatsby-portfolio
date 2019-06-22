@@ -8,12 +8,15 @@
     flex-wrap: nowrap;
     align-items: center;
     padding: 0.5rem 0.75rem;
+    color: $text-main;
 
     --icon-size: 1.2em;
 
     &.badge--small {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
+
+        --icon-size: 1em;
     }
 }
 

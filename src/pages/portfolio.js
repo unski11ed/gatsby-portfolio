@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql, navigate } from 'gatsby';
-import { get, map, isEmpty } from 'lodash';
+import { get, map, isEmpty, startCase } from 'lodash';
 import anime from 'animejs';
 import classNames from 'classnames';
 
@@ -12,8 +12,10 @@ import ContentfulImage from './../components/contentfulImage';
 import ContentfulVideo from './../components/contentfulVideo';
 import Image from './../components/image';
 import ShortDescription from './../components/shortDescription';
+import Icon from './../components/icon';
 import TechIcon from './../components/techIcon';
 import TransitionWrap from './../components/transitionWrap';
+import { tagColors } from './../common/consts';
 
 import LayoutContext from './../layouts/layoutContext';
 
@@ -83,11 +85,11 @@ class PortfolioItem extends React.Component {
     }
 
     render() {
-        const { data, isActive, ...otherProps } = this.props;
+        const { data, isActive, className, ...otherProps } = this.props;
 
         return (
             <a
-                className={ classNames(classes.portfolioItem, 'portfolio-post-bg') }
+                className={ classNames(classes.portfolioItem, className, 'portfolio-post-bg') }
                 onClick={(e) => {
                     e.preventDefault();
 
@@ -118,29 +120,64 @@ class PortfolioItem extends React.Component {
                             placeholderImage={ get(data, 'heroImage.fluid') }
                             showControls={ false }
                             canBePlayed={ isActive }
-                            className={ classes.portfolioItemImage }
+                            className={ classes.portfolioItemImageWrap }
                         />
                     )
                 }
+                { /*    Title    */ }
                 <h5
                     className={ classes.portfolioItemTitle }
                 >
                     { data.title }
                 </h5>
-                <div className={ classes.portfolioItemBody }>
-                    <ShortDescription
-                        className={ classes.portfolioItemDescription }
-                        html={ get(data, 'description.childMarkdownRemark.html') }
-                    />
 
-                    <div className={ classes.portfolioItemStack }>
-                        {
-                            map(data.technologies, (techName, index) => (
-                                <TechIcon name={ techName } key={ index } />
-                            ))
-                        }
-                    </div>
+                { /*    Dates       */ }
+                <div className={ classes.portfolioItemDate }>
+                    { data.startDate } - { data.endDate ? data.endDate : 'Now' }
                 </div>
+
+                { /*    Technology Icons    */ }
+                <div className={ classes.portfolioItemStack }>
+                    {
+                        map(data.technologies, (techName, index) => (
+                            <TechIcon name={ techName } key={ index } />
+                        ))
+                    }
+                </div>
+
+                { /*    Description     */ }
+                <ShortDescription
+                    className={ classes.portfolioItemDescription }
+                    html={ get(data, 'description.childMarkdownRemark.html') }
+                />
+
+                { /*    Tags    */ }
+                {
+                    data.tags && (
+                        <div className={ classNames(classes.portfolioItemTags, 'tag-cloud') }>
+                            {
+                                map(data.tags, (tag) => (
+                                    <div
+                                        className={
+                                            classNames(
+                                                classes.techEntry,
+                                                'tag-cloud__tag',
+                                                'text-icon',
+                                                'badge',
+                                                'badge--small',
+                                                'badge--bg-alt'
+                                            ) 
+                                        }
+                                    >
+                                        <Icon glyph="circle" className={`bg-${tagColors[tag]}`} />
+
+                                        <span>{ startCase(tag) }</span>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    )
+                }
             </a>
         );
     }   
@@ -148,6 +185,7 @@ class PortfolioItem extends React.Component {
 PortfolioItem.propTypes = {
     data: PropTypes.object.isRequired,
     isActive: PropTypes.bool.isRequired,
+    className: PropTypes.string,
 }
 
 class Portfolio extends React.Component {
@@ -161,10 +199,11 @@ class Portfolio extends React.Component {
 
     render() {
         const projects = get(this.props, 'data.allContentfulPortfolioProject.edges');
-        console.log(projects)
+        console.log(projects);
+        
         return (
             <Container>
-                <Grid>
+                <Grid className={{ [classes.portfolioItemsHighlight]: this.state.hoveredItemId !== null }}>
                     {
                         map(projects, (project) => (
                             <TransitionWrap key={ project.node.id }>
@@ -175,6 +214,7 @@ class Portfolio extends React.Component {
                                     <PortfolioItem
                                         data={ project.node }
                                         isActive={ this.state.hoveredItemId === project.node.id }
+                                        className={{ [classes.portfolioItemHighlighted]: this.state.hoveredItemId === project.node.id }}
                                     />
                                 </GridItem>
                             </TransitionWrap>
@@ -199,6 +239,9 @@ export const pageQuery = graphql`
                     node_locale
                     publishDate(formatString: "MMMM Do, YYYY")
                     technologies
+                    tags
+                    startDate(formatString: "MMM YYYY")
+                    endDate(formatString: "MMM YYYY")
                     heroImage {
                         fluid(maxWidth: 1080, resizingBehavior: SCALE) {
                             ...GatsbyContentfulFluid_tracedSVG
