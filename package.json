@@ -7,6 +7,7 @@
     "url": "https://github.com/contentful-userland/gatsby-contentful-starter/issues"
   },
   "dependencies": {
+    "@contentful/gatsby-transformer-contentful-richtext": "^13.1.0",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "animejs": "^3.0.1",
     "classnames": "^2.2.6",

@@ -1,0 +1,20 @@
+.template {
+    display: grid;
+    grid-template-columns: 320px auto;
+    grid-gap: 1rem;
+    grid-template-rows: auto auto;
+    grid-template-areas: "template-nav template-content";
+}
+
+.content {
+    grid-area: template-content;
+}
+
+.navigation {
+    grid-area: template-nav;
+
+    > * {
+        position: sticky;
+        top: 0;
+    }
+}
