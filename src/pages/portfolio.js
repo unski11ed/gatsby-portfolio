@@ -202,7 +202,7 @@ class Portfolio extends React.Component {
         console.log(projects);
         
         return (
-            <Container>
+            <Container className="page-wrap">
                 <Grid className={{ [classes.portfolioItemsHighlight]: this.state.hoveredItemId !== null }}>
                     {
                         map(projects, (project) => (

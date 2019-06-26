@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-
+import { Link } from 'gatsby';
 
 import 'water.css/src/parts/_core.css';
 import './base.scss';
@@ -59,8 +59,11 @@ class Layout extends React.Component {
                 >
                     <main className={ classes['layout'] }>
                         <header className={ classes['layout__navbar'] }>
-                            mkurban.me
-                            <Navigation>
+                            <Link className={ classes['layout__navbar__brand'] } to="/">
+                                mkurban.me
+                            </Link>
+                            
+                            <Navigation className={ classes['layout__navbar__navigation'] }>
                                 <NavigationItem to="/skills-and-experiences">
                                     Skills and Experiences
                                 </NavigationItem>
