@@ -27,6 +27,7 @@
     "react-flip-toolkit": "^6.6.9",
     "react-helmet": "^5.2.1",
     "react-lazyload": "^2.6.2",
+    "rippled-particles": "git+https://github.com/unski11ed/rippled-particles.git",
     "sharp": "^0.22.1",
     "url-join": "^4.0.1",
     "water.css": "git+https://github.com/kognise/water.css.git"
