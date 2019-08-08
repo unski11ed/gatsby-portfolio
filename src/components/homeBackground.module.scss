@@ -1,0 +1,29 @@
+@mixin fill-wrap() {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.wrap {
+    position: relative;
+}
+
+.particles {
+    @include fill-wrap();
+}
+
+.colorOverlay {
+    background-color: var(--ambient-color);
+
+    @include fill-wrap();
+}
+
+.spotlight {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0px 0px 100px 120px var(--light-color);
+    background-color: var(--light-color);
+    filter: blur(10px);
+}
