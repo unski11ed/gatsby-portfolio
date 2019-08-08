@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Color from 'color';
@@ -30,38 +31,47 @@ class HomeBackground extends React.Component {
         ambientLightAlpha: 0.05,
     };
 
-    parentRef = React.createRef();
+    parentElement = null;
     particlesApi = null;
     initialColor = '#fff';
     state = {
-        parentSize: { widt: 0, height: 0 }
+        parentSize: { width: 0, height: 0 }
     };
 
     constructor() {
         super();
 
         this.recalculateParentSize = this.recalculateParentSize.bind(this);
+        this.initialize = this.initialize.bind(this);
     }
 
     recalculateParentSize() {
-        const parentRect = this.parentRef.current.getBoundingClientRect();
+        if (this.parentElement) {
+            const parentRect = this.parentElement.getBoundingClientRect();
 
-        this.setState({
-            parentSize: {
-                width: parentRect.width,
-                height: parentRect.height
-            }
-        });
+            this.setState({
+                parentSize: {
+                    width: parentRect.width,
+                    height: parentRect.height
+                }
+            });
+        }
     }
 
-    componentDidMount() {
-        this.initialColor = this.props.color;
-
+    initialize(element) {
+        this.parentElement = element;
+        
         this.recalculateParentSize();
 
         if (typeof window !== 'undefined') {
             window.addEventListener('resize', this.recalculateParentSize);
         }
+    }
+
+    componentDidMount() {
+        this.initialColor = this.props.color;
+        
+        this.forceUpdate();
     }
 
     componentDidUpdate({ color: prevColor }) {
@@ -103,54 +113,60 @@ class HomeBackground extends React.Component {
         const backgroundTransition = `background ${rippleAnimationDuration}ms cubic-bezier(0.215, 0.610, 0.355, 1.000)`;
         const shadowTransition = `box-shadow ${rippleAnimationDuration}ms cubic-bezier(0.215, 0.610, 0.355, 1.000)`;
 
-        return (
-            <div
-                className={ classNames(className, classes.wrap) }
-                ref={ this.parentRef }
-                style={{
-                    '--light-color': Color(color).alpha(spotLightAlpha).toString(),
-                    '--ambient-color': Color(color).alpha(ambientLightAlpha).toString(),
-                }}
-            >
-                <RippledParticles
-                    onReady={ (api) => { this.particlesApi = api; } }
-                    config={{
-                        initialColor: this.initialColor,
-                        gravitySourceRect: {
-                            x: origin.x,
-                            y: origin.y,
-                            width: origin.widthPx,
-                            height: origin.heightPx,
-                        },
-                        rippleConfig: {
-                            rippleAnimationDuration,
-                        }
-                    }}
-                    particlesCount={ PARTICLES_COUNT }
-                    className={ classes.particles }
-                />
-
-                { /* Ambient Light */ }
+        if (typeof document !== 'undefined') {
+            const targetPortalElement = document.querySelector('#layout-background-portal');
+            console.log(targetPortalElement);
+            return targetPortalElement ? ReactDOM.createPortal((
                 <div
-                    className={ classes.colorOverlay }
+                    className={ classNames(className, classes.wrap) }
+                    ref={ this.initialize }
                     style={{
-                        transition: backgroundTransition,
+                        '--light-color': Color(color).alpha(spotLightAlpha).toString(),
+                        '--ambient-color': Color(color).alpha(ambientLightAlpha).toString(),
                     }}
-                />
+                >
+                    <RippledParticles
+                        onReady={ (api) => { this.particlesApi = api; } }
+                        config={{
+                            initialColor: this.initialColor,
+                            gravitySourceRect: {
+                                x: origin.x,
+                                y: origin.y,
+                                width: origin.widthPx,
+                                height: origin.heightPx,
+                            },
+                            rippleConfig: {
+                                rippleAnimationDuration,
+                            }
+                        }}
+                        particlesCount={ PARTICLES_COUNT }
+                        className={ classes.particles }
+                    />
 
-                { /* Spot Light */ }
-                <div
-                    className={ classes.spotlight }
-                    style={{
-                        transition: `${backgroundTransition},${shadowTransition}`,
-                        left: origin.x * parentSize.width,
-                        top: origin.y * parentSize.height,
-                        width: `${origin.widthPx}px`,
-                        height: `${origin.heightPx}px`,
-                    }}
-                />
-            </div>
-        );
+                    { /* Ambient Light */ }
+                    <div
+                        className={ classes.colorOverlay }
+                        style={{
+                            transition: backgroundTransition,
+                        }}
+                    />
+
+                    { /* Spot Light */ }
+                    <div
+                        className={ classes.spotlight }
+                        style={{
+                            transition: `${backgroundTransition},${shadowTransition}`,
+                            left: origin.x * parentSize.width,
+                            top: origin.y * parentSize.height,
+                            width: `${origin.widthPx}px`,
+                            height: `${origin.heightPx}px`,
+                        }}
+                    />
+                </div>
+            ), targetPortalElement): null;
+        }
+
+        return null;
     }
 }
 

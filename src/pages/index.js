@@ -1,6 +1,7 @@
 import React from 'react';
 
 import HomeBackground from '../components/homeBackground';
+import LayoutContext from './../layouts/layoutContext';
 
 import classes from './index.module.scss';
 
@@ -22,11 +23,13 @@ const SLIDES = [
 const SLIDE_CHANGE_INTERVAL = 7000;
 
 class RootIndex extends React.Component {
-    rippledParticlesApi = null;
+    static contextType = LayoutContext;
+
     state = {
         currentSlideIndex: 0,
     }
     changeInterval = 0;
+    pageRef = React.createRef();
 
     constructor() {
         super();
@@ -41,23 +44,27 @@ class RootIndex extends React.Component {
     }
 
     componentDidMount() {
+        this.context.toggleNavbarTransparent(true);
+
         this.changeInterval = setInterval(this.nextSlide, SLIDE_CHANGE_INTERVAL);
     }
 
     componentWillUnmount() {
         clearInterval(this.changeInterval);
+
+        this.context.toggleNavbarTransparent(false);
     }
 
     render() {
         const currentSlide = SLIDES[this.state.currentSlideIndex];
 
         return (
-            <React.Fragment>
+            <div ref={ this.pageRef }>
                 <HomeBackground
                     color={ currentSlide.color }
                     className={ classes.background }
                 />
-            </React.Fragment>
+            </div>
         );
     }
 }

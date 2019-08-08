@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import classNames from 'classnames';
 import { Link } from 'gatsby';
 
 import 'water.css/src/parts/_core.css';
@@ -22,18 +23,15 @@ class Layout extends React.Component {
 
         this.state = {
             transitionAnimationEnabled: true,
+            navbarTransparent: false,
         }
-    }
-
-    componentDidMount() {
-        console.log('mounted');
     }
     
     render() {
         const { children, location } = this.props;
         const { pathname } = location;
         const pageSlug = pathname.replace(/\//g, '');
-
+        console.log(classes);
         return (
             <React.Fragment>
                 <Helmet>
@@ -45,6 +43,7 @@ class Layout extends React.Component {
                         crossOrigin="anonymous"
                     />
                 </Helmet>
+
                 <LayoutContext.Provider
                     value={{
                         ...this.state,
@@ -54,11 +53,25 @@ class Layout extends React.Component {
                                     !this.state.transitionAnimationEnabled :
                                     enabled
                             });
+                        },
+                        toggleNavbarTransparent: (isTransparent) => {
+                            this.setState({
+                                navbarTransparent: isTransparent
+                            });
                         }
+
                     }}
                 >
                     <main className={ classes['layout'] }>
-                        <header className={ classes['layout__navbar'] }>
+                        { /* Portal Backgrounds will spawn here: */ }
+                        <div className={ classes['layout__background'] } id="layout-background-portal" />
+
+                        { /* Navbar */ }
+                        <header
+                            className={classNames(classes['layout__navbar'], {
+                                [classes['layout__navbarTransparent']]: this.state.navbarTransparent
+                            })}
+                        >
                             <Link className={ classes['layout__navbar__brand'] } to="/">
                                 mkurban.me
                             </Link>
@@ -75,7 +88,12 @@ class Layout extends React.Component {
                                 </NavigationItem>
                             </Navigation>
                         </header>
-                        <PageTransition transitionKey={ pageSlug }>
+
+                        { /* Content */ }
+                        <PageTransition
+                            className={ classes['layout__content'] }
+                            transitionKey={ pageSlug }
+                        >
                             { children }
                         </PageTransition>
                     </main>

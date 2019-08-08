@@ -45,10 +45,10 @@ class PageTransition extends React.Component {
     }
 
     render() {
-        const { children: page, transitionKey } = this.props;
+        const { children: page, transitionKey, ...otherProps } = this.props;
 
         return (
-            <div style={{ flex: '1 1 auto' }}>
+            <div { ...otherProps }>
                 <Flipper flipKey={ transitionKey }>
                     <Flipped
                         key={ `page-${transitionKey}` }
