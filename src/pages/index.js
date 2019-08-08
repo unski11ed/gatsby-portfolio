@@ -1,10 +1,17 @@
 import React from 'react';
 
+import RippledParticles from '../components/rippledParticles';
+
 class RootIndex extends React.Component {
+    rippledParticlesApi = null;
+
     render() {
         return (
             <div>
-                Gówno
+                <RippledParticles
+                    onReady={ (api) => { this.rippledParticlesApi = api; } }
+                    config={{  }}
+                />
             </div>
         );
     }
