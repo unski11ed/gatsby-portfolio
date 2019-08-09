@@ -48,7 +48,7 @@ class HomeBackground extends React.Component {
     recalculateParentSize() {
         if (this.parentElement) {
             const parentRect = this.parentElement.getBoundingClientRect();
-
+            console.log(parentRect);
             this.setState({
                 parentSize: {
                     width: parentRect.width,
@@ -74,22 +74,41 @@ class HomeBackground extends React.Component {
         this.forceUpdate();
     }
 
-    componentDidUpdate({ color: prevColor }) {
-        if (
-            prevColor !== this.props.color &&
-            !!this.particlesApi
-        ) {
-            const { color, origin } = this.props;
-            const { parentSize } = this.state;
+    componentDidUpdate(
+        { color: prevColor, origin: prevOrigin },
+        { parentSize: prevParentSize }
+    ) {
+        if (!!this.particlesApi) {
+            if (prevColor !== this.props.color) {
+                const { color, origin } = this.props;
+                const { parentSize } = this.state;
+    
+                // Trigger Particle Ripple from the center of the origin
+                this.particlesApi.trigger(
+                    {
+                        x: origin.x * parentSize.width + origin.widthPx / 2,
+                        y: origin.y * parentSize.height + origin.heightPx / 2
+                    },
+                    color,
+                )
+            }
+    
+            // If Document Size or Origin has changed - update
+            // the Gravity Source
+            if (
+                !_.isEqual(prevOrigin, this.props.origin) ||
+                !_.isEqual(prevParentSize, this.state.parentSize)
+            ) {
+                const { origin } = this.props;
+                const { parentSize } = this.state;
 
-            // Trigger Particle Ripple from the center of the origin
-            this.particlesApi.trigger(
-                {
-                    x: origin.x * parentSize.width + origin.widthPx / 2,
-                    y: origin.y * parentSize.height + origin.heightPx / 2
-                },
-                color,
-            )
+                this.particlesApi.setGravitySource({
+                    x: origin.x * parentSize.width,
+                    y: origin.y * parentSize.height,
+                    width: origin.widthPx,
+                    height: origin.heightPx
+                });
+            }
         }
     }
 
@@ -110,12 +129,9 @@ class HomeBackground extends React.Component {
             parentSize
         } = this.state;
 
-        const backgroundTransition = `background ${rippleAnimationDuration}ms cubic-bezier(0.215, 0.610, 0.355, 1.000)`;
-        const shadowTransition = `box-shadow ${rippleAnimationDuration}ms cubic-bezier(0.215, 0.610, 0.355, 1.000)`;
-
         if (typeof document !== 'undefined') {
             const targetPortalElement = document.querySelector('#layout-background-portal');
-            console.log(targetPortalElement);
+
             return targetPortalElement ? ReactDOM.createPortal((
                 <div
                     className={ classNames(className, classes.wrap) }
@@ -123,6 +139,7 @@ class HomeBackground extends React.Component {
                     style={{
                         '--light-color': Color(color).alpha(spotLightAlpha).toString(),
                         '--ambient-color': Color(color).alpha(ambientLightAlpha).toString(),
+                        '--transition-duration': `${rippleAnimationDuration}ms`
                     }}
                 >
                     <RippledParticles
@@ -146,16 +163,12 @@ class HomeBackground extends React.Component {
                     { /* Ambient Light */ }
                     <div
                         className={ classes.colorOverlay }
-                        style={{
-                            transition: backgroundTransition,
-                        }}
                     />
 
                     { /* Spot Light */ }
                     <div
                         className={ classes.spotlight }
                         style={{
-                            transition: `${backgroundTransition},${shadowTransition}`,
                             left: origin.x * parentSize.width,
                             top: origin.y * parentSize.height,
                             width: `${origin.widthPx}px`,

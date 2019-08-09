@@ -6,6 +6,8 @@
     height: 100%;
 }
 
+$transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+
 .wrap {
     position: relative;
 }
@@ -15,6 +17,7 @@
 }
 
 .colorOverlay {
+    transition: background var(--transition-duration) $transition-func;
     background-color: var(--ambient-color);
 
     @include fill-wrap();
@@ -23,7 +26,12 @@
 .spotlight {
     position: absolute;
     border-radius: 50%;
+
+    transition: background var(--transition-duration) $transition-func,
+                box-shadow var(--transition-duration) $transition-func;
+
     box-shadow: 0px 0px 100px 120px var(--light-color);
     background-color: var(--light-color);
+    
     filter: blur(10px);
 }

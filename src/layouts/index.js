@@ -31,7 +31,7 @@ class Layout extends React.Component {
         const { children, location } = this.props;
         const { pathname } = location;
         const pageSlug = pathname.replace(/\//g, '');
-        console.log(classes);
+
         return (
             <React.Fragment>
                 <Helmet>

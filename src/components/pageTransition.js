@@ -48,20 +48,18 @@ class PageTransition extends React.Component {
         const { children: page, transitionKey, ...otherProps } = this.props;
 
         return (
-            <div { ...otherProps }>
-                <Flipper flipKey={ transitionKey }>
-                    <Flipped
-                        key={ `page-${transitionKey}` }
-                        flipId={ `page-${transitionKey}` }
-                        onAppear={ this.appearAnimation.bind(this) }
-                        onExit={ this.exitAnimation.bind(this) }
-                    >
-                        <div>
-                            { page }
-                        </div>
-                    </Flipped>
-                </Flipper>
-            </div>
+            <Flipper flipKey={ transitionKey } { ...otherProps }>
+                <Flipped
+                    key={ `page-${transitionKey}` }
+                    flipId={ `page-${transitionKey}` }
+                    onAppear={ this.appearAnimation.bind(this) }
+                    onExit={ this.exitAnimation.bind(this) }
+                >
+                    <div>
+                        { page }
+                    </div>
+                </Flipped>
+            </Flipper>
         )
     }
 }

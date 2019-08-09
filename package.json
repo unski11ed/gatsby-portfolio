@@ -9,6 +9,7 @@
   "dependencies": {
     "@contentful/gatsby-transformer-contentful-richtext": "^13.1.0",
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@juggle/resize-observer": "^2.3.0",
     "animejs": "^3.0.1",
     "classnames": "^2.2.6",
     "color": "^3.1.2",
