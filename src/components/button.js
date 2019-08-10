@@ -13,15 +13,13 @@ const Button = ({
     tag: Tag,
     ...otherProps
 }) => {
-    console.log(size.toUpperCase());
-
     const buttonClasses = classNames(
         {
             [classes.buttonOutline]: outline,
         },
         classes.button,
-        classes[`buttonColor${color.toUpperCase()}`],
-        classes[`buttonSize${size.toUpperCase()}`],
+        classes[`button--color-${color}`],
+        classes[`button--size-${size}`],
         className
     );
 

@@ -134,7 +134,7 @@ class HomeBackground extends React.Component {
 
             return targetPortalElement ? ReactDOM.createPortal((
                 <div
-                    className={ classNames(className, classes.wrap) }
+                    className={ classNames(className, classes['wrap']) }
                     ref={ this.initialize }
                     style={{
                         '--light-color': Color(color).alpha(spotLightAlpha).toString(),
@@ -157,17 +157,17 @@ class HomeBackground extends React.Component {
                             }
                         }}
                         particlesCount={ PARTICLES_COUNT }
-                        className={ classes.particles }
+                        className={ classes['particles'] }
                     />
 
                     { /* Ambient Light */ }
                     <div
-                        className={ classes.colorOverlay }
+                        className={ classes['color-overlay'] }
                     />
 
                     { /* Spot Light */ }
                     <div
-                        className={ classes.spotlight }
+                        className={ classes['spotlight'] }
                         style={{
                             left: origin.x * parentSize.width,
                             top: origin.y * parentSize.height,

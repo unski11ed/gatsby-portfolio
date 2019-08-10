@@ -26,13 +26,13 @@
 
 /* LEFT (Default) */
 .tooltip::before,
-.tooltipLeft::before {
+.tooltip--left::before {
     left: 0;
     top: 50%;
     transform: translate(calc(-100% - 15px), -50%);
 }
 .tooltip::after,
-.tooltipLeft::after {
+.tooltip--left::after {
     border-top: 0.4em solid transparent;
     border-bottom: 0.4em solid transparent;
     border-left: 0.4em solid var(--tooltip-color);
@@ -42,12 +42,12 @@
 }
 
 /* TOP */
-.tooltipTop::before {
+.tooltip--top::before {
     top: 0;
     left: 50%;
     transform: translate(-50%, calc(-100% - 15px));
 }
-.tooltipTop::after {
+.tooltip--top::after {
     border-left: 0.4em solid transparent;
     border-right: 0.4em solid transparent;
     border-top: 0.4em solid var(--tooltip-color);
@@ -57,12 +57,12 @@
 }
 
 /* RIGHT */
-.tooltipRight::before {
+.tooltip--right::before {
     top: 50%;
     left: 100%;
     transform: translate(15px, -50%);
 }
-.tooltipRight::after {
+.tooltip--right::after {
     border-top: 0.4em solid transparent;
     border-bottom: 0.4em solid transparent;
     border-right: 0.4em solid var(--tooltip-color);
@@ -74,12 +74,12 @@
 }
 
 /* BOTTOM */
-.tooltipBottom::before {
+.tooltip--bottom::before {
     top: 100%;
     left: 50%;
     transform: translate(-50%, 15px);
 }
-.tooltipBottom::after {
+.tooltip--bottom::after {
     border-left: 0.4em solid transparent;
     border-right: 0.4em solid transparent;
     border-bottom: 0.4em solid var(--tooltip-color);

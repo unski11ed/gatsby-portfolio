@@ -89,7 +89,7 @@ class PortfolioItem extends React.Component {
 
         return (
             <a
-                className={ classNames(classes.portfolioItem, className, 'portfolio-post-bg') }
+                className={ classNames(classes['portfolio-item'], className, 'portfolio-post-bg') }
                 onClick={(e) => {
                     e.preventDefault();
 
@@ -108,8 +108,8 @@ class PortfolioItem extends React.Component {
                             (imageSrcs) => (
                                 <Image
                                     { ...imageSrcs }
-                                    wrapClassName={ classes.portfolioItemImageWrap }
-                                    className={ classes.portfolioItemImage }
+                                    wrapClassName={ classes['portfolio-item__image-wrap'] }
+                                    className={ classes['portfolio-item__image'] }
                                 />
                             )
                         }
@@ -120,24 +120,24 @@ class PortfolioItem extends React.Component {
                             placeholderImage={ get(data, 'heroImage.fluid') }
                             showControls={ false }
                             canBePlayed={ isActive }
-                            className={ classes.portfolioItemImageWrap }
+                            className={ classes['portfolio-item__image-wrap'] }
                         />
                     )
                 }
                 { /*    Title    */ }
                 <h5
-                    className={ classes.portfolioItemTitle }
+                    className={ classes['portfolio-item__title'] }
                 >
                     { data.title }
                 </h5>
 
                 { /*    Dates       */ }
-                <div className={ classes.portfolioItemDate }>
+                <div className={ classes['portfolio-item__date'] }>
                     { data.startDate } - { data.endDate ? data.endDate : 'Now' }
                 </div>
 
                 { /*    Technology Icons    */ }
-                <div className={ classes.portfolioItemStack }>
+                <div className={ classes['portfolio-item__stack'] }>
                     {
                         map(data.technologies, (techName, index) => (
                             <TechIcon name={ techName } key={ index } />
@@ -147,14 +147,14 @@ class PortfolioItem extends React.Component {
 
                 { /*    Description     */ }
                 <ShortDescription
-                    className={ classes.portfolioItemDescription }
+                    className={ classes['portfolio-item__description'] }
                     html={ get(data, 'description.childMarkdownRemark.html') }
                 />
 
                 { /*    Tags    */ }
                 {
                     data.tags && (
-                        <div className={ classNames(classes.portfolioItemTags, 'tag-cloud') }>
+                        <div className={ classNames(classes['portfolio-item__tags'], 'tag-cloud') }>
                             {
                                 map(data.tags, (tag) => (
                                     <div
@@ -203,7 +203,7 @@ class Portfolio extends React.Component {
         
         return (
             <Container className="page-wrap">
-                <Grid className={{ [classes.portfolioItemsHighlight]: this.state.hoveredItemId !== null }}>
+                <Grid className={{ [classes['portfolio-items--highlight']]: this.state.hoveredItemId !== null }}>
                     {
                         map(projects, (project) => (
                             <TransitionWrap key={ project.node.id }>
@@ -214,7 +214,7 @@ class Portfolio extends React.Component {
                                     <PortfolioItem
                                         data={ project.node }
                                         isActive={ this.state.hoveredItemId === project.node.id }
-                                        className={{ [classes.portfolioItemHighlighted]: this.state.hoveredItemId === project.node.id }}
+                                        className={{ [classes['portfolio-item--highlighted']]: this.state.hoveredItemId === project.node.id }}
                                     />
                                 </GridItem>
                             </TransitionWrap>

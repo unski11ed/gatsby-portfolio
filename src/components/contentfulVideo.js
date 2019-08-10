@@ -105,20 +105,20 @@ const ContentfulVideo = ({
     return (
         <div
             ref={ innerRef }
-            className={ classNames(className, classes.wrap) }
+            className={ classNames(className, classes['wrap']) }
             { ...otherProps }
         >
             {
                 showControls && state.videoReady && (
                     <a
-                        className={ classNames(classes.control, {
-                            [classes.controlPaused]: !state.isPlaying,
-                            [classes.controlPlaying]: state.isPlaying
+                        className={ classNames(classes['control'], {
+                            [classes['control--paused']]: !state.isPlaying,
+                            [classes['control--playing']]: state.isPlaying
                         })}
                         href="javascript:;"
                         onClick={ () => { state.isPlaying ? dispatch({ type: 'pause' }) : dispatch({ type: 'play' }) } }
                     >
-                        <span className={ classes.controlIcon }>
+                        <span className={ classes['control__icon'] }>
                             <Icon glyph={ state.isPlaying ? 'pause-circle' : 'play-circle' } />
                         </span>
                     </a>
@@ -127,15 +127,15 @@ const ContentfulVideo = ({
 
             {
                 showControls && !state.videoReady && placeholderImage &&  (
-                    <div className={ classNames(classes.control, classes.controlLoading) }>
+                    <div className={ classNames(classes['control'], classes['control--loading']) }>
                         <ContentfulImage
                             imageData={ placeholderImage.fluid }
-                            className={ classes.controlPlaceholder }
+                            className={ classes['control__placeholder'] }
                         >
                         {
                             (imageSrcs) => (
                                 <Image
-                                    wrapClassName={ classes.controlPlaceholder }
+                                    wrapClassName={ classes['control__placeholder'] }
                                     { ...imageSrcs }
                                 />
                             )
@@ -143,7 +143,7 @@ const ContentfulVideo = ({
                         </ContentfulImage>
 
                         <Delayed delay={ 2000 }>
-                            <span className={ classes.controlIcon }>
+                            <span className={ classes['control__icon'] }>
                                 <Icon glyph="spinner" />
                             </span>
                         </Delayed>
@@ -154,7 +154,7 @@ const ContentfulVideo = ({
             <video
                 loop
                 preload="metadata"
-                className={ classes.video }
+                className={ classes['video'] }
                 muted={ muted }
                 ref={ videoElement }
                 onCanPlay={ () => { dispatch({ type: 'ready' }) } }
@@ -171,8 +171,8 @@ const ContentfulVideo = ({
                 <source src={ videoUrl } type="video/mp4" />
             </video>
 
-            <div className={ classes.progress }>
-                <div className={ classes.progressBar } style={{ width: `${state.playProgress}%` }}>
+            <div className={ classes['progress'] }>
+                <div className={ classes['progress__bar'] } style={{ width: `${state.playProgress}%` }}>
                 </div>
             </div>
         </div>

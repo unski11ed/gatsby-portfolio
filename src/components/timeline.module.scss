@@ -32,7 +32,7 @@ $timeline-joint-size: 14px;
         height: $timeline-track-width;
     }
 
-    &-arrow {
+    &__arrow {
         $icon-size: 2rem;
 
         position: absolute;
@@ -42,30 +42,30 @@ $timeline-joint-size: 14px;
         --icon-size: #{$icon-size};
         --icon-color: #{$timeline-color};
     }
-}
 
-.timeline-label {
-    position: absolute;
-    top: 0;
-    left: -$timeline-track-width;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: $timeline-color;
-
-    &::before {
-        content: " ";
-        display: block;
+    &__label {
         position: absolute;
-        width: $timeline-joint-size;
-        height: $timeline-joint-size;
-        border-radius: 50%;
-        background-color: $color-primary;
-        left: calc(#{$timeline-track-width / 2} + #{$timeline-joint-size / 2});
-        top: 50%;
-        transform: translateY(-50%);
+        top: 0;
+        left: -$timeline-track-width;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: $timeline-color;
+    
+        &::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            width: $timeline-joint-size;
+            height: $timeline-joint-size;
+            border-radius: 50%;
+            background-color: $color-primary;
+            left: calc(#{$timeline-track-width / 2} + #{$timeline-joint-size / 2});
+            top: 50%;
+            transform: translateY(-50%);
+        }
     }
-}
 
-.timeline-section {
-    position: relative;
+    &__section {
+        position: relative;
+    }
 }

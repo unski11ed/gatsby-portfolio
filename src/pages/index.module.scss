@@ -29,7 +29,7 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     &__animation-col {
         margin-left: 2rem;
 
-        flex: 0 0 30%;
+        flex: 0 0 250px;
 
         > img {
             filter: drop-shadow(0px 0px 4px var(--theme-color));
@@ -71,6 +71,8 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     }
 
     &__actions {
+        white-space: nowrap;
+        
         > * + * {
             margin-left: 1rem;
         }

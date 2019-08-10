@@ -18,7 +18,7 @@
 .close {
     --icon-size: 2rem;
 
-    &-icon {
+    &__icon {
         background-color: $links;
 
         &:hover {
@@ -42,13 +42,13 @@
     display: flex;
     flex-direction: column;
 
-    &-title {
+    &__title {
         font-weight: bold;
         color: #fff;
         margin-bottom: 0.5rem;
     }
 
-    &-content {
+    &__content {
         + .info-title {
             margin-top: 1rem;
         }
@@ -63,7 +63,7 @@
 }
 
 // Content
-.contentWrap {
+.content-wrap {
     padding: 2rem 1rem;
 }
 
@@ -75,7 +75,7 @@
     grid-template-areas: "entry-header entry-header" "entry-gallery entry-gallery" "entry-info entry-text";
 }
 
-.content-header {
+.content__header {
     grid-area: entry-header;
     display: flex;
     justify-content: space-between;
@@ -87,14 +87,14 @@
     }
 }
 
-.content-text { grid-area: entry-text; }
+.content__text { grid-area: entry-text; }
 
-.content-info { grid-area: entry-info; }
+.content__info { grid-area: entry-info; }
 
-.content-gallery { grid-area: entry-gallery; }
+.content__gallery { grid-area: entry-gallery; }
 
 // Text Styling
-.content-text {
+.content__text {
     h2 {
         padding-bottom: 0.75rem;
         border-bottom: 2px solid $color-primary;

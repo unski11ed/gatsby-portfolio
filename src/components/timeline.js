@@ -8,10 +8,10 @@ import TimelineSection from './timelineSection';
 import Icon from './icon';
 
 const Timeline = ({ children, tag: Tag, ...otherProps }) => (
-    <Tag className={ classes.timeline } { ...otherProps }>
+    <Tag className={ classes['timeline'] } { ...otherProps }>
         { children }
 
-        <Icon className={ classes.timelineArrow } glyph="sort-down" />
+        <Icon className={ classes['timeline__arrow'] } glyph="sort-down" />
     </Tag>
 );
 Timeline.propTypes = {

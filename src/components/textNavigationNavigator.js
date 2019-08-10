@@ -17,9 +17,9 @@ const TextNavigationNavigator = () => {
                         href="#"
                         className={
                             classNames(
-                                classes['navigatorEntry'],
-                                classes[`navigatorEntry${header.level}`], {
-                                    [classes['navigatorEntryActive']]:
+                                classes['navigator-entry'],
+                                classes[`navigator-entry--${header.level}`], {
+                                    [classes['navigator-entry--active']]:
                                         header === textNavContext.activeHeader
                                 }
                             )

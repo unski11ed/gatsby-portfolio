@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { kebabCase } from 'lodash';
 
 import classes from './tooltip.module.scss';
 
@@ -12,7 +11,7 @@ const Tooltip = ({ children, placement, text }) => {
         className: classNames(
             child.props.className, 
             classes.tooltip,
-            `toooltip${kebabCase(placement)}`
+            `toooltip--${placement}`
         ),
         ['data-tooltip']: text,
     });

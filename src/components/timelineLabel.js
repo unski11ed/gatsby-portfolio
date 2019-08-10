@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classes from './timeline.module.scss';
 
 const TimelineLabel = ({ children }) => (
-    <span className={ classes.timelineLabel }>
+    <span className={ classes['timeline__label'] }>
         { children }
     </span>
 );

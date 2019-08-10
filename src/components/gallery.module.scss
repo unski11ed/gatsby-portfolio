@@ -8,40 +8,49 @@ $shadow-third: 2px 2px 4px 0px rgba(0,0,0,0.55);
     position: relative;
 }
 
-.navigationButtonLeft,
-.navigationButtonRight {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
+/**
+    Navigation
+*/
+.navigation {
+    &__button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
 
-    --icon-size: 2rem;
-    --icon-color: #{$text-main};
-}
-.navigationButtonLeft {
-    left: 0;
-}
-.navigationButtonRight {
-    right: 0;
+        --icon-size: 2rem;
+        --icon-color: #{$text-main};
+
+        &--left {
+            left: 0;
+        }
+
+        &--right {
+            right: 0;
+        }
+    }
 }
 
+/**
+    Gallery
+*/
 .gallery {
     position: relative;
-}
 
-.galleryItem {
-    position: absolute;
-    top: 0;
-    left: 0;
+    &__item {
+        position: absolute;
+        top: 0;
+        left: 0;
 
-    max-width: calc(100% - 40px);
-    border-radius: 5px;
-    transform-origin: center right;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.active {
-    position: relative;
-    z-index: 1;
+        max-width: calc(100% - 40px);
+        border-radius: 5px;
+        transform-origin: center right;
+        overflow: hidden;
+        z-index: 0;
+        
+        &--active {
+            position: relative;
+            z-index: 1;         
+        }
+    }
 }

@@ -95,7 +95,7 @@ class RootIndex extends React.Component {
                     origin={ this.state.lightOrigin }
                     transitionDuration={ SLIDE_TRANSITION_DURATION }
                 />
-                <div className={ classes['homePage'] }>
+                <div className={ classes['home-page'] }>
                     <div
                         className={ classes['intro'] }
                         style={{
@@ -104,7 +104,7 @@ class RootIndex extends React.Component {
                         }}
                     >
                         <div
-                            className={ classNames(classes['intro__infoCol'], classes['info']) }
+                            className={ classNames(classes['intro__info-col'], classes['info']) }
                         >
                             <h1 className={ classes['info__header'] }>
                                 <span>Maciej</span> <span>Kurbański</span>
@@ -126,7 +126,7 @@ class RootIndex extends React.Component {
                         >
                         {
                             ({ domRef }) => (
-                                <div className={ classes['intro__animationCol'] } ref={ domRef }>
+                                <div className={ classes['intro__animation-col'] } ref={ domRef }>
                                     <img src={ currentSlide.animation } />
                                 </div>
                             )

@@ -69,7 +69,7 @@ class Layout extends React.Component {
                         { /* Navbar */ }
                         <header
                             className={classNames(classes['layout__navbar'], {
-                                [classes['layout__navbarTransparent']]: this.state.navbarTransparent
+                                [classes['layout__navbar--transparent']]: this.state.navbarTransparent
                             })}
                         >
                             <Link className={ classes['layout__navbar__brand'] } to="/">

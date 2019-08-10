@@ -16,7 +16,7 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     @include fill-wrap();
 }
 
-.colorOverlay {
+.color-overlay {
     transition: background var(--transition-duration) $transition-func;
     background-color: var(--ambient-color);
 

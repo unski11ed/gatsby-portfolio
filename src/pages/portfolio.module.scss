@@ -1,8 +1,8 @@
 @import "./../styles/variables";
 
 .portfolio-items {
-    &-highlight {
-        .portfolio-item:not(.portfolio-item-highlighted) {
+    &--highlight {
+        .portfolio-item:not(.portfolio-item--highlighted) {
             filter: opacity(50%);
         }
     }
@@ -26,24 +26,24 @@
         text-decoration: none;
     }
 
-    &-highlighted {
+    &--highlighted {
         transform: translate3d(0, 0, 0) scale(1.032);
         box-shadow: 0px 10px 13px -7px #000000,
                     5px 5px 15px 5px rgba(0,0,0,0);
     }
 }
 
-.portfolio-item-image-wrap {
+.portfolio-item__image-wrap {
     grid-area: image;
 
     max-height: 215px;
 }
 
-.portfolio-item-image {
+.portfolio-item__image {
     object-fit: fill;
 }
 
-.portfolio-item-title {
+.portfolio-item__title {
     grid-area: title;
 
     margin: 0;
@@ -55,7 +55,7 @@
     color: $text-bright;
 }
 
-.portfolio-item-date {
+.portfolio-item__date {
     grid-area: date;
 
     padding: 0 1rem;
@@ -67,7 +67,7 @@
     align-items: center;
 }
 
-.portfolio-item-description {
+.portfolio-item__description {
     grid-area: description;
 
     padding: 1rem;
@@ -75,7 +75,7 @@
     color: $text-main;
 }
 
-.portfolio-item-stack {
+.portfolio-item__stack {
     grid-area: tech;
     
     padding: 1rem 1rem 0 0;
@@ -93,7 +93,7 @@
     }
 }
 
-.portfolio-item-tags {
+.portfolio-item__tags {
     grid-area: tags;
 
     padding: 0 1rem 1rem 1rem;

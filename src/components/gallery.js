@@ -166,23 +166,23 @@ class Gallery extends React.Component {
                     threshold: 0.5
                 }}
             >
-                <div className={ classes.container }>
+                <div className={ classes['navigation'] }>
                     <button
                         type="button"
-                        className={classes.navigationButtonLeft}
+                        className={ classNames(classes['navigation__button'], classes['navigation__button--left']) }
                         onClick={() => this.changeCurrentElement(-1)}
                     >
                         <Icon glyph="angle-left" />
                     </button>
                     <button
                         type="button"
-                        className={classes.navigationButtonRight}
+                        className={ classNames(classes['navigation__button'], classes['navigation__button--right']) }
                         onClick={() => this.changeCurrentElement(+1)}
                     >
                         <Icon glyph="angle-right" />
                     </button>
                     
-                    <div className={ classes.gallery }>
+                    <div className={ classes['gallery'] }>
                         {
                             map(assets, (asset, index) => {
                                 const fileUrl = get(asset, 'file.url');
@@ -192,8 +192,8 @@ class Gallery extends React.Component {
                                     fileUrl.indexOf('.png') >= 0 ||
                                     fileUrl.indexOf('.jpg') >= 0
                                 );
-                                const itemClassName = classNames(classes.galleryItem, {
-                                    [classes.active]: index === currentPhotoIndex
+                                const itemClassName = classNames(classes['gallery__item'], {
+                                    [classes['gallery__item--active']]: index === currentPhotoIndex
                                 });
 
                                 //  Handle Video

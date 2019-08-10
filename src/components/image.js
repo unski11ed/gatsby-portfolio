@@ -48,16 +48,16 @@ class Image extends React.Component {
             innerRef,
         } = this.props;
 
-        const wrapClass = classNames(classes.imageWrap, wrapClassName);
+        const wrapClass = classNames(classes['image-wrap'], wrapClassName);
         const imageLowClass = classNames(
             className,
-            classes.imageLowRes
+            classes['image--low-res']
         );
         const imageHighClass = classNames(
             className,
-            classes.imageHighRes,
+            classes['image--high-res'],
             {
-                [classes.loaded]: !this.state.placeholderVisible
+                [classes['loaded']]: !this.state.placeholderVisible
             }
         );
         return (

@@ -10,7 +10,7 @@ const Icon = ({ children, glyph, className, style, fixedWidth }) => {
 
         return React.cloneElement(child, {
             className: classNames('icon', child.props.className, className, {
-                'icon--fixed-width': fixedWidth
+                ['icon--fixed-width']: fixedWidth
             }),
             style: { ...child.props.style, style }
         });
@@ -19,7 +19,7 @@ const Icon = ({ children, glyph, className, style, fixedWidth }) => {
             <span
                 className={
                     classNames('icon', 'icon-fa', `icon--${glyph}`, className, {
-                        'icon--fixed-width': fixedWidth
+                        ['icon--fixed-width']: fixedWidth
                     })
                 }
                 style={ style }

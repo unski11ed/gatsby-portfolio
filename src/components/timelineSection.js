@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classes from './timeline.module.scss';
 
 const TimelineSection = ({ children, tag: Tag }) => (
-    <Tag className={ classes.timelineSection }>
+    <Tag className={ classes['timeline__section'] }>
         { children }
     </Tag>
 );
