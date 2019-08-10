@@ -1,0 +1,25 @@
+@import './../styles/variables';
+
+.button {
+    display: inline-block;
+    white-space: nowrap;
+
+    padding: 0.5rem 1rem;
+
+    border: 1px solid;
+    border-radius: 5px;
+
+    // Sizes
+    &-size-sm {
+
+    }
+
+    &-size-lg {
+        padding: 1rem 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    // Colors
+
+}
+

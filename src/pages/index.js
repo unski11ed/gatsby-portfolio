@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Link } from 'gatsby';
 
+import Button from '../components/button';
 import HomeBackground from '../components/homeBackground';
 import BodyPositionObserver from '../components/bodyPositionObserver';
 import LayoutContext from './../layouts/layoutContext';
@@ -27,7 +29,7 @@ const SLIDES = [
         description: 'Vestibulum eu semper nisi, vitae porttitor enim. Nulla commodo turpis lorem, at blandit diam porta quis. Donec et eros at lectus hendrerit convallis. Ut euismod ante mauris, in varius nisl laoreet eu.'
     }
 ];
-const SLIDE_CHANGE_INTERVAL = 7000;
+const SLIDE_CHANGE_INTERVAL = 10000;
 const SLIDE_TRANSITION_DURATION = 1000;
 
 class RootIndex extends React.Component {
@@ -111,7 +113,12 @@ class RootIndex extends React.Component {
                                 { currentSlide.description }
                             </p>
                             <div className={ classes['info__actions'] }>
-
+                                <Button size="lg" tag={ Link }>
+                                    View Portfolio
+                                </Button>
+                                <Button size="lg" color="link" tag={ Link }>
+                                    Skills &amp; Experiences
+                                </Button>
                             </div>
                         </div>
                         <BodyPositionObserver
