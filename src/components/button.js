@@ -24,8 +24,10 @@ const Button = ({
     );
 
     return (
-        <Tag className={ buttonClasses }>
-            { children }
+        <Tag className={ buttonClasses } { ...otherProps }>
+            <span className={ classes['button__content'] }>
+                { children }
+            </span>
         </Tag>
     );
 };

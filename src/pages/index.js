@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'gatsby';
+import Color from 'color';
 
 import Button from '../components/button';
 import HomeBackground from '../components/homeBackground';
@@ -100,6 +101,7 @@ class RootIndex extends React.Component {
                         className={ classes['intro'] }
                         style={{
                             '--theme-color': currentSlide.color,
+                            '--button-color': Color(currentSlide.color).darken(0.25).hex(),
                             '--slide-transition-duration': `${SLIDE_TRANSITION_DURATION}ms`,
                         }}
                     >
@@ -113,7 +115,7 @@ class RootIndex extends React.Component {
                                 { currentSlide.description }
                             </p>
                             <div className={ classes['info__actions'] }>
-                                <Button size="lg" tag={ Link }>
+                                <Button size="lg" tag={ Link } className={ classes['info__actions__interactive'] }>
                                     View Portfolio
                                 </Button>
                                 <Button size="lg" color="link" tag={ Link }>

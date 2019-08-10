@@ -76,5 +76,12 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         > * + * {
             margin-left: 1rem;
         }
+
+        &__interactive {
+            transition: var(--button-default-transition), // Keep the default transtition
+                        background-color var(--slide-transition-duration) $transition-func;
+
+            background-color: var(--button-color);
+        }
     }
 }
