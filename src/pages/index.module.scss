@@ -18,18 +18,27 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 
 .intro {
     padding: 1rem;
-    max-width: 720px;
 
     display: flex;
 
     &__info-col {
         flex: 1 1 auto;
+        max-width: 700px;
     }
 
     &__animation-col {
-        margin-left: 2rem;
+        margin-left: 5rem;
 
         flex: 0 0 250px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &__animation-wrap {
+        width: 100%;
+        min-height: 250px;
 
         > img {
             filter: drop-shadow(0px 0px 4px var(--theme-color));
@@ -66,8 +75,22 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
         }
     }
 
+    &__description-wrap {
+        margin-bottom: 2rem;
+    }
+
     &__description {
-        min-height: 90px;
+        font-size: 26px;
+        line-height: 33px;
+        font-weight: 300;
+        min-height: 99px;
+        position: relative;
+        top: 0;
+        margin: 0;
+
+        strong {
+            font-weight: 300;
+        }
     }
 
     &__actions {

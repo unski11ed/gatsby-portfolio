@@ -8,7 +8,12 @@ import 'water.css/src/parts/_core.css';
 import './base.scss';
 import './../styles/styles.scss';
 
-import avenirFont from './../fonts/avenir-400.woff2';
+import sourceSansPro300 from './../fonts/source-sans-pro-300.woff2';
+import sourceSansPro400 from './../fonts/source-sans-pro-400.woff2';
+import sourceSansPro400Italic from './../fonts/source-sans-pro-400-italic.woff2';
+import sourceSansPro600 from './../fonts/source-sans-pro-600.woff2';
+import sourceSansPro700 from './../fonts/source-sans-pro-700.woff2';
+
 import classes from './layout.module.scss';
 
 import Navigation from './../components/navigation';
@@ -35,13 +40,11 @@ class Layout extends React.Component {
         return (
             <React.Fragment>
                 <Helmet>
-                    <link
-                        rel="preload"
-                        as="font"
-                        href={avenirFont}
-                        type="font/woff2"
-                        crossOrigin="anonymous"
-                    />
+                    <link rel="preload" as="font" href={sourceSansPro300} type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href={sourceSansPro400} type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href={sourceSansPro400Italic} type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href={sourceSansPro600} type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href={sourceSansPro700} type="font/woff2" crossOrigin="anonymous"/>
                 </Helmet>
 
                 <LayoutContext.Provider

@@ -1,12 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Flipper, Flipped } from 'react-flip-toolkit';
 import { Link } from 'gatsby';
 import Color from 'color';
+import anime from 'animejs';
 
 import Button from '../components/button';
 import HomeBackground from '../components/homeBackground';
 import BodyPositionObserver from '../components/bodyPositionObserver';
 import LayoutContext from './../layouts/layoutContext';
+import FadeContentSwap from './../components/fadeContentSwap';
 
 import classes from './index.module.scss';
 
@@ -15,23 +18,59 @@ import { getDocumentSize } from './../common/helpers';
 
 const SLIDES = [
     {
+        key: "experienced",
         animation: require('./../images/home/growth.svg'),
         color: colors.primary,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fringilla eros mauris, ac auctor orci dapibus vulputate. Donec quis accumsan lectus. Aliquam varius velit enim, et molestie sem feugiat ac.'
+        description: (
+            <React.Fragment>
+                <strong>Fullstack WebDeveloper</strong> with over <strong>6&nbsp;years</strong> of experience in <strong>commercial</strong> projects.
+            </React.Fragment>
+        )
     },
     {
+        key: "productive",
         animation: require('./../images/home/rocket.svg'),
         color: colors.success,
-        description: 'Nullam luctus sit amet nulla non dignissim. Nunc euismod elit eu risus mattis ultricies. Suspendisse potenti.',
+        description: (
+            <React.Fragment>
+                Eager to solve <strong>complex problems</strong> with the most <strong>effective and straightforward</strong> solutions.
+            </React.Fragment>
+        ),
     },
     {
+        key: "passionate",
         animation: require('./../images/home/heart.svg'),
         color: colors.danger,
-        description: 'Vestibulum eu semper nisi, vitae porttitor enim. Nulla commodo turpis lorem, at blandit diam porta quis. Donec et eros at lectus hendrerit convallis. Ut euismod ante mauris, in varius nisl laoreet eu.'
+        description: (
+            <React.Fragment>
+                <strong>Passionate Programmer</strong> excited about embracing <strong>cutting edge technologies</strong> with <strong>clean code</strong>!
+            </React.Fragment>
+        )
     }
 ];
 const SLIDE_CHANGE_INTERVAL = 10000;
 const SLIDE_TRANSITION_DURATION = 1000;
+
+const descriptionAppearAnimation = (transitionElement) => {
+    anime({
+        opacity: [0, 1],
+        duration: SLIDE_TRANSITION_DURATION / 2,
+        targets: transitionElement,
+        complete: () => {
+
+        },
+    });
+};
+const descriptionHideAnimation = (transitionElement, index, removeElement) => {
+    anime({
+        opacity: [1, 0],
+        duration: SLIDE_TRANSITION_DURATION / 2,
+        targets: transitionElement,
+        complete: () => {
+            removeElement();
+        },
+    });
+};
 
 class RootIndex extends React.Component {
     static contextType = LayoutContext;
@@ -111,29 +150,37 @@ class RootIndex extends React.Component {
                             <h1 className={ classes['info__header'] }>
                                 <span>Maciej</span> <span>Kurbański</span>
                             </h1>
-                            <p className={ classes['info__description'] }>
-                                { currentSlide.description }
-                            </p>
+                            <FadeContentSwap
+                                transitionKey={ currentSlide.key }
+                                duration={ SLIDE_TRANSITION_DURATION / 2 }
+                                className={ classes['info__description-wrap'] }
+                            >
+                                <p className={ classes['info__description'] } key={ currentSlide.key }>
+                                    { currentSlide.description }
+                                </p>
+                            </FadeContentSwap>
                             <div className={ classes['info__actions'] }>
-                                <Button size="lg" tag={ Link } className={ classes['info__actions__interactive'] }>
+                                <Button size="lg" tag={ Link } className={ classes['info__actions__interactive']} to="/portfolio">
                                     View Portfolio
                                 </Button>
-                                <Button size="lg" color="link" tag={ Link }>
+                                <Button size="lg" color="link" tag={ Link } to="/skills-and-experiences">
                                     Skills &amp; Experiences
                                 </Button>
                             </div>
                         </div>
-                        <BodyPositionObserver
-                            onPositionChanged={ this.onAnimationColPosChanged }
-                        >
-                        {
-                            ({ domRef }) => (
-                                <div className={ classes['intro__animation-col'] } ref={ domRef }>
-                                    <img src={ currentSlide.animation } />
-                                </div>
-                            )
-                        }
-                        </BodyPositionObserver>
+                        <div className={ classes['intro__animation-col'] }>
+                            <BodyPositionObserver
+                                onPositionChanged={ this.onAnimationColPosChanged }
+                            >
+                            {
+                                ({ domRef }) => (
+                                    <div className={ classes['intro__animation-wrap'] } ref={ domRef }>
+                                        <img src={ currentSlide.animation } />
+                                    </div>
+                                )
+                            }
+                            </BodyPositionObserver>
+                        </div>
                     </div>
                 </div>
             </React.Fragment>

@@ -4,10 +4,10 @@ $background-alt: #1a242f;
 
 $selection: #161f27;
 
-$text-main: #afafaf;
-$text-bright: #dbdbdb;
-$text-muted: #868a8e;
-$line-height: 1.4em;
+$text-bright: #fff;
+$text-main: darken($text-bright, 30%);
+$text-muted: rgba($text-main, 0.6);
+$line-height: 1.8em;
 
 $color-primary: #41adff;
 $color-success: #29CD41;
