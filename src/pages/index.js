@@ -9,7 +9,7 @@ import Button from '../components/button';
 import HomeBackground from '../components/homeBackground';
 import BodyPositionObserver from '../components/bodyPositionObserver';
 import LayoutContext from './../layouts/layoutContext';
-import FadeContentSwap from './../components/fadeContentSwap';
+import ContentSwapFade from './../components/contentSwapFade';
 
 import classes from './index.module.scss';
 
@@ -150,7 +150,7 @@ class RootIndex extends React.Component {
                             <h1 className={ classes['info__header'] }>
                                 <span>Maciej</span> <span>Kurbański</span>
                             </h1>
-                            <FadeContentSwap
+                            <ContentSwapFade
                                 transitionKey={ currentSlide.key }
                                 duration={ SLIDE_TRANSITION_DURATION / 2 }
                                 className={ classes['info__description-wrap'] }
@@ -158,7 +158,7 @@ class RootIndex extends React.Component {
                                 <p className={ classes['info__description'] } key={ currentSlide.key }>
                                     { currentSlide.description }
                                 </p>
-                            </FadeContentSwap>
+                            </ContentSwapFade>
                             <div className={ classes['info__actions'] }>
                                 <Button size="lg" tag={ Link } className={ classes['info__actions__interactive']} to="/portfolio">
                                     View Portfolio
