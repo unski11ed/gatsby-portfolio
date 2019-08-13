@@ -10,6 +10,7 @@ import HomeBackground from '../components/homeBackground';
 import BodyPositionObserver from '../components/bodyPositionObserver';
 import LayoutContext from './../layouts/layoutContext';
 import ContentSwapFade from './../components/contentSwapFade';
+import ContentSwapHomeIcon from './../components/contentSwapHomeIcon';
 
 import classes from './index.module.scss';
 
@@ -174,9 +175,11 @@ class RootIndex extends React.Component {
                             >
                             {
                                 ({ domRef }) => (
-                                    <div className={ classes['intro__animation-wrap'] } ref={ domRef }>
-                                        <img src={ currentSlide.animation } />
-                                    </div>
+                                    <ContentSwapHomeIcon transitionKey={ currentSlide.key }>
+                                        <div className={ classes['intro__animation-wrap'] } ref={ domRef } key={ currentSlide.key }>
+                                            <img src={ currentSlide.animation } />
+                                        </div>
+                                    </ContentSwapHomeIcon>
                                 )
                             }
                             </BodyPositionObserver>

@@ -7,8 +7,11 @@ const ContentSwap = ({
     enterFunc,
     leaveFunc,
     transitionKey,
+    innerRef,
     ...otherProps,
 }) => {
+    const onlyChild = React.Children.only(children);
+
     return (
         <Flipper flipKey={ transitionKey } { ...otherProps }>
             <Flipped
@@ -16,7 +19,11 @@ const ContentSwap = ({
                 onAppear={ enterFunc }
                 onExit={ leaveFunc }
             >
-                { React.Children.only(children) }
+                {
+                    React.cloneElement(onlyChild, {
+                        ref: innerRef,
+                    })
+                }
             </Flipped>
         </Flipper>
     );
@@ -25,6 +32,10 @@ const ContentSwap = ({
 ContentSwap.propTypes = {
     children: PropTypes.node.isRequired,
     duration: PropTypes.number,
+    innerRef: PropTypes.oneOfType([
+        PropTypes.func, 
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+    ]),
     enterFunc: PropTypes.func.isRequired,
     leaveFunc: PropTypes.func.isRequired,
     transitionKey: PropTypes.string.isRequired,
