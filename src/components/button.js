@@ -15,7 +15,7 @@ const Button = ({
 }) => {
     const buttonClasses = classNames(
         {
-            [classes.buttonOutline]: outline,
+            [classes['button--outline']]: outline,
         },
         classes.button,
         classes[`button--color-${color}`],

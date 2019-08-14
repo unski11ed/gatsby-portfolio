@@ -24,8 +24,29 @@ a.button {
     }
 }
 
+@mixin apply-outline($color) {
+    background-color: transparent;
+    color: $color;
+    border: solid $color;
+
+    transition: var(--button-default-transition),
+                color $color-transition-duration $transition-easing,
+                border-color $color-transition-duration $transition-easing;
+
+    &:before {
+        content: none;
+    }
+
+    &:focus,
+    &:hover {
+        border-color: darken($color, 15%);
+        color: darken($color, 15%);
+    }
+}
+
 .button {
     --button-default-transition: transform #{$scale-transition-duration} #{$transition-easing};
+    --border-width: 0px;
 
     position: relative;
     display: inline-block;
@@ -33,8 +54,10 @@ a.button {
     overflow: hidden;
     font-weight: 300;
 
-    padding: 0.5rem 1rem;
+    border-width: var(--border-width);
     border-radius: 5px;
+
+    padding: calc(0.75em - var(--border-width) * 2) calc(1.25em - var(--border-width) * 2);
 
     transition: var(--button-default-transition); 
 
@@ -63,32 +86,65 @@ a.button {
         z-index: 1;
     }
 
+    &--outline {
+        --border-width: 0px;
+    }
+
     // Sizes
     &--size-sm {
-        padding: 0.25rem 0.75rem;
         font-size: 0.8rem;
     }
 
     &--size-lg {
-        padding: 1rem 1.5rem;
         font-size: 1.5rem;
+
+        &.button--outline {
+            --border-width: 2px;
+        }
     }
 
     // Colors
     &--color-primary {
         @include apply-color($color-primary, $color-white);
+
+        &.button--outline {
+            @include apply-outline($color-white);
+        }
     }
     &--color-success {
         @include apply-color($color-success, $color-white);
+
+        &.button--outline {
+            @include apply-outline($color-white);
+        }
     }
     &--color-warning {
         @include apply-color($color-warning, $color-white);
+
+        &.button--outline {
+            @include apply-outline($color-white);
+        }
     }
     &--color-danger {
         @include apply-color($color-danger, $color-white);
+
+        &.button--outline {
+            @include apply-outline($color-white);
+        }
     }
     &--color-dark {
         @include apply-color($color-black, $color-white);
+
+        &.button--outline {
+            @include apply-outline($color-white);
+        }
+    }
+    &--color-white {
+        @include apply-color($color-white, $color-black);
+
+        &.button--outline {
+            @include apply-outline($color-white);
+        }
     }
     &--color-link {
         color: $color-white;

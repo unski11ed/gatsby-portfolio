@@ -167,7 +167,7 @@ class RootIndex extends React.Component {
                                 <Button size="lg" tag={ Link } className={ classes['info__actions__interactive']} to="/portfolio">
                                     View Portfolio
                                 </Button>
-                                <Button size="lg" color="link" tag={ Link } to="/skills-and-experiences">
+                                <Button size="lg" color="white" outline tag={ Link } to="/skills-and-experiences">
                                     Skills &amp; Experiences
                                 </Button>
                             </div>
