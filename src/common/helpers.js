@@ -27,3 +27,9 @@ export const getDocumentSize = (document) => {
 
     return { width, height };
 }
+
+export const compose = (funcs) => function() {
+    for (const func of funcs) {
+        func.apply(this, arguments);
+    }
+}

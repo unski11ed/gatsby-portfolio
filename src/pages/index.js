@@ -11,11 +11,12 @@ import BodyPositionObserver from '../components/bodyPositionObserver';
 import LayoutContext from './../layouts/layoutContext';
 import ContentSwapFade from './../components/contentSwapFade';
 import ContentSwapHomeIcon from './../components/contentSwapHomeIcon';
+import HomeIconIdleAnimation from './../components/homeIconIdleAnimation';
 
 import classes from './index.module.scss';
 
 import { colors } from './../common/consts';
-import { getDocumentSize } from './../common/helpers';
+import { getDocumentSize, compose } from './../common/helpers';
 
 const SLIDES = [
     {
@@ -51,33 +52,15 @@ const SLIDES = [
 ];
 const SLIDE_CHANGE_INTERVAL = 10000;
 const SLIDE_TRANSITION_DURATION = 1000;
-
-const descriptionAppearAnimation = (transitionElement) => {
-    anime({
-        opacity: [0, 1],
-        duration: SLIDE_TRANSITION_DURATION / 2,
-        targets: transitionElement,
-        complete: () => {
-
-        },
-    });
-};
-const descriptionHideAnimation = (transitionElement, index, removeElement) => {
-    anime({
-        opacity: [1, 0],
-        duration: SLIDE_TRANSITION_DURATION / 2,
-        targets: transitionElement,
-        complete: () => {
-            removeElement();
-        },
-    });
-};
+const ICON_CHANGE_DELAY = SLIDE_CHANGE_INTERVAL - SLIDE_TRANSITION_DURATION / 2;
 
 class RootIndex extends React.Component {
     static contextType = LayoutContext;
 
     state = {
         currentSlideIndex: 0,
+        currentIconIndex: 0,
+
         lightOrigin: {
             x: 0.5,
             y: 0.5,
@@ -85,19 +68,28 @@ class RootIndex extends React.Component {
             height: 100,
         }
     }
-    changeInterval = 0;
+    slideChangeInterval = 0;
+    iconChangeInterval = 0;
 
     constructor() {
         super();
 
         this.nextSlide = this.nextSlide.bind(this);
+        this.nextIcon = this.nextIcon.bind(this);
+        
         this.onAnimationColPosChanged = this.onAnimationColPosChanged.bind(this);
     }
 
     nextSlide() {
         this.setState({
             currentSlideIndex: (this.state.currentSlideIndex + 1) % SLIDES.length,
-        })
+        });
+    }
+
+    nextIcon() {
+        this.setState({
+            currentIconIndex: (this.state.currentIconIndex + 1) % SLIDES.length,
+        });
     }
 
     onAnimationColPosChanged(position) {
@@ -116,17 +108,28 @@ class RootIndex extends React.Component {
     componentDidMount() {
         this.context.toggleNavbarTransparent(true);
 
-        this.changeInterval = setInterval(this.nextSlide, SLIDE_CHANGE_INTERVAL);
+        this.slideChangeInterval = setInterval(this.nextSlide, SLIDE_CHANGE_INTERVAL);
+        // Set an interval offset between icon and rest of the content change
+        setTimeout(() => {
+            this.iconChangeInterval = setInterval(this.nextIcon, SLIDE_CHANGE_INTERVAL);
+
+            this.nextIcon();
+        }, ICON_CHANGE_DELAY);
     }
 
     componentWillUnmount() {
-        clearInterval(this.changeInterval);
+        clearInterval(this.slideChangeInterval);
+        clearInterval(this.iconChangeInterval);
 
         this.context.toggleNavbarTransparent(false);
     }
 
     render() {
         const currentSlide = SLIDES[this.state.currentSlideIndex];
+        const {
+            animation: currentIcon,
+            key: iconTransitionKey,
+        } = SLIDES[this.state.currentIconIndex];
 
         return (
             <React.Fragment>
@@ -174,10 +177,17 @@ class RootIndex extends React.Component {
                                 onPositionChanged={ this.onAnimationColPosChanged }
                             >
                             {
-                                ({ domRef }) => (
-                                    <ContentSwapHomeIcon transitionKey={ currentSlide.key }>
-                                        <div className={ classes['intro__animation-wrap'] } ref={ domRef } key={ currentSlide.key }>
-                                            <img src={ currentSlide.animation } />
+                                ({ domRef: bodyPositionRef }) => (
+                                    <ContentSwapHomeIcon
+                                        transitionKey={ iconTransitionKey }
+                                        duration={ SLIDE_TRANSITION_DURATION }
+                                    >
+                                        <div
+                                            className={ classes['intro__animation-wrap'] }
+                                            ref={ bodyPositionRef }
+                                            key={ iconTransitionKey }
+                                        >
+                                            <img src={ currentIcon } />
                                         </div>
                                     </ContentSwapHomeIcon>
                                 )

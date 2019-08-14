@@ -6,16 +6,18 @@ class BodyPositionObserver extends React.Component {
         children: PropTypes.func,
         onPositionChanged: PropTypes.func
     }
-    domElementRef = React.createRef();
+
+    element = null;
 
     constructor() {
         super();
 
         this.onWindowSizeChanged = this.onWindowSizeChanged.bind(this);
+        this.domRefCallback = this.domRefCallback.bind(this);
     }
 
     onWindowSizeChanged() {
-        const elementRect = this.domElementRef.current.getBoundingClientRect();
+        const elementRect = this.element.getBoundingClientRect();
         
         const docX = elementRect.x + window.scrollX;
         const docY = elementRect.y + window.scrollY;
@@ -28,8 +30,14 @@ class BodyPositionObserver extends React.Component {
         });
     }
 
+    domRefCallback(element) {
+        if (typeof window !== 'undefined' && element) {
+            this.element = element;
+        }
+    }
+
     componentDidMount() {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && this.element) {
             window.addEventListener('resize', this.onWindowSizeChanged);
 
             this.onWindowSizeChanged();
@@ -43,7 +51,7 @@ class BodyPositionObserver extends React.Component {
     }
 
     render() {
-        return this.props.children({ domRef: this.domElementRef });
+        return this.props.children({ domRef: this.domRefCallback });
     }
 }
 

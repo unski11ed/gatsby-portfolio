@@ -15,7 +15,12 @@ const ContentSwapHomeIcon = ({
             targets: target,
             duration: duration / 2,
             opacity: [0, 1],
-            easing: 'easeOutSine',
+            scale: [1.1, 1],
+            easing: 'easeOutElastic(1.3, .4)',
+            complete: () => {
+                target.style.transform = '';
+                target.style.opacity = '';
+            }
         });
     }
     const leaveFunc = (target, index, removeElement) => {
@@ -23,8 +28,12 @@ const ContentSwapHomeIcon = ({
             targets: target,
             duration: duration / 2,
             opacity: [1, 0],
-            easing: 'easeInSine',
+            scale: [1, 1.1],
+            easing: 'linear',
             complete: () => {
+                target.style.transform = '';
+                target.style.opacity = '';
+
                 removeElement();
             }
         })
