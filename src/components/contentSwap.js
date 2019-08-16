@@ -34,7 +34,7 @@ ContentSwap.propTypes = {
     duration: PropTypes.number,
     innerRef: PropTypes.oneOfType([
         PropTypes.func, 
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        PropTypes.shape({ current: PropTypes.object })
     ]),
     enterFunc: PropTypes.func.isRequired,
     leaveFunc: PropTypes.func.isRequired,

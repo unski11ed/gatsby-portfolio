@@ -27,7 +27,8 @@ a.button {
 @mixin apply-outline($color) {
     background-color: transparent;
     color: $color;
-    border: solid $color;
+    border-style: solid;
+    border-color: $color;
 
     transition: var(--button-default-transition),
                 color $color-transition-duration $transition-easing,
@@ -53,6 +54,7 @@ a.button {
     white-space: nowrap;
     overflow: hidden;
     font-weight: 300;
+    text-align: center;
 
     border-width: var(--border-width);
     border-radius: 5px;
@@ -87,7 +89,7 @@ a.button {
     }
 
     &--outline {
-        --border-width: 0px;
+        --border-width: 1px;
     }
 
     // Sizes

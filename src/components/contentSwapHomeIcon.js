@@ -58,7 +58,7 @@ ContentSwapHomeIcon.propTypes = {
     children: PropTypes.node.isRequired,
     innerRef: PropTypes.oneOfType([
         PropTypes.func, 
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+        PropTypes.shape({ current: PropTypes.object })
     ])
       
 };

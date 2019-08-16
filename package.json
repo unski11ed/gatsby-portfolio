@@ -29,6 +29,7 @@
     "react-flip-toolkit": "^6.6.9",
     "react-helmet": "^5.2.1",
     "react-lazyload": "^2.6.2",
+    "react-responsive": "^7.0.0",
     "rippled-particles": "git+https://github.com/unski11ed/rippled-particles.git",
     "sharp": "^0.22.1",
     "url-join": "^4.0.1",
