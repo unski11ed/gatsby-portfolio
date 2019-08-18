@@ -14,10 +14,16 @@ import sourceSansPro400Italic from './../fonts/source-sans-pro-400-italic.woff2'
 import sourceSansPro600 from './../fonts/source-sans-pro-600.woff2';
 import sourceSansPro700 from './../fonts/source-sans-pro-700.woff2';
 
+import logoBlue from './../images/logo-blue.svg';
+
 import classes from './layout.module.scss';
 
-import Navigation from './../components/navigation';
-import NavigationItem from './../components/navigationItem';
+import Navbar from './../components/navbar';
+import NavbarCollapse from './../components/navbarCollapse';
+import NavbarBrand from './../components/navbarBrand';
+import NavbarNavigation from '../components/navbarNavigation';
+import NavbarNavigationItem from '../components/navbarNavigationItem';
+import NavbarSocial from '../components/navbarSocial';
 import PageTransition from './../components/pageTransition';
 
 import LayoutContext from './layoutContext';
@@ -70,27 +76,33 @@ class Layout extends React.Component {
                         <div className={ classes['layout__background'] } id="layout-background-portal" />
 
                         { /* Navbar */ }
-                        <header
-                            className={classNames(classes['layout__navbar'], {
-                                [classes['layout__navbar--transparent']]: this.state.navbarTransparent
-                            })}
-                        >
-                            <Link className={ classes['layout__navbar__brand'] } to="/">
-                                mkurban.me
-                            </Link>
-                            
-                            <Navigation className={ classes['layout__navbar__navigation'] }>
-                                <NavigationItem to="/skills-and-experiences">
-                                    Skills and Experiences
-                                </NavigationItem>
-                                <NavigationItem to="/portfolio">
-                                    Portfolio
-                                </NavigationItem>
-                                <NavigationItem to="/about-me">
-                                    About Me
-                                </NavigationItem>
-                            </Navigation>
-                        </header>
+                        <div className={ classes['layout__navbar'] }>
+                            <Navbar isTransparent={ this.state.navbarTransparent }>
+                                <NavbarBrand src={ logoBlue } to="/" />
+
+                                <NavbarNavigation>
+                                    <NavbarNavigationItem to="/portfolio">
+                                        Portfolio
+                                    </NavbarNavigationItem>
+
+                                    <NavbarNavigationItem to="/skills-and-experiences">
+                                        Skills &amp; Exeriences
+                                    </NavbarNavigationItem>
+
+                                    <NavbarNavigationItem to="/about-me">
+                                        About Me
+                                    </NavbarNavigationItem>
+                                </NavbarNavigation>
+
+                                <NavbarSocial
+                                    addresses={{
+                                        email: 'maciej.kurbanski@outlook.com',
+                                        gitHub: 'https://github.com/unski11ed',
+                                        messenger: 'http://m.me/mkurban.dev'
+                                    }}
+                                />
+                            </Navbar>
+                        </div>
 
                         { /* Content */ }
                         <PageTransition

@@ -1,0 +1,143 @@
+@import './../styles/variables';
+
+.navbar {
+    height: var(--navbar-height);
+    
+    display: grid;
+    grid-template-columns: 200px auto auto;
+    grid-template-rows: 4fr 5fr;
+    grid-template-areas: "social social social" "logo . navigation";
+
+    background-color: $color-black;
+    transition: background-color 300ms $easing-cubic-in-out;
+
+    &--transparent {
+        background-color: transparent;
+    }
+
+    &__brand {
+        padding-left: 1.5rem;
+
+        grid-area: logo;
+        
+        display: inline-flex;
+
+        img {
+            display: block;
+        }
+    }
+
+    &__collapse {
+        flex: 1 1 auto;
+
+        display: flex;
+    }
+
+    &__navigation {
+        padding-right: 1.5rem;
+
+        grid-area: navigation;
+
+        font-size: 1.3rem;
+        -webkit-font-smoothing: antialiased;
+
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-end;
+    }
+
+    &__navigation-item {
+        display: inline-flex;
+        align-items: center;
+        
+        color: $text-main;
+
+        transition: color 250ms $easing-cubic-in-out;
+
+        // Active Highlighter
+        position: relative;
+        &::after {
+            content: " ";
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            transform: translate3d(-50%, 0, 0);
+            background-color: $color-primary;
+            transition: width 300ms $easing-sine-in-out;
+        }
+
+        &:hover,
+        &:focus {
+            color: $text-bright;
+            text-decoration: none;
+        }
+
+        &--active {
+            color: $text-main;
+
+            &::after {
+                width: 100%;
+            }
+        }
+
+        + .navbar__navigation-item {
+            margin-left: 1rem;
+        }
+    }
+
+    &__social {
+        background-color: #1a1a1f;
+
+        padding: 0 1rem;
+
+        grid-area: social;
+
+        display: flex;
+        align-items: stretch;
+        justify-content: space-between;
+
+        &__column {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar__social__item {
+            --icon-size: 1.2rem;
+            --icon-color: #{$text-muted};
+            font-size: 14px;
+
+            display: inline-flex;
+            align-items: center;
+
+            padding: 0 0.5rem;
+            color: $text-muted;
+
+            &--icon-text {
+                > span:first-child {
+                    margin-right: 0.75rem;
+                }
+            }
+
+            + .navbar__social__item {
+                margin-left: 0.5rem;
+            }
+        }
+
+        a.navbar__social__item {
+            --icon-color: #{$text-main};
+
+            &:hover,
+            &:focus {
+                --icon-color: #{$text-bright};
+                text-decoration: none;
+            }
+
+            &.disabled {
+                --icon-color: #{rgba($text-main, 0.6)};
+                pointer-events: none;
+            }
+        }
+    }
+}

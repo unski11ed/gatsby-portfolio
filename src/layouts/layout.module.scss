@@ -1,7 +1,7 @@
 @import "./../styles/variables";
 
 .layout {
-    --navbar-height: 75px;
+    --navbar-height: 90px;
     
     min-height: 100vh;
     position: relative;
@@ -21,28 +21,6 @@
     &__navbar {
         position: relative;
         z-index: 1;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px;
-
-        background: linear-gradient(to bottom, $background 0%, $background-alt 100%);
-        
-        transition: background 300ms ease-in-out;
-
-        &--transparent {
-            background: transparent;
-        }
-
-        &__brand {
-            font-size: 1.5rem;
-            color: $text-bright;
-
-            &:hover {
-                text-decoration: none;
-            }
-        }
     }
 
     &__content {

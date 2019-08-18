@@ -59,7 +59,7 @@ a.button {
     border-width: var(--border-width);
     border-radius: 5px;
 
-    padding: calc(0.75em - var(--border-width) * 2) calc(1.25em - var(--border-width) * 2);
+    padding: calc(0.75em - var(--border-width)) calc(1.25em - var(--border-width));
 
     transition: var(--button-default-transition); 
 

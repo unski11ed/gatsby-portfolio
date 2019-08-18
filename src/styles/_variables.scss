@@ -6,7 +6,7 @@ $selection: #161f27;
 
 $text-bright: #fff;
 $text-main: darken($text-bright, 30%);
-$text-muted: rgba($text-main, 0.6);
+$text-muted: rgba($text-main, 0.7);
 $line-height: 1.8em;
 
 $color-primary: #41adff;
@@ -30,3 +30,6 @@ $scrollbar-thumb-hover: lighten($scrollbar-thumb, 8%);
 
 $form-placeholder: #a9a9a9;
 $form-text: #ffffff;
+
+$easing-cubic-in-out: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+$easing-sine-in-out: cubic-bezier(0.445, 0.050, 0.550, 0.950);
