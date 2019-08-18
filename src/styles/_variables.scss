@@ -31,5 +31,9 @@ $scrollbar-thumb-hover: lighten($scrollbar-thumb, 8%);
 $form-placeholder: #a9a9a9;
 $form-text: #ffffff;
 
+$navbar-collapse-breakpoint: 660px;
+$navbar-height: 100px;
+$navbar-height-collapsed: 70px;
+
 $easing-cubic-in-out: cubic-bezier(0.455, 0.030, 0.515, 0.955);
 $easing-sine-in-out: cubic-bezier(0.445, 0.050, 0.550, 0.950);

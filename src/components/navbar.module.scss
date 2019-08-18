@@ -1,18 +1,27 @@
 @import './../styles/variables';
 
 .navbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+
     height: var(--navbar-height);
     
     display: grid;
     grid-template-columns: 200px auto auto;
-    grid-template-rows: 4fr 5fr;
+    grid-template-rows: 4fr 6fr;
     grid-template-areas: "social social social" "logo . navigation";
 
     background-color: $color-black;
-    transition: background-color 300ms $easing-cubic-in-out;
+    box-shadow: 0px 3px 10px 3px rgba($color-black, 0.25);
+
+    transition: background-color 300ms $easing-cubic-in-out,
+                box-shadow 300ms $easing-cubic-in-out;;
 
     &--transparent {
         background-color: transparent;
+        box-shadow: none;
     }
 
     &__brand {
@@ -27,10 +36,31 @@
         }
     }
 
-    &__collapse {
-        flex: 1 1 auto;
+    &__toggle-collapse-wrap {
+        display: none;
+        grid-area: collapse;
+    }
 
-        display: flex;
+    &__toggle-collapse {
+        transform: none !important;
+        background: none !important;
+
+        border: 1px solid $text-main;
+        margin: 0;
+        padding: 0.5rem;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        --icon-size: 1.2rem;
+
+        &:focus {
+            box-shadow: none;
+        }
+
+        &--active {
+            border-color: #{$text-bright};
+            --icon-color: #{$text-bright};
+        }
     }
 
     &__navigation {
@@ -139,5 +169,117 @@
                 pointer-events: none;
             }
         }
+    }
+}
+
+.show-collapsed {
+    display: none;
+}
+
+// Override Fade animations when in Desktop mode
+@media (min-width: $navbar-collapse-breakpoint) {
+    [data-fade-order] {
+        opacity: 1 !important;
+    }
+}
+
+@media (max-width: #{$navbar-collapse-breakpoint - 1px}) {
+    .navbar {
+        height: auto;
+
+        transition: height 350ms $easing-cubic-in-out,
+                    background-color 350ms $easing-cubic-in-out,
+                    box-shadow 350ms $easing-cubic-in-out;
+
+        overflow: hidden;
+
+        grid-template-columns: 200px auto;
+        grid-template-rows: var(--navbar-height) auto auto;
+        grid-template-areas: "logo collapse" "navigation navigation" "social social";
+
+        &--collapse-hide {
+            height: var(--navbar-height) !important;
+        }
+
+        &__toggle-collapse-wrap {
+            display: inline-flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 1.5rem;
+        }
+
+        &__navigation {
+            background-color: #1a1a1f;
+            flex-direction: column;
+            padding: 0;
+
+            transition: background-color 350ms $easing-cubic-in-out;
+        }
+
+        &--transparent .navbar__navigation {
+            background-color: transparent;
+        }
+
+        &__navigation-item {
+            padding: 0.75rem 1.5rem;
+
+            &::after {
+                height: 0;
+                width: 3px;
+                left: 0;
+                bottom: auto;
+                top: 50%;
+                transform: translate3d(0, -50% , 0);
+                transition-property: height;
+            }
+
+            &--active {
+                &::after {
+                    height: 100%;
+                }
+            }
+
+            + .navbar__navigation-item {
+                margin-left: 0;
+            }
+        }
+
+        &__social {
+            flex-direction: column;
+            
+            border-top: 1px solid darken(#1a1a1f, 3%);
+
+            padding: 1rem 1.5rem;
+
+            .label {
+                color: $text-muted;
+                font-size: 1rem;
+                display: inline-block;
+                min-width: 4rem;
+            }
+
+            .navbar__social__item {
+                --icon-size: 1.2rem;
+
+                font-size: 1rem;
+                color: $text-main;
+
+                &--icon-text {
+                    padding-right: 0;
+                }
+            }
+
+            > * + * {
+                margin-top: 1rem;
+            }
+        }
+    }
+
+    .hide-collapsed {
+        display: none;
+    }
+
+    .show-collapsed {
+        display: initial;
     }
 }

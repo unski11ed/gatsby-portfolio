@@ -1,7 +1,11 @@
 @import "./../styles/variables";
 
 .layout {
-    --navbar-height: 90px;
+    --navbar-height: #{$navbar-height};
+
+    @media (max-width: $navbar-collapse-breakpoint) {
+        --navbar-height: #{$navbar-height-collapsed};
+    }
     
     min-height: 100vh;
     position: relative;
@@ -20,7 +24,8 @@
 
     &__navbar {
         position: relative;
-        z-index: 1;
+        z-index: 100;
+        height: var(--navbar-height);
     }
 
     &__content {
