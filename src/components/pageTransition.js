@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { orderBy } from 'lodash';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import anime from 'animejs';
 
@@ -19,9 +20,16 @@ class PageTransition extends React.Component {
             const transitionElements = 
                 containerElement.querySelectorAll('.transition-element');
             
+            // Ensure the staggered animations start from top-left
+            const orderedElements = orderBy(transitionElements, (element) => {
+                const elementRect = element.getBoundingClientRect();
+
+                return elementRect.top + elementRect.left;
+            });
+
             anime({
-                ...entryAnimationConfig,
-                targets: transitionElements,
+                ...(entryAnimationConfig()),
+                targets: orderedElements,
                 complete: () => {
                     // Reset element styles
                     for (const transitionElement of transitionElements) {
@@ -35,7 +43,7 @@ class PageTransition extends React.Component {
     exitAnimation(containerElement, index, removeElement) {
         if (this.context.transitionAnimationEnabled) {
             anime({
-                ...leaveAnimationConfig,
+                ...(leaveAnimationConfig()),
                 targets: containerElement,
                 complete: removeElement,
             });

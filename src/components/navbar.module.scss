@@ -30,9 +30,23 @@
         grid-area: logo;
         
         display: inline-flex;
+        align-items: center;
+        
+        &__logos {
+            position: relative;
+            width: 100%;
 
-        img {
-            display: block;
+            img {
+                display: block;
+
+                transition: opacity 300ms $easing-cubic-in-out;
+    
+                &:not(:first-child) {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+            }
         }
     }
 
@@ -118,7 +132,7 @@
     }
 
     &__social {
-        background-color: #1a1a1f;
+        background-color: $background-alt;
 
         padding: 0 1rem;
 
@@ -209,7 +223,7 @@
         }
 
         &__navigation {
-            background-color: #1a1a1f;
+            background-color: $background-alt;
             flex-direction: column;
             padding: 0;
 
@@ -247,7 +261,7 @@
         &__social {
             flex-direction: column;
             
-            border-top: 1px solid darken(#1a1a1f, 3%);
+            border-top: 1px solid darken($background-alt, 3%);
 
             padding: 1rem 1.5rem;
 

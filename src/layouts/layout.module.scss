@@ -7,7 +7,7 @@
         --navbar-height: #{$navbar-height-collapsed};
     }
     
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
 
     display: flex;
@@ -26,9 +26,12 @@
         position: relative;
         z-index: 100;
         height: var(--navbar-height);
+        flex-shrink: 0;
     }
 
     &__content {
+        overflow-y: auto;
+
         position: relative;
         z-index: 1;
         

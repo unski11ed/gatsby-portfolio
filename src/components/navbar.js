@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import MediaQuery from 'react-responsive';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { orderBy } from 'lodash';
@@ -27,12 +28,14 @@ const Navbar = ({ children, className, isTransparent, currentPath }) => {
                 ['asc']
             );
 
+            anime.remove(orderedFadeElements);
+
             anime({
                 targets: orderedFadeElements,
                 opacity: [0, 1],
                 delay: anime.stagger(50),
                 easing: 'easeOutCubic',
-            })
+            });
         }
     }
     const entriesFadeOut = () => {
@@ -48,11 +51,14 @@ const Navbar = ({ children, className, isTransparent, currentPath }) => {
                 ['desc']
             );
 
+            anime.remove(orderedFadeElements);
+
             anime({
                 targets: orderedFadeElements,
                 opacity: [1, 0],
+                delay: anime.stagger(50),
                 easing: 'easeInCubic',
-            })
+            });
         }
     }
 
@@ -72,37 +78,44 @@ const Navbar = ({ children, className, isTransparent, currentPath }) => {
 
     // Render =============================================
     return (
-        <header
-            className={ classNames(className, classes['navbar'], {
-                [classes['navbar--transparent']]: isTransparent && !collapseVisible,
-                [classes['navbar--collapse-hide']]: !collapseVisible,
-            }) }
-            style={{
-                /* For height animation with CSS transitions */
-                height: navbarRef.current ? `${navbarRef.current.scrollHeight}px` : '',
-            }}
-            ref={ navbarRef }
-        >
-            { children }
-
-            <div className={ classes['navbar__toggle-collapse-wrap'] }>
-                <button 
-                    type="button"
-                    className={ classNames(classes['navbar__toggle-collapse'], {
-                        [classes['navbar__toggle-collapse--active']]: collapseVisible
+        <MediaQuery maxWidth="659px">
+        {
+            (phoneMatches) => (
+                <header
+                    className={ classNames(className, classes['navbar'], {
+                        [classes['navbar--transparent']]: isTransparent && !collapseVisible,
+                        [classes['navbar--collapse-hide']]: !collapseVisible,
                     }) }
-                    onClick={ () => setCollapseVisible(!collapseVisible) }
+                    style={{
+                        /* For height animation with CSS transitions on mobile only */
+                        height: navbarRef.current && phoneMatches ?
+                            `${navbarRef.current.scrollHeight}px` : '',
+                    }}
+                    ref={ navbarRef }
                 >
-                    <Icon glyph="bars" />
-                </button>
-            </div>
-        </header>
+                    { children }
+
+                    <div className={ classes['navbar__toggle-collapse-wrap'] }>
+                        <button 
+                            type="button"
+                            className={ classNames(classes['navbar__toggle-collapse'], {
+                                [classes['navbar__toggle-collapse--active']]: collapseVisible
+                            }) }
+                            onClick={ () => setCollapseVisible(!collapseVisible) }
+                        >
+                            <Icon glyph="bars" />
+                        </button>
+                    </div>
+                </header>
+            )
+        }
+        </MediaQuery>
     );
 };
 
 Navbar.propTypes = {
     children: PropTypes.node,
-    className: PropTypes.className,
+    className: PropTypes.string,
     isTransparent: PropTypes.bool,
     currentPath: PropTypes.string,
 }

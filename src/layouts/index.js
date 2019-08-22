@@ -8,11 +8,11 @@ import 'water.css/src/parts/_core.css';
 import './base.scss';
 import './../styles/styles.scss';
 
-import sourceSansPro300 from './../fonts/source-sans-pro-300.woff2';
-import sourceSansPro400 from './../fonts/source-sans-pro-400.woff2';
-import sourceSansPro400Italic from './../fonts/source-sans-pro-400-italic.woff2';
-import sourceSansPro600 from './../fonts/source-sans-pro-600.woff2';
-import sourceSansPro700 from './../fonts/source-sans-pro-700.woff2';
+import sourceSansPro300 from './../fonts/source-sans-pro-300-latin-ext.woff2';
+import sourceSansPro400 from './../fonts/source-sans-pro-400-latin-ext.woff2';
+import sourceSansPro400Italic from './../fonts/source-sans-pro-400-italic-latin-ext.woff2';
+import sourceSansPro600 from './../fonts/source-sans-pro-600-latin-ext.woff2';
+import sourceSansPro700 from './../fonts/source-sans-pro-700-latin-ext.woff2';
 
 import logoBlue from './../images/logo-blue.svg';
 
@@ -28,6 +28,8 @@ import PageTransition from './../components/pageTransition';
 
 import LayoutContext from './layoutContext';
 
+const DEFAULT_THEME_COLOR = 'primary';
+
 class Layout extends React.Component {
     constructor(props) {
         super(props);
@@ -35,14 +37,15 @@ class Layout extends React.Component {
         this.state = {
             transitionAnimationEnabled: true,
             navbarTransparent: false,
+            themeColor: DEFAULT_THEME_COLOR,
         }
     }
     
     render() {
         const { children, location } = this.props;
         const { pathname } = location;
-        const pageSlug = pathname.replace(/\//g, '');
-
+        const pageSlug = pathname.replace(/\//g, '')  || 'home';
+        
         return (
             <React.Fragment>
                 <Helmet>
@@ -67,8 +70,17 @@ class Layout extends React.Component {
                             this.setState({
                                 navbarTransparent: isTransparent
                             });
+                        },
+                        setThemeColor: (color) => {
+                            this.setState({
+                                themeColor: color,
+                            })
+                        },
+                        resetThemeColor: () => {
+                            this.setState({
+                                themeColor: DEFAULT_THEME_COLOR,
+                            })
                         }
-
                     }}
                 >
                     <main className={ classes['layout'] }>
@@ -78,7 +90,10 @@ class Layout extends React.Component {
                         { /* Navbar */ }
                         <div className={ classes['layout__navbar'] }>
                             <Navbar isTransparent={ this.state.navbarTransparent }>
-                                <NavbarBrand src={ logoBlue } to="/" />
+                                <NavbarBrand
+                                    themeColor={ this.state.themeColor }
+                                    to="/"
+                                />
 
                                 <NavbarNavigation>
                                     <NavbarNavigationItem to="/portfolio">

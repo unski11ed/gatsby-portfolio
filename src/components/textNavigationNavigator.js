@@ -12,8 +12,9 @@ const TextNavigationNavigator = () => {
     return (
         <div className={ classes.navigator }>
             {
-                map(textNavContext.headers, (header) => (
+                map(textNavContext.headers, (header, index) => (
                     <a
+                        key={ index }
                         href="#"
                         className={
                             classNames(

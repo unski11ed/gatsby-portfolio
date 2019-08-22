@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Flipper, Flipped } from 'react-flip-toolkit';
+
 import { Link } from 'gatsby';
 import Color from 'color';
 import MediaQuery from 'react-responsive';
@@ -22,7 +22,7 @@ const SLIDES = [
     {
         key: "experienced",
         animation: require('./../images/home/growth.svg'),
-        color: colors.primary,
+        themeColor: 'primary',
         description: (
             <React.Fragment>
                 <strong>Fullstack WebDeveloper</strong> with over <strong>6&nbsp;years</strong> of experience in <strong>commercial</strong> projects.
@@ -32,7 +32,7 @@ const SLIDES = [
     {
         key: "productive",
         animation: require('./../images/home/rocket.svg'),
-        color: colors.success,
+        themeColor: 'success',
         description: (
             <React.Fragment>
                 Solving <strong>complex problems</strong> with the most <strong>effective and straightforward</strong> solutions.
@@ -42,7 +42,7 @@ const SLIDES = [
     {
         key: "passionate",
         animation: require('./../images/home/heart.svg'),
-        color: colors.danger,
+        themeColor: 'danger',
         description: (
             <React.Fragment>
                 <strong>Passionate Programmer</strong> excited about embracing <strong>cutting edge technologies</strong> with <strong>clean code</strong>!
@@ -81,9 +81,14 @@ class RootIndex extends React.Component {
     }
 
     nextSlide() {
+        const nextSlideIndex = (this.state.currentSlideIndex + 1) % SLIDES.length;
+
         this.setState({
-            currentSlideIndex: (this.state.currentSlideIndex + 1) % SLIDES.length,
+            currentSlideIndex: nextSlideIndex,
         });
+        this.context.setThemeColor(
+            SLIDES[this.state.currentSlideIndex].themeColor
+        );
     }
 
     nextIcon() {
@@ -115,6 +120,9 @@ class RootIndex extends React.Component {
 
             this.nextIcon();
         }, ICON_CHANGE_DELAY);
+
+        // Set the Layout Theme Color - Brand Logo etc.
+        this.context.setThemeColor(SLIDES[this.state.currentSlideIndex].themeColor);
     }
 
     componentWillUnmount() {
@@ -122,6 +130,7 @@ class RootIndex extends React.Component {
         clearInterval(this.iconChangeInterval);
 
         this.context.toggleNavbarTransparent(false);
+        this.context.resetThemeColor();
     }
 
     render() {
@@ -132,12 +141,12 @@ class RootIndex extends React.Component {
         } = SLIDES[this.state.currentIconIndex];
 
         return (
-            <MediaQuery maxWidth="660px">
+            <MediaQuery maxWidth="659px">
             {
                 (phoneMatches) => (
                     <React.Fragment>
                         <HomeBackground
-                            color={ currentSlide.color }
+                            color={ colors[currentSlide.themeColor]  }
                             className={ classes.background }
                             origin={ this.state.lightOrigin }
                             transitionDuration={ SLIDE_TRANSITION_DURATION }
@@ -146,15 +155,15 @@ class RootIndex extends React.Component {
                             <div
                                 className={ classes['intro'] }
                                 style={{
-                                    '--theme-color': currentSlide.color,
-                                    '--button-color': Color(currentSlide.color).darken(0.25).hex(),
+                                    '--theme-color': colors[currentSlide.themeColor],
+                                    '--button-color': Color(colors[currentSlide.themeColor]).darken(0.25).hex(),
                                     '--slide-transition-duration': `${SLIDE_TRANSITION_DURATION}ms`,
                                 }}
                             >
                                 <div
                                     className={ classNames(classes['intro__info-col'], classes['info']) }
                                 >
-                                    <h1 className={ classes['info__header'] }>
+                                    <h1 className={ classNames(classes['info__header'], 'transition-element') }>
                                         <span>Maciej</span> <span>Kurbański</span>
                                     </h1>
                                     <ContentSwapFade
@@ -162,7 +171,10 @@ class RootIndex extends React.Component {
                                         duration={ SLIDE_TRANSITION_DURATION / 2 }
                                         className={ classes['info__description-wrap'] }
                                     >
-                                        <p className={ classes['info__description'] } key={ currentSlide.key }>
+                                        <p
+                                            className={ classNames(classes['info__description'], 'transition-element') }
+                                            key={ currentSlide.key }
+                                        >
                                             { currentSlide.description }
                                         </p>
                                     </ContentSwapFade>
@@ -170,7 +182,10 @@ class RootIndex extends React.Component {
                                         <Button
                                             size={ phoneMatches ? "md" : "lg" }
                                             tag={ Link }
-                                            className={ classes['info__actions__interactive']}
+                                            className={ classNames(
+                                                classes['info__actions__interactive'],
+                                                'transition-element'
+                                            ) }
                                             to="/portfolio"
                                         >
                                             View Portfolio
@@ -180,6 +195,7 @@ class RootIndex extends React.Component {
                                             color="white"
                                             outline
                                             tag={ Link }
+                                            className='transition-element'
                                             to="/skills-and-experiences"
                                         >
                                             Skills &amp; Experiences
@@ -197,7 +213,10 @@ class RootIndex extends React.Component {
                                                 duration={ SLIDE_TRANSITION_DURATION }
                                             >
                                                 <div
-                                                    className={ classes['intro__animation-wrap'] }
+                                                    className={ classNames(
+                                                        classes['intro__animation-wrap'],
+                                                        'transition-element'
+                                                    ) }
                                                     key={ iconTransitionKey }
                                                     ref={ bodyPositionRef }
                                                 >

@@ -12,7 +12,7 @@ const NavbarSocial = ({ addresses }) => (
             <span className={ cn(classes['label'], classes['show-collapsed']) }>Social:</span>
 
             <a
-                href={ addresses.gitHub }
+                href={ addresses.messenger }
                 className={ classes['navbar__social__item'] }
                 target="_blank" rel="noopener noreferrer"
             >

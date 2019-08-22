@@ -9,7 +9,8 @@ const NavbarNavigation = ({ children }) => (
         {
             map(children, (child, index) => {
                 return React.cloneElement(child, {
-                    index
+                    index,
+                    key: index
                 })
             })
         }

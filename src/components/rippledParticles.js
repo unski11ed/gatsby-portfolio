@@ -54,6 +54,12 @@ class RippledParticles extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        if (this.rippledParticles) {
+            this.rippledParticles.destroy();
+        }
+    }
+
     createParticles() {
         const apiInstance = new RP(this.canvasRef.current, this.props.config);
 

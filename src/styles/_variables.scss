@@ -1,6 +1,6 @@
-$background-body: #202b38;
-$background: #161f27;
-$background-alt: #1a242f;
+$background-body: #171a1b;
+$background: #24282a;
+$background-alt: #191d1f;
 
 $selection: #161f27;
 
@@ -25,7 +25,7 @@ $code: #ffbe85;
 $animation-duration: 0.1s;
 $button-hover: #324759;
 
-$scrollbar-thumb: $button-hover;
+$scrollbar-thumb: darken($color-primary, 35%);
 $scrollbar-thumb-hover: lighten($scrollbar-thumb, 8%);
 
 $form-placeholder: #a9a9a9;

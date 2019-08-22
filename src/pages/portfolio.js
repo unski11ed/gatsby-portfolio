@@ -158,6 +158,7 @@ class PortfolioItem extends React.Component {
                             {
                                 map(data.tags, (tag) => (
                                     <div
+                                        key={ tag }
                                         className={
                                             classNames(
                                                 classes.techEntry,
