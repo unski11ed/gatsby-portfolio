@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { map } from 'lodash';
 import classNames from 'classnames';
 
@@ -10,15 +9,11 @@ import TextNavigationContext from './textNavigationContext';
 
 import classes from './textNavigationNavigator.module.scss';
 
-const TextNavigationNavigator = ({ collapsible }) => {
+const TextNavigationNavigator = () => {
     const textNavContext = useContext(TextNavigationContext);
     
     return (
-        <div
-            className={classNames(classes['navigator'], {
-                [classes['navigator--collapsible']]: collapsible
-            })}
-        >
+        <div className={ classes['navigator'] }>
             <div className={ classes['navigator__entries'] }>
                 {
                     map(textNavContext.headers, (header, index) => (
@@ -47,18 +42,8 @@ const TextNavigationNavigator = ({ collapsible }) => {
                     ))
                 }
             </div>
-
-            { /* Collapsible Only */ }
-            <div className={ classes['navigator__collapsible-wrap'] }>
-                <h1>{ textNavContext.activeHeader ? textNavContext.activeHeader.content : "" }</h1>
-
-                <Icon glyph="ellipsis-h" />
-            </div>
         </div>
     );
-};
-TextNavigationNavigator.propTypes = {
-    collapsible: PropTypes.bool,
 };
 
 export default TextNavigationNavigator;

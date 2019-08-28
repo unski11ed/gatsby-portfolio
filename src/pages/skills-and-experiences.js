@@ -28,11 +28,15 @@ class SkillsAndExperiences extends React.Component {
                 (matches) => (
                     <Container className={ classNames("page-wrap", classes.template) }>
                         <TextNavigation>
-                            <TransitionWrap>
-                                <nav className={ classes.navigation }>
-                                    <TextNavigationNavigator collapsible={ !!matches }/>
-                                </nav>
-                            </TransitionWrap>
+                            {
+                                !matches && (
+                                    <TransitionWrap>
+                                        <nav className={ classes.navigation }>
+                                            <TextNavigationNavigator/>
+                                        </nav>
+                                    </TransitionWrap>
+                                )
+                            }
                             <TransitionWrap>
                                 <TextNavigationTextWrap>
                                     <article className={ classNames("text-styling", classes.content) }>
