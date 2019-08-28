@@ -2,7 +2,7 @@
 
 $timeline-track-width: 6rem;
 $timeline-width: 3px;
-$timeline-color: #ccc;
+$timeline-color: darken($text-main, 45%);
 $timeline-label-tick-width: ($timeline-track-width / 2) * 0.66;
 $timeline-joint-size: 14px;
 
@@ -49,7 +49,8 @@ $timeline-joint-size: 14px;
         left: -$timeline-track-width;
         font-size: 1.2rem;
         font-weight: bold;
-        color: $timeline-color;
+        line-height: 1.4;
+        color: $text-muted;
     
         &::before {
             content: " ";
@@ -58,7 +59,7 @@ $timeline-joint-size: 14px;
             width: $timeline-joint-size;
             height: $timeline-joint-size;
             border-radius: 50%;
-            background-color: $color-primary;
+            background-color: $timeline-color;
             left: calc(#{$timeline-track-width / 2} + #{$timeline-joint-size / 2});
             top: 50%;
             transform: translateY(-50%);

@@ -1,15 +1,12 @@
 .text-styling {
-    /*
-    h2 {
-        margin-bottom: 2rem;
-        margin-top: 1rem;
+    strong,
+    b {
+        color: $text-bright;
     }
 
-    p {
-        color: #ccc;
-        margin-bottom: 2rem;
+    section + h1 {
+        margin-top: 2rem;
     }
-    */
 }
 
 .text-icon {

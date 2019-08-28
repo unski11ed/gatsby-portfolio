@@ -1,13 +1,16 @@
+@import './../styles/variables';
+
 .template {
     display: grid;
-    grid-template-columns: 320px auto;
-    grid-gap: 1rem;
+    grid-template-columns: auto auto;
+    grid-gap: 1.5rem;
     grid-template-rows: auto auto;
-    grid-template-areas: "template-nav template-content";
+    grid-template-areas: "template-content template-nav";
 }
 
 .content {
     grid-area: template-content;
+    padding-top: 0.75rem;
 }
 
 .navigation {
@@ -15,6 +18,28 @@
 
     > * {
         position: sticky;
-        top: 0;
+        top: 2rem;
+        
+        border-left: 1px solid darken($text-main, 50%);
+    }
+}
+
+@media (max-width: 819px) {
+    .template {
+        grid-template-columns: auto;
+        grid-gap: 1rem;
+        grid-template-areas: "template-nav" "template-content";
+
+        padding-top: 0;
+    }
+
+    .content {
+
+    }
+
+    .navigation {
+        > * {
+            border-left: none;
+        }
     }
 }

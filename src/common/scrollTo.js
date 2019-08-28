@@ -18,7 +18,7 @@ export const scrollToPosition = (position, config = {}, element = getGlobalScrol
             duration: 300,
             ...config
         };
-        console.log(options);
+
         return anime({
             targets: element,
             scrollTop: position.y || undefined,

@@ -1,20 +1,55 @@
+@import './../styles/variables';
+
 .navigator {
-   display: flex;
-   flex-direction: column;
+   
+}
+
+.navigator__entries {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5rem;
 }
 
 .navigator-entry {
-    padding: 0.5rem 1rem;
-   
-    &--1 {
-        font-size: 1.1rem;
+    padding: 0.25rem 0.5rem;
+    color: $text-muted;
+    font-size: 0.9rem;
+    white-space: nowrap;
+
+    transition: color 250ms $easing-cubic-in-out;
+
+    &:hover {
+        color: $text-bright;
+        text-decoration: none;
     }
 
     &--2 {
-        padding-left: 2.5rem;
+        padding-left: 2rem;
     }
 
     &--active {
-        font-weight: bold;
+        color: $color-primary;
+
+        &:hover {
+            color: $color-primary;
+        }
     }
+}
+
+.navigator.navigator--collapsible {
+    .navigator__entries {
+        display: none;
+    }
+
+    .navigator__collapsible-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+    }
+
 }

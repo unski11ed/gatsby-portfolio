@@ -17,7 +17,6 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 }
 
 .intro {
-    padding: 2rem;
     max-width: 992px;
 
     display: flex;
@@ -70,8 +69,6 @@ $transition-func: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     }
 
     @media (max-width: 660px) {
-        padding: 0 1rem 1rem 1rem;
-
         &__animation-col {
             text-align: center;
         }

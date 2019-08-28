@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import { Link } from 'gatsby';
@@ -38,6 +38,17 @@ class Layout extends React.Component {
             transitionAnimationEnabled: true,
             navbarTransparent: false,
             themeColor: DEFAULT_THEME_COLOR,
+        }
+
+        this.contentElement = null;
+        this.contentElementRef = this.contentElementRef.bind(this);
+    }
+
+    contentElementRef(element) {
+        if (element && element !== this.contentElement) {
+            this.contentElement = element;
+
+            this.forceUpdate();
         }
     }
     
@@ -80,7 +91,8 @@ class Layout extends React.Component {
                             this.setState({
                                 themeColor: DEFAULT_THEME_COLOR,
                             })
-                        }
+                        },
+                        contentElement: this.contentElement,
                     }}
                 >
                     <main className={ classes['layout'] }>
@@ -123,6 +135,7 @@ class Layout extends React.Component {
                         <PageTransition
                             className={ classes['layout__content'] }
                             transitionKey={ pageSlug }
+                            innerRef={ this.contentElementRef }
                         >
                             { children }
                         </PageTransition>

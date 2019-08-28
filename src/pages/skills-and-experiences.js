@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { get, find } from 'lodash';
+import { get } from 'lodash';
+import MediaQuery from 'react-responsive';
 
 import { getContentEntryBySlug } from './../common/helpers';
 
@@ -20,44 +21,49 @@ class SkillsAndExperiences extends React.Component {
         const timelineHobbystic = getContentEntryBySlug(data, 'timeline-hobbystic');
         const timelineCommercial = getContentEntryBySlug(data, 'timeline-commercial');
         const timelineAdvanced = getContentEntryBySlug(data, 'timeline-advanced');
-        console.log(this.props);
-        console.log(get(skills, 'content.childMarkdownRemark'));
+
         return (
-            <Container className={ classNames("page-wrap", classes.template) }>
-                <TextNavigation>
-                    <TransitionWrap>
-                        <nav className={ classes.navigation }>
-                            <TextNavigationNavigator />
-                        </nav>
-                    </TransitionWrap>
-                    <TransitionWrap>
-                        <TextNavigationTextWrap>
-                            <article className={ classNames("text-styling", classes.content) }>
-                                <h1>Skills</h1>
+            <MediaQuery maxWidth='819px'>
+            {
+                (matches) => (
+                    <Container className={ classNames("page-wrap", classes.template) }>
+                        <TextNavigation>
+                            <TransitionWrap>
+                                <nav className={ classes.navigation }>
+                                    <TextNavigationNavigator collapsible={ !!matches }/>
+                                </nav>
+                            </TransitionWrap>
+                            <TransitionWrap>
+                                <TextNavigationTextWrap>
+                                    <article className={ classNames("text-styling", classes.content) }>
+                                        <h1>Skills</h1>
 
-                                <section dangerouslySetInnerHTML={{ __html: get(skills, 'content.childContentfulRichText.html') }} />
+                                        <section dangerouslySetInnerHTML={{ __html: get(skills, 'content.childContentfulRichText.html') }} />
 
-                                <h1>Experiences</h1>
+                                        <h1>Experiences</h1>
 
-                                <Timeline tag="section">
-                                    <Timeline.Section>
-                                        <Timeline.Label>2001</Timeline.Label>
-                                        <div dangerouslySetInnerHTML={{ __html: get(timelineHobbystic, 'content.childContentfulRichText.html') }}></div>
-                                    </Timeline.Section>
-                                    <Timeline.Section>
-                                        <Timeline.Label>2013</Timeline.Label>
-                                        <div dangerouslySetInnerHTML={{ __html: get(timelineCommercial, 'content.childContentfulRichText.html') }}></div>
-                                    </Timeline.Section>
-                                    <Timeline.Section>
-                                        <Timeline.Label>2016</Timeline.Label>
-                                        <div dangerouslySetInnerHTML={{ __html: get(timelineAdvanced, 'content.childContentfulRichText.html') }}></div>
-                                    </Timeline.Section>
-                                </Timeline>
-                            </article>
-                        </TextNavigationTextWrap>
-                    </TransitionWrap>
-                </TextNavigation>
-            </Container>
+                                        <Timeline tag="section">
+                                            <Timeline.Section>
+                                                <Timeline.Label>2001</Timeline.Label>
+                                                <div dangerouslySetInnerHTML={{ __html: get(timelineHobbystic, 'content.childContentfulRichText.html') }}></div>
+                                            </Timeline.Section>
+                                            <Timeline.Section>
+                                                <Timeline.Label>2013</Timeline.Label>
+                                                <div dangerouslySetInnerHTML={{ __html: get(timelineCommercial, 'content.childContentfulRichText.html') }}></div>
+                                            </Timeline.Section>
+                                            <Timeline.Section>
+                                                <Timeline.Label>2016</Timeline.Label>
+                                                <div dangerouslySetInnerHTML={{ __html: get(timelineAdvanced, 'content.childContentfulRichText.html') }}></div>
+                                            </Timeline.Section>
+                                        </Timeline>
+                                    </article>
+                                </TextNavigationTextWrap>
+                            </TransitionWrap>
+                        </TextNavigation>
+                    </Container>
+                )
+            }
+            </MediaQuery>
         );
     }
 }

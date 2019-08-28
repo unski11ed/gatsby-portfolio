@@ -40,7 +40,7 @@ Button.propTypes = {
         'success',
         'warning',
         'danger',
-        'link'
+        'link',
     ]),
     outline: PropTypes.bool,
     tag: PropTypes.oneOfType([
