@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql, navigate } from 'gatsby';
-import { get, map, isEmpty, startCase } from 'lodash';
+import { get, map, isEmpty, startCase, orderBy } from 'lodash';
 import anime from 'animejs';
 import classNames from 'classnames';
 
@@ -124,25 +124,27 @@ class PortfolioItem extends React.Component {
                         />
                     )
                 }
-                { /*    Title    */ }
-                <h5
-                    className={ classes['portfolio-item__title'] }
-                >
-                    { data.title }
-                </h5>
+                <div className={ classes['portfolio-item__head'] }>
+                    <div className={ classes['portfolio-item__title'] }>
+                        { /*    Title    */ }
+                        <h5 className={ classes['portfolio-item__title__header'] }>
+                            { data.title }
+                        </h5>
 
-                { /*    Dates       */ }
-                <div className={ classes['portfolio-item__date'] }>
-                    { data.startDate } - { data.endDate ? data.endDate : 'Now' }
-                </div>
-
-                { /*    Technology Icons    */ }
-                <div className={ classes['portfolio-item__stack'] }>
-                    {
-                        map(data.technologies, (techName, index) => (
-                            <TechIcon name={ techName } key={ index } />
-                        ))
-                    }
+                        { /*    Dates       */ }
+                        <div className={ classes['portfolio-item__title__date'] }>
+                            { data.startDate } - { data.endDate ? data.endDate : 'Now' }
+                        </div>
+                    </div>
+                    
+                    { /*    Technology Icons    */ }
+                    <div className={ classes['portfolio-item__stack'] }>
+                        {
+                            map(data.technologies, (techName, index) => (
+                                <TechIcon name={ techName } key={ index } />
+                            ))
+                        }
+                    </div>
                 </div>
 
                 { /*    Description     */ }
@@ -170,8 +172,6 @@ class PortfolioItem extends React.Component {
                                             ) 
                                         }
                                     >
-                                        <Icon glyph="circle" className={`bg-${tagColors[tag]}`} />
-
                                         <span>{ startCase(tag) }</span>
                                     </div>
                                 ))
@@ -179,6 +179,33 @@ class PortfolioItem extends React.Component {
                         </div>
                     )
                 }
+                { /*    Actions     */ }
+                <div className={ classes['portfolio-item__actions'] }>
+                    {
+                        data.links.gitHub &&
+                            <a href={ data.links.gitHub } target="_blank" rel="noopener noreferrer">
+                                View Source <Icon glyph="github"/>
+                            </a>
+                    }
+                    {
+                        data.links.live &&
+                            <a href={ data.links.live } target="_blank" rel="noopener noreferrer">
+                                Live Demo <Icon glyph="play"/>
+                            </a>
+                    }
+                    {
+                        data.links.codePen &&
+                            <a href={ data.links.codePen } target="_blank" rel="noopener noreferrer">
+                                View on CodePen <Icon glyph="codepen"/>
+                            </a>
+                    }
+                    {
+                        data.links.codeSandbox &&
+                            <a href={ data.links.codeSandbox } target="_blank" rel="noopener noreferrer">
+                                View on CodeSandbox <Icon glyph="codesandbox"/>
+                            </a>
+                    }
+                </div>
             </a>
         );
     }   
@@ -200,13 +227,13 @@ class Portfolio extends React.Component {
 
     render() {
         const projects = get(this.props, 'data.allContentfulPortfolioProject.edges');
-        console.log(projects);
-        
+        const orderedProjects = orderBy(projects, [(project, index) => !project.node.endDate ? 1: 0], ['desc']);
+        console.log(orderedProjects);
         return (
             <Container className="page-wrap">
                 <Grid className={{ [classes['portfolio-items--highlight']]: this.state.hoveredItemId !== null }}>
                     {
-                        map(projects, (project) => (
+                        map(orderedProjects, (project) => (
                             <TransitionWrap key={ project.node.id }>
                                 <GridItem
                                     onMouseEnter={ () => { this.setState({ hoveredItemId: project.node.id }) } }
@@ -231,7 +258,7 @@ export default Portfolio;
 
 export const pageQuery = graphql`
     query ProjectsIndexQuery {
-        allContentfulPortfolioProject(sort: { fields: [publishDate], order: DESC }, filter: { node_locale: {eq: "en-US"} }) {
+        allContentfulPortfolioProject(sort: { fields: [endDate], order: DESC }, filter: { node_locale: {eq: "en-US"} }) {
             edges {
                 node {
                     id
@@ -241,6 +268,12 @@ export const pageQuery = graphql`
                     publishDate(formatString: "MMMM Do, YYYY")
                     technologies
                     tags
+                    links {
+                        gitHub
+                        codePen
+                        codeSandbox
+                        live
+                    }
                     startDate(formatString: "MMM YYYY")
                     endDate(formatString: "MMM YYYY")
                     heroImage {

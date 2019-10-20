@@ -1,3 +1,5 @@
+@import './../styles/variables';
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -5,5 +7,10 @@
 
     &__item {
         position: relative;
+    }
+
+    @media (max-width: #{$navbar-collapse-breakpoint - 1px}) {
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
     }
 }
