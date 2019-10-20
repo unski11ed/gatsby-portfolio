@@ -12,9 +12,11 @@ const icons = {
     'redux': require('./../images/tech-icons/redux.svg'),
     'rxjs': require('./../images/tech-icons/rxjs.svg'),
     'typescript': require('./../images/tech-icons/typescript.svg'),
-    'vuejs': require('./../images/tech-icons/vuejs.svg'),
+    'vue': require('./../images/tech-icons/vuejs.svg'),
     'websockets': require('./../images/tech-icons/websockets.svg'),
     'wordpress': require('./../images/tech-icons/wordpress.svg'),
+    'css': require('./../images/tech-icons/css.svg'),
+    'js': require('./../images/tech-icons/js.svg')
 }
 
 const TechIcon = ({ name, ...otherProps }) => (

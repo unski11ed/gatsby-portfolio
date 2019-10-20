@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import { Link } from 'gatsby';
 
-import 'water.css/src/parts/_core.css';
+import 'water.css/dist/dark.css';
 import './base.scss';
 import './../styles/styles.scss';
 
