@@ -20,14 +20,23 @@
                 transform 200ms cubic-bezier(0.445, 0.050, 0.550, 0.950),
                 box-shadow 200ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
 
-    &:hover {
-        text-decoration: none;
-    }
+    
 
     &--highlighted {
         transform: translate3d(0, 0, 0) scale(1.032);
         box-shadow: 0px 10px 13px -7px #000000,
                     5px 5px 15px 5px rgba(0,0,0,0);
+    }
+}
+
+.portfolio-item__content {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        text-decoration: none;
     }
 }
 
@@ -126,4 +135,9 @@
             border-left: 1px solid lighten($action-color, 5%);
         }
     }
+}
+
+.heading {
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
 }

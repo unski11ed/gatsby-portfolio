@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql, navigate } from 'gatsby';
-import { get, map, isEmpty, startCase, orderBy } from 'lodash';
+import {
+    get,
+    map,
+    isEmpty,
+    startCase,
+    orderBy,
+} from 'lodash';
 import anime from 'animejs';
 import classNames from 'classnames';
 
@@ -15,7 +21,9 @@ import ShortDescription from './../components/shortDescription';
 import Icon from './../components/icon';
 import TechIcon from './../components/techIcon';
 import TransitionWrap from './../components/transitionWrap';
+import TextBlock from './../components/textBlock';
 import { tagColors } from './../common/consts';
+import { getContentEntryBySlug } from './../common/helpers';
 
 import LayoutContext from './../layouts/layoutContext';
 
@@ -87,20 +95,8 @@ class PortfolioItem extends React.Component {
     render() {
         const { data, isActive, className, ...otherProps } = this.props;
 
-        return (
-            <a
-                className={ classNames(classes['portfolio-item'], className, 'portfolio-post-bg') }
-                onClick={(e) => {
-                    e.preventDefault();
-
-                    this.clickHandler(`/portfolio-entry/${data.slug}/`);
-
-                    return false;
-                }}
-                href={ `/portfolio-entry/${data.slug}/` }
-                ref={ this.itemRef }
-                { ...otherProps }
-            >
+        const innerContent = (
+            <React.Fragment>
                 {
                     isEmpty(data.heroVideo) ? (
                         <ContentfulImage imageData={ get(data, 'heroImage.fluid') }>
@@ -172,6 +168,8 @@ class PortfolioItem extends React.Component {
                                             ) 
                                         }
                                     >
+                                        <Icon glyph="circle" className={`bg-${tagColors[tag]}`} />
+
                                         <span>{ startCase(tag) }</span>
                                     </div>
                                 ))
@@ -179,12 +177,43 @@ class PortfolioItem extends React.Component {
                         </div>
                     )
                 }
+            </React.Fragment>
+        );
+
+        return (
+            <div
+                className={ classNames(classes['portfolio-item'], className, 'portfolio-post-bg') }
+                ref={ this.itemRef }
+                { ...otherProps }
+            >
+                {
+                    data.contentless ? (
+                        <div className={ classes['portfolio-item__content'] }>
+                            { innerContent }
+                        </div>
+                    ) : (
+                        <a
+                            className={ classes['portfolio-item__content'] }
+                            onClick={(e) => {
+                                e.preventDefault();
+
+                                this.clickHandler(`/portfolio-entry/${data.slug}/`);
+
+                                return false;
+                            }}
+                            href={ `/portfolio-entry/${data.slug}/` }
+                        >
+                            { innerContent }
+                        </a>
+                    )
+                }
+
                 { /*    Actions     */ }
                 <div className={ classes['portfolio-item__actions'] }>
                     {
                         data.links.gitHub &&
                             <a href={ data.links.gitHub } target="_blank" rel="noopener noreferrer">
-                                View Source <Icon glyph="github"/>
+                                Source <Icon glyph="github"/>
                             </a>
                     }
                     {
@@ -196,17 +225,17 @@ class PortfolioItem extends React.Component {
                     {
                         data.links.codePen &&
                             <a href={ data.links.codePen } target="_blank" rel="noopener noreferrer">
-                                View on CodePen <Icon glyph="codepen"/>
+                                CodePen <Icon glyph="codepen"/>
                             </a>
                     }
                     {
                         data.links.codeSandbox &&
                             <a href={ data.links.codeSandbox } target="_blank" rel="noopener noreferrer">
-                                View on CodeSandbox <Icon glyph="codesandbox"/>
+                                CodeSandbox <Icon glyph="codesandbox"/>
                             </a>
                     }
                 </div>
-            </a>
+            </div>
         );
     }   
 }
@@ -226,11 +255,22 @@ class Portfolio extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         const projects = get(this.props, 'data.allContentfulPortfolioProject.edges');
         const orderedProjects = orderBy(projects, [(project, index) => !project.node.endDate ? 1: 0], ['desc']);
-        console.log(orderedProjects);
+
+        const textContent = get(this.props, 'data.allContentfulContentEntry.edges');
+        const headEntry = getContentEntryBySlug(textContent, 'portfolio-head');
+
         return (
             <Container className="page-wrap">
+                <header className={ classes['heading'] }>
+                    <h1>Portfolio</h1>
+                    <TextBlock
+                        htmlContent={ get(headEntry, 'content.childContentfulRichText.html') }
+                    />
+                </header>
+
                 <Grid className={{ [classes['portfolio-items--highlight']]: this.state.hoveredItemId !== null }}>
                     {
                         map(orderedProjects, (project) => (
@@ -291,6 +331,23 @@ export const pageQuery = graphql`
                             html
                         }
                     }
+                    contentless
+                }
+            }
+        }
+        allContentfulContentEntry(filter: { node_locale: {eq: "en-US"}, group: {eq: "portfolio"} }) {
+            edges {
+                node {
+                    id
+                    title
+                    slug
+                    group
+                    content {
+                        childContentfulRichText {
+                            html
+                        }
+                    }
+                    node_locale
                 }
             }
         }

@@ -123,7 +123,7 @@ class Layout extends React.Component {
 
                                 <NavbarSocial
                                     addresses={{
-                                        email: 'mkurbanski@outlook.com',
+                                        email: 'maciej.kurbanski@outlook.com',
                                         gitHub: 'https://github.com/unski11ed',
                                         messenger: 'http://m.me/mkurban.dev'
                                     }}
