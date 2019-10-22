@@ -139,5 +139,17 @@
 
 .heading {
     margin-top: 0.75rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.4rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid darken($text-muted, 40%);
+
+    p {
+        margin-bottom: 0;
+    }
+
+    @media (max-width: #{$navbar-collapse-breakpoint - 1px}) {
+        p {
+            text-align: justify;
+        }
+    }
 }

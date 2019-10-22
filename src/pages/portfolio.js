@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { forwardRef, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, navigate } from 'gatsby';
+import MediaQuery from 'react-responsive';
 import {
+    isFunction,
     get,
     map,
     isEmpty,
@@ -22,6 +24,7 @@ import Icon from './../components/icon';
 import TechIcon from './../components/techIcon';
 import TransitionWrap from './../components/transitionWrap';
 import TextBlock from './../components/textBlock';
+import IntersectionObserver from './../components/intersectionObserver';
 import { tagColors } from './../common/consts';
 import { getContentEntryBySlug } from './../common/helpers';
 
@@ -31,69 +34,65 @@ import classes from './portfolio.module.scss';
 
 const CHILD_FADE_DURATION = 200; //ms
 
-class PortfolioItem extends React.Component {
-    static contextType = LayoutContext;
+const PortfolioItem = forwardRef(
+    function PortfolioItem(
+        {
+            data,
+            isActive,
+            className,
+            ...otherProps
+        },
+        refCallback
+    ) {
+        const itemRef = useRef();
+        const layoutContext = useContext(LayoutContext);
 
-    constructor(props) {
-        super(props);
+        const clickHandler = async (targetUrl) => {
+            // Disable Page Transition Animation
+            layoutContext.toggleTransitionAnimations(false);
 
-        this.itemRef = React.createRef();
-        this.titleRef = React.createRef();
-    }
+            // Hide all of the Children sequentially
+            const itemsAnimPromises = Array
+                .from(itemRef.current.children)
+                .map((childElement, index) => {
+                    return anime({
+                        targets: childElement,
+                        opacity: 0,
+                        easing: 'easeInOutQuad',
+                        delay: index * CHILD_FADE_DURATION * 0.5,
+                        duration: CHILD_FADE_DURATION
+                    }).finished;
+                });
+            await Promise.all(itemsAnimPromises);
 
-    async clickHandler(targetUrl) {
-        // Disable Page Transition Animation
-        this.context.toggleTransitionAnimations(false);
+            // Get Current Item position
+            const itemRect = itemRef.current.getBoundingClientRect();
+            // Setup Item Style Before animation
+            Object.assign(itemRef.current.style, {
+                left: `${itemRect.left}px`,
+                top: `${itemRect.top}px`,
+                width: `${itemRect.right - itemRect.left}px`,
+                height: `${itemRect.bottom - itemRect.top}px`,
+                zIndex: 100,
+                position: 'fixed',
+            })
+            // Animate the Item to Fullscreen
+            await anime({
+                targets: itemRef.current,
+                top: 0,
+                left: 0,
+                width: typeof window !== 'undefined' ? window.innerWidth : 0,
+                height: typeof window !== 'undefined' ? window.innerHeight : 0,
+                easing: 'spring(1, 80, 100, 10)',
+                complete: () => {
+                    // When animation complete - redirect to target element
+                    navigate(targetUrl);
 
-        // Hide all of the Children sequentially
-        const itemsAnimPromises = Array
-            .from(this.itemRef.current.children)
-            .map((childElement, index) => {
-                return anime({
-                    targets: childElement,
-                    opacity: 0,
-                    easing: 'easeInOutQuad',
-                    delay: index * CHILD_FADE_DURATION * 0.5,
-                    duration: CHILD_FADE_DURATION
-                }).finished;
-            });
-        await Promise.all(itemsAnimPromises);
-
-        // Get Current Item position
-        const itemRect = this.itemRef.current.getBoundingClientRect();
-        // Setup Item Style Before animation
-        Object.assign(this.itemRef.current.style, {
-            left: `${itemRect.left}px`,
-            top: `${itemRect.top}px`,
-            width: `${itemRect.right - itemRect.left}px`,
-            height: `${itemRect.bottom - itemRect.top}px`,
-            zIndex: 100,
-            position: 'fixed',
-        })
-        // Animate the Item to Fullscreen
-        await anime({
-            targets: this.itemRef.current,
-            top: 0,
-            left: 0,
-            width: typeof window !== 'undefined' ? window.innerWidth : 0,
-            height: typeof window !== 'undefined' ? window.innerHeight : 0,
-            easing: 'spring(1, 80, 100, 10)',
-            complete: () => {
-                // When animation complete - redirect to target element
-                navigate(targetUrl);
-
-                // After navigation completes - reenable animations
-                //this.context.toggleTransitionAnimations(true);
-            }
-        }).finished;
-    }
-
-    componentDidMount() {
-        console.log(window.history);
-    }
-
-    render() {
-        const { data, isActive, className, ...otherProps } = this.props;
+                    // After navigation completes - reenable animations
+                    // layoutContext.toggleTransitionAnimations(true);
+                }
+            }).finished;
+        }
 
         const innerContent = (
             <React.Fragment>
@@ -183,7 +182,13 @@ class PortfolioItem extends React.Component {
         return (
             <div
                 className={ classNames(classes['portfolio-item'], className, 'portfolio-post-bg') }
-                ref={ this.itemRef }
+                ref={ (ref) => {
+                    itemRef.current = ref;
+
+                    if (isFunction(refCallback)) {
+                        refCallback(ref);
+                    }
+                } }
                 { ...otherProps }
             >
                 {
@@ -237,31 +242,31 @@ class PortfolioItem extends React.Component {
                 </div>
             </div>
         );
-    }   
-}
+    });
 PortfolioItem.propTypes = {
     data: PropTypes.object.isRequired,
     isActive: PropTypes.bool.isRequired,
     className: PropTypes.string,
-}
+    ref: PropTypes.func,
+};
 
 class Portfolio extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            hoveredItemId: null
+            hoveredItemId: null,
+            visibleItemId: null,
         };
     }
 
     render() {
-        console.log(this.props);
         const projects = get(this.props, 'data.allContentfulPortfolioProject.edges');
         const orderedProjects = orderBy(projects, [(project, index) => !project.node.endDate ? 1: 0], ['desc']);
 
         const textContent = get(this.props, 'data.allContentfulContentEntry.edges');
         const headEntry = getContentEntryBySlug(textContent, 'portfolio-head');
-
+        console.log(this.state.visibleItemId);
         return (
             <Container className="page-wrap">
                 <header className={ classes['heading'] }>
@@ -271,24 +276,50 @@ class Portfolio extends React.Component {
                     />
                 </header>
 
-                <Grid className={{ [classes['portfolio-items--highlight']]: this.state.hoveredItemId !== null }}>
-                    {
-                        map(orderedProjects, (project) => (
-                            <TransitionWrap key={ project.node.id }>
-                                <GridItem
-                                    onMouseEnter={ () => { this.setState({ hoveredItemId: project.node.id }) } }
-                                    onMouseLeave={ () => { this.setState({ hoveredItemId: null }) } }
-                                >
-                                    <PortfolioItem
-                                        data={ project.node }
-                                        isActive={ this.state.hoveredItemId === project.node.id }
-                                        className={{ [classes['portfolio-item--highlighted']]: this.state.hoveredItemId === project.node.id }}
-                                    />
-                                </GridItem>
-                            </TransitionWrap>
-                        ))
-                    }
-                </Grid>
+                <MediaQuery maxWidth="659px">
+                {
+                    (phoneMatches) => (
+                        <Grid className={{ [classes['portfolio-items--highlight']]: this.state.hoveredItemId !== null }}>
+                            {
+                                map(orderedProjects, (project) => (
+                                    <TransitionWrap key={ project.node.id }>
+                                        <GridItem
+                                            onMouseEnter={ () => { this.setState({ hoveredItemId: project.node.id }) } }
+                                            onMouseLeave={ () => { this.setState({ hoveredItemId: null }) } }
+                                        >
+                                            <IntersectionObserver
+                                                enabled={ !!phoneMatches }
+                                                options={{
+                                                    threshold: 0.85
+                                                }}
+                                                onIntersectionEnter={ () => {
+                                                    this.setState({ visibleItemId: project.node.id });
+                                                } }
+                                                onIntersectionLeave={ () => {
+                                                    if (this.state.visibleItemId === project.node.id) {
+                                                        this.setState({ visibleItemId: null });
+                                                    }
+                                                } }
+                                            >
+                                                <PortfolioItem
+                                                    data={ project.node }
+                                                    isActive={
+                                                        phoneMatches ? 
+                                                            this.state.visibleItemId === project.node.id :
+                                                            this.state.hoveredItemId === project.node.id
+                                                    }
+                                                    className={{ [classes['portfolio-item--highlighted']]: this.state.hoveredItemId === project.node.id }}
+                                                />
+                                            </IntersectionObserver>
+                                            
+                                        </GridItem>
+                                    </TransitionWrap>
+                                ))
+                            }
+                        </Grid>
+                    )
+                }
+                </MediaQuery>
             </Container>
         );
     }
