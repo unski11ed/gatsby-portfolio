@@ -31,7 +31,6 @@ class Image extends React.Component {
     }
 
     onImageLoaded() {
-        console.log('image loaded');
         this.setState({ imageLoaded: true });
         this.transitionImages();
     }
@@ -62,17 +61,17 @@ class Image extends React.Component {
         );
         return (
             <div className={ wrapClass } style={ style } ref={ innerRef }>
-                <picture className={ imageHighClass } onLoad={ this.onImageLoaded }>
+                <picture onLoad={ this.onImageLoaded }>
                     <source srcSet={ srcSet.webp } type="image/webp" />
                     <source srcSet={ srcSet.jpeg } type="image/jpeg" />
-                    <img srcSet={ srcSet.jpeg } alt={ alt } />
+                    <img className={ imageHighClass } srcSet={ srcSet.jpeg } alt={ alt } />
                 </picture>
                 {
                     this.state.placeholderVisible && (
-                        <picture className={ imageLowClass } ref={ this.placeholderRef }>
+                        <picture ref={ this.placeholderRef }>
                             <source srcSet={ srcPlaceholder.webp } type="image/webp" />
                             <source srcSet={ srcPlaceholder.jpeg } type="image/jpeg" />
-                            <img src={ srcPlaceholder.jpeg } alt={ alt && `${alt} (Low Quality)` } />
+                            <img className={ imageLowClass } src={ srcPlaceholder.jpeg } alt={ alt && `${alt} (Low Quality)` } />
                         </picture>
                     )
                 }

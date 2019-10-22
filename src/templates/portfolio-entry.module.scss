@@ -8,15 +8,19 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 101;
     min-height: 100vh;
     overflow: auto;
+    background-color: $background-body;
     
     @include scrollbar;
 }
 
 .close {
     --icon-size: 2rem;
+
+    margin-left: -10px;
+    margin-right: 1rem;
 
     &__icon {
         background-color: $links;
@@ -29,18 +33,37 @@
 
 // Info Box
 .info-box {
-    position: sticky;
-    top: 0.5rem;
+    background: $color-black;
+    box-shadow: 0px 10px 3px 3px rgba($color-black, 0.25);
+    padding: 1rem 1.5rem;
 
-    background: $background-alt;
-    padding: 1rem;
-    border-radius: 8px;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
+
+    &__header {
+        display: flex;
+        align-items: center;
+
+        h1 {
+            margin: 0;
+        }
+    }
+
+    &__content {
+        margin-top: 1rem;
+    }
 }
 
 .info {
     display: flex;
     flex-direction: column;
+
+    &--description {
+        text-align: justify;
+
+        p {
+            margin: 0;
+        }
+    }
 
     &__title {
         font-weight: bold;
@@ -60,19 +83,25 @@
             margin: 0;
         }
     }
+
+    + .info {
+        margin-top: 1rem;
+    }
 }
 
 // Content
 .content-wrap {
-    padding: 2rem 1rem;
+    
 }
 
 .content {
+    height: 100vh;
+
     display: grid;
     grid-template-columns: 320px auto;
-    grid-gap: 1rem;
-    grid-template-rows: auto auto auto;
-    grid-template-areas: "entry-header entry-header" "entry-gallery entry-gallery" "entry-info entry-text";
+    grid-gap: 0;
+    grid-template-rows: 100vh;
+    grid-template-areas: "entry-info entry-wrap";
 }
 
 .content__header {
@@ -80,7 +109,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    background: $background-alt;
+    padding: 1rem 1.5rem;
 
     > * {
         margin: none;
@@ -89,9 +119,27 @@
 
 .content__text { grid-area: entry-text; }
 
-.content__info { grid-area: entry-info; }
+.content__wrap {
+    overflow-y: auto;
+    grid-area: entry-wrap;
 
+    &__inner {
+        margin-left: auto;
+        margin-right: auto;
+
+        max-width: 970px;
+        padding: 0 1rem 0 1rem;
+    }
+}
+
+.content__info {
+    grid-area: entry-info;
+    display: flex;
+    flex-direction: column;
+}
+/*
 .content__gallery { grid-area: entry-gallery; }
+*/
 
 // Text Styling
 .content__text {

@@ -139,6 +139,9 @@ class Layout extends React.Component {
                         >
                             { children }
                         </PageTransition>
+
+                        { /* Portal Overlay will spawn here: */ }
+                        <div className={ classes['layout__overlay'] } id="layout-overlay-portal" />
                     </main>
                 </LayoutContext.Provider>
             </React.Fragment>

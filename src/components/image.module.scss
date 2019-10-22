@@ -13,13 +13,13 @@ $blurSize: 4px;
     @extend .image;
 
     position: absolute;
-    top: -$blurSize;
-    left: -$blurSize;
-    right: -$blurSize;
-    bottom: -$blurSize;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 0;
-    width: calc(100% + #{$blurSize * 2});
-    height: calc(100% + #{$blurSize * 2});
+    width: 100%;
+    height: 100%;
 
     filter: blur($blurSize);
 }
@@ -30,6 +30,6 @@ $blurSize: 4px;
     width: 100%;
 
     &:not(.loaded) {
-        visibility: hidden;
+        //visibility: hidden;
     }
 }

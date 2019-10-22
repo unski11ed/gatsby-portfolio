@@ -1,56 +1,17 @@
 @import './../styles/variables';
 
-$shadow-first: 10px 10px 8px 0px rgba(0,0,0,0.55);
-$shadow-second: 5px 5px 4px 0px rgba(0,0,0,0.55);
-$shadow-third: 2px 2px 4px 0px rgba(0,0,0,0.55);
-
-.container {
-    position: relative;
-}
-
-/**
-    Navigation
-*/
-.navigation {
-    &__button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
-
-        --icon-size: 2rem;
-        --icon-color: #{$text-main};
-
-        &--left {
-            left: 0;
-        }
-
-        &--right {
-            right: 0;
-        }
-    }
-}
-
-/**
-    Gallery
-*/
 .gallery {
     position: relative;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+
+    &__rail {
+        display: flex;
+        align-items: stretch;
+    }
 
     &__item {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        max-width: calc(100% - 40px);
-        border-radius: 5px;
-        transform-origin: center right;
-        overflow: hidden;
-        z-index: 0;
-        
-        &--active {
-            position: relative;
-            z-index: 1;         
-        }
+        scroll-snap-align: start;
+        flex: 0 0 var(--gallery-width, 100%);
     }
 }

@@ -202,7 +202,7 @@ const PortfolioItem = forwardRef(
                             onClick={(e) => {
                                 e.preventDefault();
 
-                                this.clickHandler(`/portfolio-entry/${data.slug}/`);
+                                clickHandler(`/portfolio-entry/${data.slug}/`);
 
                                 return false;
                             }}

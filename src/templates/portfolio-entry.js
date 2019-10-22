@@ -11,6 +11,7 @@ import TechIcon from './../components/techIcon';
 import Icon from './../components/icon';
 import IntersectionObserver from './../components/intersectionObserver';
 import Tooltip from './../components/tooltip';
+import Overlay from './../components/overaly';
 
 import LayoutConext from './../layouts/layoutContext';
 import { entryAnimationConfig } from './../common/transitionAnimations';
@@ -44,7 +45,7 @@ class PortfolioEntry extends React.Component {
     componentDidMount() {
         this.context.toggleTransitionAnimations(true);
 
-        this.animateContentEntry();
+        //this.animateContentEntry();
 
         console.log(this.props);
     }
@@ -55,50 +56,47 @@ class PortfolioEntry extends React.Component {
         const descriptionHtml = get(item, 'description.childMarkdownRemark.html');
 
         return (
-            <div className={ classNames(classes['portfolio-entry'], 'portfolio-post-bg') } ref={ this.containerRef }>
-                <div className={ classes['content-wrap'] }>
-                    <Container>
+            <Overlay>
+                <div className={ classNames(classes['portfolio-entry']) } ref={ this.containerRef }>
+                    <div className={ classes['content-wrap'] }>
                         <article className={ classes['content'] }>
-                            <TransitionWrap>
-                                <div
-                                    className={ classes['content__header'] }
-                                >
-                                    <h1>
-                                        { item.title }
-                                    </h1>
-
-                                    <Tooltip text="Close">
-                                        <Link to="/portfolio" className={ classes['close'] }>
-                                            <Icon glyph="times" className={ classes['close__icon'] }/>
-                                        </Link>
-                                    </Tooltip>
-                                </div>
-                            </TransitionWrap>
-
                             <TransitionWrap>
                                 <div className={ classes['content__info'] }>
                                     <header className={  classes['info-box'] }>
-                                        <div className={ classNames(classes['info-box__content'], classes['info']) }>
-                                            { /*    Info: Date     */}
-                                            <div className={ classNames(classes['info__title'], 'text-icon') }>
-                                                <Icon glyph="calendar" className="text-muted" />
-                                                <span>Timespan</span>
-                                            </div>
-                                            <div className={ classes['info__content'] }>
-                                                { item.startDate } - { item.endDate ? item.endDate : 'Now' }
-                                            </div>
+                                        <div className={ classes['info-box__header'] }>
+                                            <Tooltip text="Close" placement="right">
+                                                <Link to="/portfolio" className={ classes['close'] }>
+                                                    <Icon glyph="angle-left" className={ classes['close__icon'] }/>
+                                                </Link>
+                                            </Tooltip>
 
+                                            <h1>
+                                                { item.title }
+                                            </h1>
+                                        </div>
+
+                                        <div className={ classNames(classes['info-box__content'], classes['info']) }>
                                             { /*    Info: Description   */}
-                                            <div className={ classNames(classes['info__title'], 'text-icon') }>
-                                                <Icon glyph="pen-alt" className="text-muted" />
-                                                <span>Description</span>
+                                            <div
+                                                className={ classNames(classes['info'], classes['info--description']) }
+                                                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                                            />
+
+                                            { /*    Info: Date     */}
+                                            <div className={ classes['info'] }>
+                                                <div className={ classNames(classes['info__title'], 'text-icon') }>
+                                                    <Icon glyph="calendar" className="text-muted" />
+                                                    <span>Timespan</span>
+                                                </div>
+                                                <div className={ classes['info__content'] }>
+                                                    { item.startDate } - { item.endDate ? item.endDate : 'Now' }
+                                                </div>
                                             </div>
-                                            <div className={ classes['info__content'] } dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
 
                                             { /*    Info: Tags   */}
                                             {
                                                 item.tags && (
-                                                    <React.Fragment>
+                                                    <div className={ classes['info'] }>
                                                         <div className={ classNames(classes['info__title'], 'text-icon') }>
                                                             <Icon glyph="tags" className="text-muted" />
                                                             <span>Tags</span>
@@ -112,7 +110,6 @@ class PortfolioEntry extends React.Component {
                                                                                 'tag-cloud__tag',
                                                                                 'text-icon',
                                                                                 'badge',
-                                                                                'badge--small',
                                                                                 'badge--bg'
                                                                             ) 
                                                                         }
@@ -124,52 +121,57 @@ class PortfolioEntry extends React.Component {
                                                                 ))
                                                             }
                                                         </div>
-                                                    </React.Fragment>
+                                                    </div>
                                                 )
                                             }
 
                                             { /*    Info: Technologies   */}
-                                            <div className={ classNames(classes['info__title'], 'text-icon') }>
-                                                <Icon glyph="tools" className="text-muted" />
-                                                <span>Technologies</span>
-                                            </div>
-                                            <div className={ classNames(classes['info__content'], 'tag-cloud') }>
-                                                {
-                                                    map(item.technologies, (techName) => (
-                                                        <div className={ classNames('tag-cloud__tag', 'text-icon', 'badge', 'badge--bg') }>
-                                                            <Icon>
-                                                                <TechIcon name={ techName } />
-                                                            </Icon>
-                                                            <span>{ startCase(techName) }</span>
-                                                        </div>
-                                                    ))
-                                                }
+                                            <div className={ classes['info'] }>
+                                                <div className={ classNames(classes['info__title'], 'text-icon') }>
+                                                    <Icon glyph="tools" className="text-muted" />
+                                                    <span>Technologies</span>
+                                                </div>
+                                                <div className={ classNames(classes['info__content'], 'tag-cloud') }>
+                                                    {
+                                                        map(item.technologies, (techName) => (
+                                                            <div className={ classNames('tag-cloud__tag', 'text-icon', 'badge', 'badge--bg') }>
+                                                                <Icon>
+                                                                    <TechIcon name={ techName } />
+                                                                </Icon>
+                                                                <span>{ startCase(techName) }</span>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </header>
                                 </div>
                             </TransitionWrap>
                             
-                            <section id="project-gallery" className={ classes['content__gallery'] }>
-                                <TransitionWrap>
-                                    <Gallery
-                                        assets={ item.gallery }
-                                        videoPlaceholderImage={ item.heroImage }
-                                    />
-                                </TransitionWrap>
-                            </section>
+                            <div className={ classes['content__wrap'] }>
+                                <div className={ classes['content__wrap__inner'] }>
+                                    <section id="project-gallery" className={ classes['content__gallery'] }>
+                                        <TransitionWrap>
+                                            <Gallery
+                                                assets={ item.gallery }
+                                                videoPlaceholderImage={ item.heroImage }
+                                            />
+                                        </TransitionWrap>
+                                    </section>
 
-                            <section id="project-text" className={ classes['content__text'] }>
-                                <TransitionWrap>
-                                    <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
-                                    </div>
-                                </TransitionWrap>
-                            </section>
+                                    <section id="project-text" className={ classes['content__text'] }>
+                                        <TransitionWrap>
+                                            <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
+                                            </div>
+                                        </TransitionWrap>
+                                    </section>
+                                </div>
+                            </div>
                         </article>
-                    </Container>
+                    </div>
                 </div>
-            </div>
-
+            </Overlay>
         );
     }
 }
@@ -191,14 +193,14 @@ export const pageQuery = graphql`
             endDate(formatString: "MMM YYYY")
             heroImage {
                 fluid(maxWidth: 1080, resizingBehavior: SCALE) {
-                    ...GatsbyContentfulFluid_tracedSVG
+                    ...GatsbyContentfulFluid_withWebp
                 }
             }
             gallery {
                 id
                 title
                 fluid(maxWidth: 1880, resizingBehavior: SCALE) {
-                    ...GatsbyContentfulFluid_tracedSVG
+                    ...GatsbyContentfulFluid_withWebp
                 }
                 file {
                     url
