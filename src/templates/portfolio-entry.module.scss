@@ -63,10 +63,11 @@
         p {
             margin: 0;
         }
+        margin-bottom: auto;
     }
 
     &__title {
-        font-weight: bold;
+        font-weight: 600;
         color: #fff;
         margin-bottom: 0.5rem;
     }
@@ -136,6 +137,13 @@
     grid-area: entry-info;
     display: flex;
     flex-direction: column;
+}
+
+.content__gallery {
+    margin-left: auto;
+    margin-right: auto;
+
+    max-width: 970px;
 }
 /*
 .content__gallery { grid-area: entry-gallery; }

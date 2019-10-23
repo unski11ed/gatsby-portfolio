@@ -65,6 +65,7 @@ const ContentfulVideo = ({
     showControls,
     placeholderImage,
     muted,
+    progress,
     ...otherProps
 }) => {
     const videoUrl = get(videoData, 'file.url');
@@ -171,10 +172,14 @@ const ContentfulVideo = ({
                 <source src={ videoUrl } type="video/mp4" />
             </video>
 
-            <div className={ classes['progress'] }>
-                <div className={ classes['progress__bar'] } style={{ width: `${state.playProgress}%` }}>
-                </div>
-            </div>
+            {
+                progress && (
+                    <div className={ classes['progress'] }>
+                        <div className={ classes['progress__bar'] } style={{ width: `${state.playProgress}%` }}>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 }
@@ -189,11 +194,13 @@ ContentfulVideo.propTypes = {
     showControls: PropTypes.bool,
     placeholderImage: PropTypes.object,
     muted: PropTypes.bool,
+    progress: PropTypes.bool,
 };
 ContentfulVideo.defaultProps = {
     canBePlayed: true,
     showControls: true,
     muted: true,
+    progress: true,
 };
 
 export default ContentfulVideo;

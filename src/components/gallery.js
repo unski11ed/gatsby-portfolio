@@ -1,104 +1,187 @@
 import React, { useLayoutEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import anime from 'animejs';
-import { map, get, times, reduce, find, filter } from 'lodash';
+import { map, get } from 'lodash';
 import classNames from 'classnames';
+import { useDebouncedCallback } from 'use-debounce';
 
 import ContentfulImage from './contentfulImage';
 import ContentfulVideo from './contentfulVideo';
 import Image from './image';
 import Icon from './icon';
 import IntersectionObserver from './intersectionObserver';
+import { scrollToPosition } from './../common/scrollTo';
 
 import classes from './gallery.module.scss';
 
 const Gallery = ({ className, assets, videoPlaceholderImage }) => {
     const containerRef = useRef();
-    const [rectSize, setRectSize] = useState({ width: 0, height: 0 });
+    const [isGalleryVisible, setIsGalleryVisible] = useState(true);
+    const [isTouchEnabled, setIsTouchEnabled] = useState(false);
+    const [galleryWidth, setGalleryWidth] = useState(0);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const totalSlides = assets.length;
+    const [scrollHandler] = useDebouncedCallback(() => {
+        const currentScrollLeft = containerRef.current.scrollLeft;
+        const targetSlide = Math.round(currentScrollLeft / galleryWidth);
+        console.log(targetSlide);
+        setCurrentSlide(targetSlide);
+    }, 50);
+
+    const resizeHandler = () => {
+        const rect = containerRef.current.getBoundingClientRect();
+
+        setGalleryWidth(rect.width);
+
+        setSlide(currentSlide);
+    };
+
     useLayoutEffect(() => {
-        const resizeHandler = () => {
-            const rect = containerRef.current.getBoundingClientRect();
-
-            setRectSize({
-                width: rect.width,
-                height: rect.height
-            });
-        };
-
         if (typeof window !== 'undefined') {
             window.addEventListener('resize', resizeHandler);
 
-            resizeHandler();
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(resizeHandler);
+            });
+
+            // Detect touch support
+            const isTouch = ( 'ontouchstart' in window ) ||  
+                ( navigator.maxTouchPoints > 0 ) || 
+                ( navigator.msMaxTouchPoints > 0 );
+            setIsTouchEnabled(isTouch);
+
+            if (isTouch) {
+                containerRef.current.addEventListener('scroll', scrollHandler);
+            }
         }
 
         return () => {
             if (typeof window !== 'undefined') {
                 window.removeEventListener('resize', resizeHandler);
+                containerRef.current.removeEventListener('scroll', scrollHandler);
             }
         };
     }, []);
 
+    const setSlide = (slideNo) => {
+        const targetSlide = slideNo < 0 ?
+            totalSlides + (slideNo % totalSlides) :
+            slideNo % totalSlides;
+        
+        const targetX = galleryWidth * targetSlide;
+
+        scrollToPosition({ x: targetX }, { duration: 400 }, containerRef.current);
+
+        setCurrentSlide(targetSlide);
+    }
+
+    const slideLeft = () => {
+        setSlide(currentSlide - 1);
+
+        return false;
+    }
+
+    const slideRight = () => {
+        setSlide(currentSlide + 1);
+
+        return false;
+    }
+
     return (
-        <div
-            className={ classes['gallery'] }
-            ref={ containerRef }
-            style={{
-                '--gallery-width': `${rectSize.width}px`,
-                '--gallery-height': `${rectSize.height}px`,
+        <IntersectionObserver
+            options={{
+                threshold: 0.85
             }}
+            onIntersectionEnter={ () => {
+                setIsGalleryVisible(true);
+            } }
+            onIntersectionLeave={ () => {
+                setIsGalleryVisible(false);
+            } }
         >
-            <div className={ classes['gallery__rail'] }>
-                {
-                    map(assets, asset => {
-                        const fileUrl = get(asset, 'file.url');
+            <div
+                className={ classNames(classes['gallery-wrap'], className) }
+                style={{
+                    '--gallery-width': `${galleryWidth}px`,
+                    '--gallery-total': totalSlides,
+                    '--gallery-current': currentSlide,
+                }}
+            >
+                <div
+                    className={ classNames(classes['gallery'], {
+                        [classes['gallery--touch']]: isTouchEnabled
+                    }) }
+                    ref={ containerRef }
+                >
+                    <div className={ classes['gallery__rail'] }>
+                        {
+                            map(assets, (asset, index) => {
+                                const fileUrl = get(asset, 'file.url', '');
 
-                        const isVideo = fileUrl.indexOf('.mp4') >= 0;
-                        const isImage = (
-                            fileUrl.indexOf('.png') >= 0 ||
-                            fileUrl.indexOf('.jpg') >= 0
-                        );
-                        const itemClassName = classNames(classes['gallery__item'], {
-                            //[classes['gallery__item--active']]: index === currentPhotoIndex
-                        });
+                                const isVideo = fileUrl.indexOf('.mp4') >= 0;
+                                const isImage = (
+                                    fileUrl.indexOf('.png') >= 0 ||
+                                    fileUrl.indexOf('.jpg') >= 0
+                                );
+                                const itemClassName = classNames(classes['gallery__item'], {
+                                    //[classes['gallery__item--active']]: index === currentPhotoIndex
+                                });
 
-                        //  Handle Video
-                        if (isVideo) {
-                            return (
-                                <ContentfulVideo
-                                    key={ asset.id }
-                                    videoData={ asset }
-                                    className={ itemClassName }
-                                    canBePlayed={ false /*index === currentPhotoIndex && this.state.isGalleryVisible*/ }
-                                    placeholderImage={ videoPlaceholderImage }
-                                />
-                            );
-                        }
-
-                        // Handle Image
-                        if (isImage) {
-                            return (
-                                <ContentfulImage imageData={ get(asset, 'fluid') } key={ asset.id }>
-                                {
-                                    (imageSrcs) => (
-                                        <Image
-                                            { ...imageSrcs }
-                                            wrapClassName={ itemClassName }
+                                //  Handle Video
+                                if (isVideo) {
+                                    return (
+                                        <ContentfulVideo
+                                            key={ asset.id }
+                                            videoData={ asset }
+                                            className={ itemClassName }
+                                            canBePlayed={ index === currentSlide && isGalleryVisible }
+                                            placeholderImage={ videoPlaceholderImage }
+                                            progress={ false }
                                         />
-                                    )
+                                    );
                                 }
-                                </ContentfulImage>
-                            );
-                        }
 
-                        return null;
-                    })
-                }
+                                // Handle Image
+                                if (isImage) {
+                                    return (
+                                        <ContentfulImage imageData={ get(asset, 'fluid') } key={ asset.id }>
+                                        {
+                                            (imageSrcs) => (
+                                                <Image
+                                                    { ...imageSrcs }
+                                                    wrapClassName={ itemClassName }
+                                                />
+                                            )
+                                        }
+                                        </ContentfulImage>
+                                    );
+                                }
+
+                                return null;
+                            })
+                        }
+                    </div>
+                </div>
+                <a
+                    onClick={ slideLeft }
+                    className={ classNames(classes['gallery__nav'], classes['gallery__nav--left']) }
+                >
+                    <Icon glyph="chevron-left" />
+                </a>
+                <a
+                    onClick={ slideRight }
+                    className={ classNames(classes['gallery__nav'], classes['gallery__nav--right']) }
+                >
+                    <Icon glyph="chevron-right" />
+                </a>
+                <div className={ classes['gallery__track'] }>
+                    <div className={ classes['gallery__track__pointer'] } />
+                </div>
             </div>
-        </div>
+        </IntersectionObserver>
     )
 };
 Gallery.propTypes = {
-    className: PropTypes.className,
+    className: PropTypes.string,
     assets: PropTypes.array,
     videoPlaceholderImage: PropTypes.object,
 };

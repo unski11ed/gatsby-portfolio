@@ -1,5 +1,5 @@
 import anime from 'animejs';
-
+import { isNumber } from 'lodash';
 const getWindow = () => window !== undefined ? window : null;
 const getGlobalScrollElement = () => {
     const window = getWindow();
@@ -21,8 +21,8 @@ export const scrollToPosition = (position, config = {}, element = getGlobalScrol
 
         return anime({
             targets: element,
-            scrollTop: position.y || undefined,
-            //scrollLeft: position.x || undefined,
+            scrollTop: isNumber(position.y) ? position.y : undefined,
+            scrollLeft: isNumber(position.x) ? position.x : undefined,
             ...options
         });
     }

@@ -54,7 +54,11 @@ class PortfolioEntry extends React.Component {
         const item = get(this.props, 'data.contentfulPortfolioProject');
         const textHtml = get(item, 'body.childMarkdownRemark.html');
         const descriptionHtml = get(item, 'description.childMarkdownRemark.html');
-
+        const galleryItems = [
+            item.heroVideo,
+            ...item.gallery
+        ];
+        console.log(galleryItems);
         return (
             <Overlay>
                 <div className={ classNames(classes['portfolio-entry']) } ref={ this.containerRef }>
@@ -103,8 +107,9 @@ class PortfolioEntry extends React.Component {
                                                         </div>
                                                         <div className={ classNames(classes['info__content'], 'tag-cloud') }>
                                                             {
-                                                                map(item.tags, (tag) => (
+                                                                map(item.tags, (tag, index) => (
                                                                     <div
+                                                                        key={ index }
                                                                         className={
                                                                             classNames(
                                                                                 'tag-cloud__tag',
@@ -133,8 +138,8 @@ class PortfolioEntry extends React.Component {
                                                 </div>
                                                 <div className={ classNames(classes['info__content'], 'tag-cloud') }>
                                                     {
-                                                        map(item.technologies, (techName) => (
-                                                            <div className={ classNames('tag-cloud__tag', 'text-icon', 'badge', 'badge--bg') }>
+                                                        map(item.technologies, (techName, index) => (
+                                                            <div className={ classNames('tag-cloud__tag', 'text-icon', 'badge', 'badge--bg') } key={ index }>
                                                                 <Icon>
                                                                     <TechIcon name={ techName } />
                                                                 </Icon>
@@ -150,16 +155,15 @@ class PortfolioEntry extends React.Component {
                             </TransitionWrap>
                             
                             <div className={ classes['content__wrap'] }>
+                                <section id="project-gallery" className={ classes['content__gallery'] }>
+                                    <TransitionWrap>
+                                        <Gallery
+                                            assets={ galleryItems }
+                                            videoPlaceholderImage={ item.heroImage }
+                                        />
+                                    </TransitionWrap>
+                                </section>
                                 <div className={ classes['content__wrap__inner'] }>
-                                    <section id="project-gallery" className={ classes['content__gallery'] }>
-                                        <TransitionWrap>
-                                            <Gallery
-                                                assets={ item.gallery }
-                                                videoPlaceholderImage={ item.heroImage }
-                                            />
-                                        </TransitionWrap>
-                                    </section>
-
                                     <section id="project-text" className={ classes['content__text'] }>
                                         <TransitionWrap>
                                             <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
@@ -192,8 +196,15 @@ export const pageQuery = graphql`
             startDate(formatString: "MMM YYYY")
             endDate(formatString: "MMM YYYY")
             heroImage {
+                id
                 fluid(maxWidth: 1080, resizingBehavior: SCALE) {
                     ...GatsbyContentfulFluid_withWebp
+                }
+            }
+            heroVideo {
+                id
+                file {
+                    url
                 }
             }
             gallery {

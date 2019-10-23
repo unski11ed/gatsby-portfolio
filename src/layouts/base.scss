@@ -108,6 +108,10 @@ body {
     -webkit-tap-highlight-color: transparent;
     overflow: hidden;
 
+    ::-webkit-scrollbar-track {
+        border-radius: 0;
+    }
+
     ::-webkit-scrollbar {
         width: 5px;
         height: 5px;
