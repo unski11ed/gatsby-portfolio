@@ -120,6 +120,13 @@ body {
     ::-webkit-scrollbar-thumb {
         border-radius: 0;
     }
+
+    @media (max-width: 767px) {
+        ::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+        }
+    }
 }
 
 // Disable Opera's Video Dettach

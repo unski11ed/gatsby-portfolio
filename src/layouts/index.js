@@ -65,6 +65,7 @@ class Layout extends React.Component {
                     <link rel="preload" as="font" href={sourceSansPro400Italic} type="font/woff2" crossOrigin="anonymous"/>
                     <link rel="preload" as="font" href={sourceSansPro600} type="font/woff2" crossOrigin="anonymous"/>
                     <link rel="preload" as="font" href={sourceSansPro700} type="font/woff2" crossOrigin="anonymous"/>
+                    <meta name="theme-color" content="#000000" />
                 </Helmet>
 
                 <LayoutContext.Provider

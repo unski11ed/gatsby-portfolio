@@ -89,7 +89,6 @@ const TextNavigationWrap = ({ children, tag: Tag, ...otherProps }) => {
 
     return (
         <Tag
-            onScroll={(e) => { console.log(e) }}
             ref={ contentElementRef }
             { ...otherProps }
         >

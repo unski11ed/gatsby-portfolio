@@ -48,7 +48,7 @@ class HomeBackground extends React.Component {
     recalculateParentSize() {
         if (this.parentElement) {
             const parentRect = this.parentElement.getBoundingClientRect();
-            console.log(parentRect);
+
             this.setState({
                 parentSize: {
                     width: parentRect.width,

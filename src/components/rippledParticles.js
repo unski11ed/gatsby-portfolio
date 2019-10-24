@@ -37,9 +37,6 @@ class RippledParticles extends React.Component {
             // Cleanup the current instance
             this.rippledParticles.events.removeListener(this.onResetParticles);
             this.rippledParticles.destroy();
-
-            console.log('Previous: %o', prevConfig);
-            console.log('Current: %o', this.props.config);
             
             // Recreate a new one
             this.rippledParticles = this.createParticles();

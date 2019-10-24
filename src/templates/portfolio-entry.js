@@ -30,25 +30,33 @@ class PortfolioEntry extends React.Component {
 
         this.state = {
             headerOutOfViewPort: true,
+            galleryVideoPlayable: true,
         }
     }
 
-    animateContentEntry() {
-        const containerElement = this.containerRef.current;
-        const transitionWrapElements = containerElement.querySelectorAll('.transition-element');
+    async animateContentEntry(elementRef) {
+        if (!this.containerRef.current && elementRef) {
+            this.containerRef.current = elementRef;
+            const containerElement = this.containerRef.current;
+            const transitionWrapElements = containerElement.querySelectorAll('.transition-element');
 
-        anime({
-            ...entryAnimationConfig,
-            targets: transitionWrapElements,
-        })        
+            const childrenAnimation = anime({
+                ...entryAnimationConfig({
+                    staggerDelay: 100,
+                    duration: 400,
+                }),
+                targets: transitionWrapElements,
+            }).finished;
+
+            /*
+            
+            */
+           
+        }
     }
 
     componentDidMount() {
         this.context.toggleTransitionAnimations(true);
-
-        //this.animateContentEntry();
-
-        console.log(this.props);
     }
 
     render() {
@@ -59,10 +67,10 @@ class PortfolioEntry extends React.Component {
             item.heroVideo,
             ...item.gallery
         ];
-        console.log(galleryItems);
+
         return (
             <Overlay>
-                <div className={ classNames(classes['portfolio-entry']) } ref={ this.containerRef }>
+                <div className={ classNames(classes['portfolio-entry']) } ref={ this.animateContentEntry.bind(this) }>
                     <div className={ classes['content-wrap'] }>
                         <article className={ classes['content'] }>
                             <TransitionWrap>
@@ -212,6 +220,7 @@ class PortfolioEntry extends React.Component {
                                         <Gallery
                                             assets={ galleryItems }
                                             videoPlaceholderImage={ item.heroImage }
+                                            videoPlayEnabled={ this.state.galleryVideoPlayable }
                                         />
                                     </TransitionWrap>
                                 </section>

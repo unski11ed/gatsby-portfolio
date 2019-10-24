@@ -25,6 +25,7 @@ import TechIcon from './../components/techIcon';
 import TransitionWrap from './../components/transitionWrap';
 import TextBlock from './../components/textBlock';
 import IntersectionObserver from './../components/intersectionObserver';
+import Overlay from './../components/overaly';
 import { tagColors } from './../common/consts';
 import { getContentEntryBySlug } from './../common/helpers';
 
@@ -32,66 +33,45 @@ import LayoutContext from './../layouts/layoutContext';
 
 import classes from './portfolio.module.scss';
 
-const CHILD_FADE_DURATION = 200; //ms
-
 const PortfolioItem = forwardRef(
     function PortfolioItem(
         {
             data,
             isActive,
             className,
+            transitionMaskElement,
             ...otherProps
         },
         refCallback
     ) {
         const itemRef = useRef();
+        const transitionMaskRef = useRef();
         const layoutContext = useContext(LayoutContext);
 
         const clickHandler = async (targetUrl) => {
-            // Disable Page Transition Animation
-            layoutContext.toggleTransitionAnimations(false);
-
-            // Hide all of the Children sequentially
-            const itemsAnimPromises = Array
-                .from(itemRef.current.children)
-                .map((childElement, index) => {
-                    return anime({
-                        targets: childElement,
-                        opacity: 0,
-                        easing: 'easeInOutQuad',
-                        delay: index * CHILD_FADE_DURATION * 0.5,
-                        duration: CHILD_FADE_DURATION
-                    }).finished;
-                });
-            await Promise.all(itemsAnimPromises);
-
-            // Get Current Item position
-            const itemRect = itemRef.current.getBoundingClientRect();
-            // Setup Item Style Before animation
-            Object.assign(itemRef.current.style, {
-                left: `${itemRect.left}px`,
-                top: `${itemRect.top}px`,
-                width: `${itemRect.right - itemRect.left}px`,
-                height: `${itemRect.bottom - itemRect.top}px`,
-                zIndex: 100,
-                position: 'fixed',
-            })
-            // Animate the Item to Fullscreen
-            await anime({
+            const outAnimation = anime({
                 targets: itemRef.current,
-                top: 0,
-                left: 0,
-                width: typeof window !== 'undefined' ? window.innerWidth : 0,
-                height: typeof window !== 'undefined' ? window.innerHeight : 0,
-                easing: 'spring(1, 80, 100, 10)',
-                complete: () => {
-                    // When animation complete - redirect to target element
-                    navigate(targetUrl);
-
-                    // After navigation completes - reenable animations
-                    // layoutContext.toggleTransitionAnimations(true);
+                scale: 1.4,
+                opacity: [1, 0],
+                easing: 'easeInQuad',
+                duration: 400,
+            }).finished;
+            
+            const inAnimation = anime({
+                delay: 400,
+                targets: transitionMaskElement,
+                scale: [0.5, 1],
+                opacity: [0, 1],
+                easing: 'easeOutQuad',
+                duration: 300,
+                begin: () => {
+                    transitionMaskElement.style.display = 'block';
                 }
             }).finished;
+
+            await Promise.all([outAnimation, inAnimation]);
+
+            navigate(targetUrl);
         }
 
         const innerContent = (
@@ -247,6 +227,7 @@ PortfolioItem.propTypes = {
     data: PropTypes.object.isRequired,
     isActive: PropTypes.bool.isRequired,
     className: PropTypes.string,
+    transitionMaskElement: PropTypes.object,
     ref: PropTypes.func,
 };
 
@@ -258,6 +239,7 @@ class Portfolio extends React.Component {
             hoveredItemId: null,
             visibleItemId: null,
         };
+        this.transitionMaskRef = React.createRef();
     }
 
     render() {
@@ -266,7 +248,7 @@ class Portfolio extends React.Component {
 
         const textContent = get(this.props, 'data.allContentfulContentEntry.edges');
         const headEntry = getContentEntryBySlug(textContent, 'portfolio-head');
-        console.log(this.state.visibleItemId);
+
         return (
             <Container className="page-wrap">
                 <header className={ classes['heading'] }>
@@ -308,7 +290,10 @@ class Portfolio extends React.Component {
                                                             this.state.visibleItemId === project.node.id :
                                                             this.state.hoveredItemId === project.node.id
                                                     }
-                                                    className={{ [classes['portfolio-item--highlighted']]: this.state.hoveredItemId === project.node.id }}
+                                                    transitionMaskElement={ this.transitionMaskRef.current }
+                                                    className={ classNames({
+                                                        [classes['portfolio-item--highlighted']]: !phoneMatches && this.state.hoveredItemId === project.node.id
+                                                    }) }
                                                 />
                                             </IntersectionObserver>
                                             
@@ -320,6 +305,18 @@ class Portfolio extends React.Component {
                     )
                 }
                 </MediaQuery>
+
+                <Overlay>
+                    <div
+                        className={ classes['transition-mask'] }
+                        ref={(ref) => {
+                            if (!this.transitionMaskRef.current) {
+                                this.transitionMaskRef.current = ref;
+                                this.forceUpdate();
+                            }
+                        }}
+                    />
+                </Overlay>
             </Container>
         );
     }
