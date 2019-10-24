@@ -8,7 +8,7 @@ const ContentSwap = ({
     leaveFunc,
     transitionKey,
     innerRef,
-    ...otherProps,
+    ...otherProps
 }) => {
     const onlyChild = React.Children.only(children);
 

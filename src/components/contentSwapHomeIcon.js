@@ -47,7 +47,7 @@ const ContentSwapHomeIcon = ({
                 enterFunc,
                 leaveFunc,
                 transitionKey,
-                ...otherProps,
+                ...otherProps
             }}
         />
     );

@@ -43,6 +43,7 @@ class HomeBackground extends React.Component {
 
         this.recalculateParentSize = this.recalculateParentSize.bind(this);
         this.initialize = this.initialize.bind(this);
+        this.update = this.update.bind(this);
     }
 
     recalculateParentSize() {
@@ -59,19 +60,29 @@ class HomeBackground extends React.Component {
     }
 
     initialize(element) {
-        this.parentElement = element;
+        if (element && !this.parentElement) {
+            this.parentElement = element;
         
+            this.recalculateParentSize();
+
+            if (typeof window !== 'undefined') {
+                window.addEventListener('resize', this.update);
+            }
+        }
+    }
+
+    update() {
         this.recalculateParentSize();
 
-        if (typeof window !== 'undefined') {
-            window.addEventListener('resize', this.recalculateParentSize);
-        }
+        this.forceUpdate();
     }
 
     componentDidMount() {
         this.initialColor = this.props.color;
         
-        this.forceUpdate();
+        if (typeof document !== 'undefined') {
+            document.addEventListener('readystatechange', this.update);
+        }
     }
 
     componentDidUpdate(
@@ -113,7 +124,13 @@ class HomeBackground extends React.Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.recalculateParentSize);
+        if (
+            typeof window !== 'undefined' &&
+            typeof document !== 'undefined'
+        ) {
+            window.removeEventListener('resize', this.update);
+            document.removeEventListener('readystatechange', this.update);
+        }
     }
 
     render() {
@@ -134,12 +151,14 @@ class HomeBackground extends React.Component {
 
             return targetPortalElement ? ReactDOM.createPortal((
                 <div
-                    className={ classNames(className, classes['wrap']) }
+                    className={ className }
                     ref={ this.initialize }
                     style={{
                         '--light-color': Color(color).alpha(spotLightAlpha).toString(),
                         '--ambient-color': Color(color).alpha(ambientLightAlpha).toString(),
-                        '--transition-duration': `${rippleAnimationDuration}ms`
+                        '--transition-duration': `${rippleAnimationDuration}ms`,
+                        width: '100%',
+                        height: '100%',
                     }}
                 >
                     <RippledParticles

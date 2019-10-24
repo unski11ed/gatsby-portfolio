@@ -144,92 +144,89 @@ class RootIndex extends React.Component {
             <MediaQuery maxWidth="659px">
             {
                 (phoneMatches) => (
-                    <React.Fragment>
+                    <div className={ classes['home-page'] }>
+                        <div
+                            className={ classes['intro'] }
+                            style={{
+                                '--theme-color': colors[currentSlide.themeColor],
+                                '--button-color': Color(colors[currentSlide.themeColor]).darken(0.25).hex(),
+                                '--slide-transition-duration': `${SLIDE_TRANSITION_DURATION}ms`,
+                            }}
+                        >
+                            <div
+                                className={ classNames(classes['intro__info-col'], classes['info']) }
+                            >
+                                <h1 className={ classNames(classes['info__header'], 'transition-element') }>
+                                    <span>Maciej</span> <span>Kurbański</span>
+                                </h1>
+                                <ContentSwapFade
+                                    transitionKey={ currentSlide.key }
+                                    duration={ SLIDE_TRANSITION_DURATION / 2 }
+                                    className={ classes['info__description-wrap'] }
+                                >
+                                    <p
+                                        className={ classNames(classes['info__description'], 'transition-element') }
+                                        key={ currentSlide.key }
+                                    >
+                                        { currentSlide.description }
+                                    </p>
+                                </ContentSwapFade>
+                                <div className={ classes['info__actions'] }>
+                                    <Button
+                                        size={ phoneMatches ? "md" : "lg" }
+                                        tag={ Link }
+                                        className={ classNames(
+                                            classes['info__actions__interactive'],
+                                            'transition-element'
+                                        ) }
+                                        to="/portfolio"
+                                    >
+                                        View Portfolio
+                                    </Button>
+                                    <Button
+                                        size={ phoneMatches ? "md" : "lg" }
+                                        color="white"
+                                        outline
+                                        tag={ Link }
+                                        className='transition-element'
+                                        to="/skills-and-experiences"
+                                    >
+                                        Skills &amp; Experiences
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={ classes['intro__animation-col'] }>
+                                <BodyPositionObserver
+                                    onPositionChanged={ this.onAnimationColPosChanged }
+                                >
+                                {
+                                    ({ domRef: bodyPositionRef }) => (
+                                        <ContentSwapHomeIcon
+                                            transitionKey={ iconTransitionKey }
+                                            duration={ SLIDE_TRANSITION_DURATION }
+                                        >
+                                            <div
+                                                className={ classNames(
+                                                    classes['intro__animation-wrap'],
+                                                    'transition-element'
+                                                ) }
+                                                key={ iconTransitionKey }
+                                                ref={ bodyPositionRef }
+                                            >
+                                                <img src={ currentIcon } />
+                                            </div>
+                                        </ContentSwapHomeIcon>
+                                    )
+                                }
+                                </BodyPositionObserver>
+                            </div>
+                        </div>
                         <HomeBackground
                             color={ colors[currentSlide.themeColor]  }
-                            className={ classes.background }
                             origin={ this.state.lightOrigin }
                             transitionDuration={ SLIDE_TRANSITION_DURATION }
                         />
-                        <div className={ classes['home-page'] }>
-                            <div
-                                className={ classes['intro'] }
-                                style={{
-                                    '--theme-color': colors[currentSlide.themeColor],
-                                    '--button-color': Color(colors[currentSlide.themeColor]).darken(0.25).hex(),
-                                    '--slide-transition-duration': `${SLIDE_TRANSITION_DURATION}ms`,
-                                }}
-                            >
-                                <div
-                                    className={ classNames(classes['intro__info-col'], classes['info']) }
-                                >
-                                    <h1 className={ classNames(classes['info__header'], 'transition-element') }>
-                                        <span>Maciej</span> <span>Kurbański</span>
-                                    </h1>
-                                    <ContentSwapFade
-                                        transitionKey={ currentSlide.key }
-                                        duration={ SLIDE_TRANSITION_DURATION / 2 }
-                                        className={ classes['info__description-wrap'] }
-                                    >
-                                        <p
-                                            className={ classNames(classes['info__description'], 'transition-element') }
-                                            key={ currentSlide.key }
-                                        >
-                                            { currentSlide.description }
-                                        </p>
-                                    </ContentSwapFade>
-                                    <div className={ classes['info__actions'] }>
-                                        <Button
-                                            size={ phoneMatches ? "md" : "lg" }
-                                            tag={ Link }
-                                            className={ classNames(
-                                                classes['info__actions__interactive'],
-                                                'transition-element'
-                                            ) }
-                                            to="/portfolio"
-                                        >
-                                            View Portfolio
-                                        </Button>
-                                        <Button
-                                            size={ phoneMatches ? "md" : "lg" }
-                                            color="white"
-                                            outline
-                                            tag={ Link }
-                                            className='transition-element'
-                                            to="/skills-and-experiences"
-                                        >
-                                            Skills &amp; Experiences
-                                        </Button>
-                                    </div>
-                                </div>
-                                <div className={ classes['intro__animation-col'] }>
-                                    <BodyPositionObserver
-                                        onPositionChanged={ this.onAnimationColPosChanged }
-                                    >
-                                    {
-                                        ({ domRef: bodyPositionRef }) => (
-                                            <ContentSwapHomeIcon
-                                                transitionKey={ iconTransitionKey }
-                                                duration={ SLIDE_TRANSITION_DURATION }
-                                            >
-                                                <div
-                                                    className={ classNames(
-                                                        classes['intro__animation-wrap'],
-                                                        'transition-element'
-                                                    ) }
-                                                    key={ iconTransitionKey }
-                                                    ref={ bodyPositionRef }
-                                                >
-                                                    <img src={ currentIcon } />
-                                                </div>
-                                            </ContentSwapHomeIcon>
-                                        )
-                                    }
-                                    </BodyPositionObserver>
-                                </div>
-                            </div>
-                        </div>
-                    </React.Fragment>
+                    </div>
                 )
             }
             </MediaQuery>

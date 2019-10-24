@@ -10,7 +10,7 @@ const ContentSwapFade = ({
     entryEasing,
     exitEasing,
     transitionKey,
-    ...otherProps,
+    ...otherProps
 }) => {
     const enterFunc = (target) => {
         anime({
@@ -39,7 +39,7 @@ const ContentSwapFade = ({
             enterFunc,
             leaveFunc,
             transitionKey,
-            ...otherProps,
+            ...otherProps
         }} />
     );
 }
