@@ -2,9 +2,6 @@ import React, { useContext } from 'react';
 import { map } from 'lodash';
 import classNames from 'classnames';
 
-import Icon from './icon';
-import Button from './button';
-
 import TextNavigationContext from './textNavigationContext';
 
 import classes from './textNavigationNavigator.module.scss';

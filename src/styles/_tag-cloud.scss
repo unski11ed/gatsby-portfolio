@@ -3,7 +3,7 @@ $TAG_MARGIN: 0.5rem;
 .tag-cloud {
     display: flex;
     flex-wrap: wrap;
-    margin: #{-$TAG_MARGIN / 2} #{-$TAG_MARGIN};
+    margin: #{-$TAG_MARGIN / 2} #{-$TAG_MARGIN / 2};
 
     .tag-cloud__tag {
         margin: $TAG_MARGIN / 2;

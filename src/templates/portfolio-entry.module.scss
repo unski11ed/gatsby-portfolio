@@ -39,17 +39,25 @@
 
     flex: 1 1 auto;
 
+    display: flex;
+    flex-direction: column;
+
     &__header {
         display: flex;
         align-items: center;
 
         h1 {
             margin: 0;
+            line-height: 1;
         }
     }
 
     &__content {
+        flex: 1 1 auto;
         margin-top: 1rem;
+
+        display: flex;
+        flex-direction: column;;
     }
 }
 
@@ -63,7 +71,6 @@
         p {
             margin: 0;
         }
-        margin-bottom: auto;
     }
 
     &__title {
@@ -168,18 +175,6 @@
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .main-header {
     padding: 0.5rem 1rem;
 
@@ -190,5 +185,35 @@
         background-color: $background-alt;
         padding: 1rem;
         border-radius: 8px;
+    }
+}
+
+.buttons {
+    margin-top: auto;
+    margin-bottom: 0.75rem;
+}
+
+.button {
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+
+    --icon-color: #fff;
+
+    > span {
+        flex: 1 1 auto;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 60%;
+    }
+
+    &__icon {
+        margin-left: 1rem;
+    }
+
+    + .button {
+        margin-top: 0.5rem;
     }
 }

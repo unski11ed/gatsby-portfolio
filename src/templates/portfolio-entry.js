@@ -9,6 +9,7 @@ import Container from './../components/container';
 import Gallery from './../components/gallery';
 import TechIcon from './../components/techIcon';
 import Icon from './../components/icon';
+import Button from './../components/button';
 import IntersectionObserver from './../components/intersectionObserver';
 import Tooltip from './../components/tooltip';
 import Overlay from './../components/overaly';
@@ -149,6 +150,57 @@ class PortfolioEntry extends React.Component {
                                                     }
                                                 </div>
                                             </div>
+
+                                            { /* Links */ }
+                                            <div className={ classes['buttons'] }>
+                                                {
+                                                    item.links.gitHub && (
+                                                        <Button
+                                                            outline
+                                                            size="md"
+                                                            className={ classes['button'] }
+                                                            href={ item.links.gitHub }
+                                                            tag="a"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            GitHub Source
+                                                            <Icon glyph="github" className={ classes['button__icon'] } />
+                                                        </Button>
+                                                    )
+                                                }
+                                                {
+                                                    item.links.live && (
+                                                        <Button
+                                                            size="md"
+                                                            className={ classes['button'] }
+                                                            href={ item.links.live }
+                                                            tag="a"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Live Demo
+                                                            <Icon glyph="play" className={ classes['button__icon'] } />
+                                                        </Button>
+                                                    )
+                                                }
+                                                {
+                                                    item.links.codeSandbox && (
+                                                        <Button
+                                                            outline
+                                                            size="md"
+                                                            className={ classes['button'] }
+                                                            href={ item.links.codeSandbox }
+                                                            tag="a"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            CodeSandbox Demo
+                                                            <Icon glyph="codesandbox" className={ classes['button__icon'] } />
+                                                        </Button>
+                                                    )
+                                                }
+                                            </div>
                                         </div>
                                     </header>
                                 </div>
@@ -195,6 +247,12 @@ export const pageQuery = graphql`
             tags
             startDate(formatString: "MMM YYYY")
             endDate(formatString: "MMM YYYY")
+            links {
+                gitHub
+                codePen
+                codeSandbox
+                live
+            }
             heroImage {
                 id
                 fluid(maxWidth: 1080, resizingBehavior: SCALE) {
