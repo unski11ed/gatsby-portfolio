@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import anime from 'animejs';
 import { get, map, startCase } from 'lodash';
 import { Link, graphql } from 'gatsby';
+import Media from 'react-responsive';
 
 import TransitionWrap from './../components/transitionWrap';
 import Container from './../components/container';
@@ -67,6 +68,27 @@ class PortfolioEntry extends React.Component {
             item.heroVideo,
             ...item.gallery
         ];
+
+        const galleryElement = (
+            <section id="project-gallery" className={ classes['content__gallery'] }>
+                <TransitionWrap>
+                    <Gallery
+                        assets={ galleryItems }
+                        videoPlaceholderImage={ item.heroImage }
+                        videoPlayEnabled={ this.state.galleryVideoPlayable }
+                    />
+                </TransitionWrap>
+            </section>
+        );
+
+        const contentElement = (
+            <section id="project-text" className={ classes['content__text'] }>
+                <TransitionWrap>
+                    <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
+                    </div>
+                </TransitionWrap>
+            </section>
+        );
 
         return (
             <Overlay>
@@ -214,25 +236,26 @@ class PortfolioEntry extends React.Component {
                                 </div>
                             </TransitionWrap>
                             
-                            <div className={ classes['content__wrap'] }>
-                                <section id="project-gallery" className={ classes['content__gallery'] }>
-                                    <TransitionWrap>
-                                        <Gallery
-                                            assets={ galleryItems }
-                                            videoPlaceholderImage={ item.heroImage }
-                                            videoPlayEnabled={ this.state.galleryVideoPlayable }
-                                        />
-                                    </TransitionWrap>
-                                </section>
-                                <div className={ classes['content__wrap__inner'] }>
-                                    <section id="project-text" className={ classes['content__text'] }>
-                                        <TransitionWrap>
-                                            <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
-                                            </div>
-                                        </TransitionWrap>
-                                    </section>
-                                </div>
-                            </div>
+                            <Media query="(min-width: 767px)">
+                            {
+                                (phoneMatches) => !!phoneMatches ? (
+                                    <div className={ classes['content__wrap'] }>
+                                        { galleryElement }
+
+                                        <div className={ classes['content__wrap__inner'] }>
+                                            { contentElement }
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <React.Fragment>
+                                        { galleryElement }
+
+                                        { contentElement }
+                                    </React.Fragment>
+                                )
+                            }
+                            </Media>
+                            
                         </article>
                     </div>
                 </div>
