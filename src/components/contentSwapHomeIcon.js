@@ -16,6 +16,7 @@ const ContentSwapHomeIcon = ({
             duration: duration / 2,
             opacity: [0, 1],
             scale: [1.1, 1],
+            translateZ: [0, 0],
             easing: 'easeOutElastic(1.3, .4)',
             complete: () => {
                 target.style.transform = '';
@@ -29,6 +30,7 @@ const ContentSwapHomeIcon = ({
             duration: duration / 2,
             opacity: [1, 0],
             scale: [1, 1.1],
+            translateZ: [0, 0],
             easing: 'linear',
             complete: () => {
                 target.style.transform = '';

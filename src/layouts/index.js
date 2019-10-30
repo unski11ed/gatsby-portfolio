@@ -42,6 +42,10 @@ class Layout extends React.Component {
 
         this.contentElement = null;
         this.contentElementRef = this.contentElementRef.bind(this);
+        this.toggleTransitionAnimations = this.toggleTransitionAnimations.bind(this);
+        this.toggleNavbarTransparent = this.toggleNavbarTransparent.bind(this);
+        this.setThemeColor = this.setThemeColor.bind(this);
+        this.resetThemeColor = this.resetThemeColor.bind(this);
     }
 
     contentElementRef(element) {
@@ -51,7 +55,35 @@ class Layout extends React.Component {
             this.forceUpdate();
         }
     }
+
+    // Context Actions===========================
+    toggleTransitionAnimations(enabled) {
+        this.setState({
+            transitionAnimationEnabled: typeof enabled === 'undefined' ?
+                !this.state.transitionAnimationEnabled :
+                enabled
+        });
+    }
+
+    toggleNavbarTransparent(isTransparent) {
+        this.setState({
+            navbarTransparent: isTransparent
+        });
+    }
+
+    setThemeColor(color) {
+        this.setState({
+            themeColor: color,
+        })
+    }
+
+    resetThemeColor() {
+        this.setState({
+            themeColor: DEFAULT_THEME_COLOR,
+        })
+    }
     
+    // Render ===================================
     render() {
         const { children, location } = this.props;
         const { pathname } = location;
@@ -71,28 +103,10 @@ class Layout extends React.Component {
                 <LayoutContext.Provider
                     value={{
                         ...this.state,
-                        toggleTransitionAnimations: (enabled) => {
-                            this.setState({
-                                transitionAnimationEnabled: typeof enabled === 'undefined' ?
-                                    !this.state.transitionAnimationEnabled :
-                                    enabled
-                            });
-                        },
-                        toggleNavbarTransparent: (isTransparent) => {
-                            this.setState({
-                                navbarTransparent: isTransparent
-                            });
-                        },
-                        setThemeColor: (color) => {
-                            this.setState({
-                                themeColor: color,
-                            })
-                        },
-                        resetThemeColor: () => {
-                            this.setState({
-                                themeColor: DEFAULT_THEME_COLOR,
-                            })
-                        },
+                        toggleTransitionAnimations: this.toggleTransitionAnimations,
+                        toggleNavbarTransparent: this.toggleNavbarTransparent,
+                        setThemeColor: this.setThemeColor,
+                        resetThemeColor: this.resetThemeColor,
                         contentElement: this.contentElement,
                     }}
                 >

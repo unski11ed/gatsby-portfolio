@@ -9,7 +9,7 @@ import RippledParticles from './rippledParticles';
 import classes from './homeBackground.module.scss';
 
 // Particles Count for a 1920px Width
-const PARTICLES_COUNT = 1000;
+const PARTICLES_COUNT = 700;
 
 class HomeBackground extends React.Component {
     static propTypes = {
