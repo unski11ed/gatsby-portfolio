@@ -8,8 +8,8 @@ import RippledParticles from './rippledParticles';
 
 import classes from './homeBackground.module.scss';
 
-// TODO: Later adjust it based on screen width
-const PARTICLES_COUNT = 400;
+// Particles Count for a 1920px Width
+const PARTICLES_COUNT = 1000;
 
 class HomeBackground extends React.Component {
     static propTypes = {
@@ -175,7 +175,7 @@ class HomeBackground extends React.Component {
                                 rippleAnimationDuration,
                             }
                         }}
-                        particlesCount={ PARTICLES_COUNT }
+                        particlesCount={ Math.round(PARTICLES_COUNT * parentSize.width / 1920) }
                         className={ classes['particles'] }
                     />
 
