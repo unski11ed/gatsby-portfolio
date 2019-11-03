@@ -151,6 +151,7 @@
 .content__gallery {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 3rem;
 
     max-width: 970px;
 }
@@ -163,11 +164,11 @@
 .content__text {
     h2 {
         padding-bottom: 0.75rem;
-        border-bottom: 2px solid $color-primary;
+        border-bottom: 1px solid darken($border, 65%);
     }
 
     h1, h2, h3, h4, h5, h6 {
-        color: #c6cbd0;
+        color: #fff;
     }
 
     color: #868a8e;
@@ -221,7 +222,7 @@
     }
 }
  
-@media (max-width: 776px) {
+@media (max-width: 767px) {
     .content {
         height: auto;
     

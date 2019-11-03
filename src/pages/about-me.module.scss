@@ -1,0 +1,171 @@
+@import './../styles/variables';
+
+.about-me-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.about-me {
+    display: grid;
+    grid-template-columns: 300px 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: "photo header contact" "photo bio bio";
+
+    max-width: 960px;
+
+    &__photo {
+        grid-area: photo;
+        margin-right: 1rem;
+    }
+
+    &__header {
+        grid-area: header;
+        padding-top: 38px;
+    }
+
+    &__contact {
+        grid-area: contact;
+        padding-top: 38px;
+    }
+
+    &__bio {
+        margin-top: 2rem;
+        grid-area: bio;
+
+        p:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+        line-height: 1.2;
+        margin-bottom: 0;
+    }
+
+    &__subtitle {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+
+    &__contact {
+        margin-left: auto;
+    }
+
+    &__stack {
+        display: flex;
+        align-items: center;
+
+        > * {
+            max-height: 25px;
+
+            + * {
+                margin-left: 0.5rem;
+            }
+        }
+    }
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    &__username {
+        margin-left: 1rem;
+        color: $text-bright;
+    }
+}
+
+@media (max-width: 959px) {
+    .about-me {
+        grid-template-areas: "photo header contact" "photo bio bio";
+    }
+}
+
+@media (max-width: 919px) {
+    .about-me {
+        grid-template-areas: "photo header contact" "photo bio bio";
+        grid-template-rows: auto auto auto;
+        grid-template-areas: "photo header header" "photo contact contact" "bio bio bio";
+
+        &__bio {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    }
+}
+
+@media (max-width: 629px) {
+    .about-me-wrap {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .about-me {
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas: "photo" "header" "contact" "bio";
+
+        &__photo {
+            margin-right: 0;
+        }
+
+        &__header {
+            margin-top: -4rem;
+            padding: 0 1.5rem 0 1.5rem;
+            z-index: 10001;
+        }
+
+        &__contact {
+            padding: 2rem 1.5rem 0 1.5rem;
+        }
+    }
+}
+
+@media (max-width: 419px) {
+    .about-me {
+        grid-template-rows: 350px auto auto auto;
+
+        &__photo {
+            > * {
+                margin-left: -2rem;
+                margin-right: -2rem;
+            }
+        }
+
+        &__header {
+            margin-top: 0;
+            padding: 0;
+        }
+
+        &__contact {
+            padding: 2rem 0 0 0;
+        }
+
+        &__bio {
+            padding: 0;
+        }
+    }
+}
+
+
+/*
+@media (max-width: 629px) {
+    .about-me {
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas: "photo" "header" "bio";
+
+        &__photo {
+            margin-right: 0;
+        }
+    }
+}
+*/

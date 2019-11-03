@@ -108,7 +108,7 @@
 .portfolio-item__actions {
     display: flex;
 
-    $action-color: $background-alt;
+    $action-color: $background;
 
     > * {
         background: $action-color;
@@ -121,6 +121,8 @@
         justify-content: center;
 
         transition: color 200ms ease-in-out;
+        
+        border-top: 1px solid lighten($action-color, 5%);
 
         &:hover {
             color: $text-bright;

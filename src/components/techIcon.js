@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 
 const icons = {
     'angular': require('./../images/tech-icons/angular.svg'),
+    'dotnet': require('./../images/tech-icons/dotnet-alt.svg'),
     'javascript': require('./../images/tech-icons/javascript.svg'),
     'jquery': require('./../images/tech-icons/jquery.svg'),
     'meteor': require('./../images/tech-icons/meteor.svg'),
     'nextjs': require('./../images/tech-icons/nextjs.svg'),
+    'nodejs': require('./../images/tech-icons/nodejs.svg'),
     'react': require('./../images/tech-icons/react.svg'),
     'redux': require('./../images/tech-icons/redux.svg'),
     'rxjs': require('./../images/tech-icons/rxjs.svg'),

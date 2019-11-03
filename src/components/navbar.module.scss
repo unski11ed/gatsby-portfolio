@@ -93,7 +93,11 @@
     &__navigation-item {
         display: inline-flex;
         align-items: center;
-        
+    
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-size: 0.9rem;
         color: $text-main;
 
         transition: color 250ms $easing-cubic-in-out;
@@ -132,7 +136,8 @@
     }
 
     &__social {
-        background-color: $background-alt;
+        background-color: $color-black;
+        border-bottom: 1px solid $background;
 
         padding: 0 1rem;
 
@@ -295,5 +300,11 @@
 
     .show-collapsed {
         display: initial;
+    }
+}
+
+@media (max-width: 359px) {
+    .navbar {
+        grid-template-columns: 2fr 1fr;
     }
 }
