@@ -1,4 +1,27 @@
+@import './../styles/mixins/scrollbar';
 @import './../styles/variables';
+
+.portfolio-entry {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 101;
+    min-height: 100vh;
+    overflow: auto;
+    background-color: $background-body;
+    
+    @media (min-width: 768px) {
+        @include scrollbar;
+    }
+
+    @media (max-width: 767px) {
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
 
 .text {
     h2 {

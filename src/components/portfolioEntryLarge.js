@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { get } from 'lodash';
@@ -19,7 +19,7 @@ const classes = {
     ...localClasses,
 };
 
-const PortfolioEntryLarge = ({ data }) => {
+const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data }, ref) {
     const textHtml = get(data, 'body.childMarkdownRemark.html');
     const galleryItems = [
         data.heroVideo,
@@ -27,53 +27,55 @@ const PortfolioEntryLarge = ({ data }) => {
     ];
 
     return (
-        <div className={ classes['content-wrap'] }>
-            <article className={ classes['content'] }>
-                <TransitionWrap>
-                    <div className={ classes['content__info'] }>
-                        <header className={  classes['info-box'] }>
-                            <div className={ classes['info-box__header'] }>
-                                <Tooltip text="Close" placement="right">
-                                    <Link to="/portfolio" className={ classes['close'] }>
-                                        <Icon glyph="angle-left" className={ classes['close__icon'] }/>
-                                    </Link>
-                                </Tooltip>
+        <div className={ classes['portfolio-entry'] } ref={ ref }>
+            <div className={ classes['content-wrap'] }>
+                <article className={ classes['content'] }>
+                    <TransitionWrap>
+                        <div className={ classes['content__info'] }>
+                            <header className={  classes['info-box'] }>
+                                <div className={ classes['info-box__header'] }>
+                                    <Tooltip text="Close" placement="right">
+                                        <Link to="/portfolio" className={ classes['close'] }>
+                                            <Icon glyph="angle-left" className={ classes['close__icon'] }/>
+                                        </Link>
+                                    </Tooltip>
 
-                                <h1>
-                                    { data.title }
-                                </h1>
-                            </div>
-
-                            <PortfolioEntryInfoBox
-                                data={ data }
-                                className={ classNames(classes['info-box__content']) }
-                            />
-                        </header>
-                    </div>
-                </TransitionWrap>
-                <div className={ classes['content__wrap'] }>
-                    <section id="project-gallery" className={ classes['content__gallery'] }>
-                        <TransitionWrap>
-                            <Gallery
-                                assets={ galleryItems }
-                                videoPlaceholderImage={ data.heroImage }
-                            />
-                        </TransitionWrap>
-                    </section>
-
-                    <div className={ classes['content__wrap__inner'] }>
-                        <section id="project-text" className={ classNames(classes['content__text'], classes['text']) }>
-                            <TransitionWrap>
-                                <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
+                                    <h1>
+                                        { data.title }
+                                    </h1>
                                 </div>
+
+                                <PortfolioEntryInfoBox
+                                    data={ data }
+                                    className={ classNames(classes['info-box__content']) }
+                                />
+                            </header>
+                        </div>
+                    </TransitionWrap>
+                    <div className={ classes['content__wrap'] }>
+                        <section id="project-gallery" className={ classes['content__gallery'] }>
+                            <TransitionWrap>
+                                <Gallery
+                                    assets={ galleryItems }
+                                    videoPlaceholderImage={ data.heroImage }
+                                />
                             </TransitionWrap>
                         </section>
+
+                        <div className={ classes['content__wrap__inner'] }>
+                            <section id="project-text" className={ classNames(classes['content__text'], classes['text']) }>
+                                <TransitionWrap>
+                                    <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
+                                    </div>
+                                </TransitionWrap>
+                            </section>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
     )
-};
+});
 PortfolioEntryLarge.propTypes = {
     data: PropTypes.object.isRequired,
 };

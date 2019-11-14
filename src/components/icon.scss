@@ -2,51 +2,23 @@
 
 .icon {
     display: inline-block;
-    width: var(--icon-size, 1rem);
-    height: var(--icon-size, 1rem);
-    
+    width: var(--icon-size, 1rem) !important;
+    height: var(--icon-size, 1rem) !important;
+    position: relative;
+
     + * {
         vertical-align: middle;
     }
 
-    &-fixed-width {
+    &--fixed-width {
         width: 1.2rem;
+    }
+
+    &--shadow {
+        filter: drop-shadow(0px 0px 5px var(--icon-shadow-color, #000));
     }
 }
 
 .icon-fa {
-    mask-position: center center;
-    mask-repeat: no-repeat;
-    vertical-align: middle;
-    background: var(--icon-color, $text-muted);
+    color: var(--icon-color, $text-muted);
 }
-
-.icon--angle-left { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/angle-left.svg'); }
-.icon--calendar { mask-image: url('~@fortawesome/fontawesome-free/svgs/regular/calendar.svg'); }
-.icon--chevron-down { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/chevron-down.svg'); }
-.icon--chevron-left { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/chevron-left.svg'); }
-.icon--chevron-right { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/chevron-right.svg'); }
-.icon--align-justify { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/align-justify.svg'); }
-.icon--tags { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/tags.svg'); }
-.icon--pen-alt { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/pen-alt.svg'); }
-.icon--tools { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/tools.svg'); }
-.icon--times { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/times.svg'); }
-.icon--angle-left { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/angle-left.svg'); }
-.icon--angle-right { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/angle-right.svg'); }
-.icon--play { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/play.svg'); }
-.icon--play-circle { mask-image: url('~@fortawesome/fontawesome-free/svgs/regular/play-circle.svg'); }
-.icon--pause { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/pause.svg'); }
-.icon--pause-circle { mask-image: url('~@fortawesome/fontawesome-free/svgs/regular/pause-circle.svg'); }
-.icon--phone { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/phone.svg'); }
-.icon--spinner { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/spinner.svg'); }
-.icon--sort-down { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/sort-down.svg'); }
-.icon--circle { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/circle.svg'); }
-.icon--envelope { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/envelope.svg'); }
-.icon--github { mask-image: url('~@fortawesome/fontawesome-free/svgs/brands/github.svg'); }
-.icon--codepen { mask-image: url('~@fortawesome/fontawesome-free/svgs/brands/codepen.svg'); }
-.icon--codesandbox { mask-image: url('./../images/icons/code-sandbox.svg'); }
-.icon--linkedin-in { mask-image: url('~@fortawesome/fontawesome-free/svgs/brands/linkedin-in.svg'); }
-.icon--facebook-messenger { mask-image: url('~@fortawesome/fontawesome-free/svgs/brands/facebook-messenger.svg'); }
-.icon--paper-plane { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/paper-plane.svg'); }
-.icon--bars { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/bars.svg'); }
-.icon--ellipsis-h { mask-image: url('~@fortawesome/fontawesome-free/svgs/solid/ellipsis-h.svg'); }

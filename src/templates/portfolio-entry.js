@@ -32,7 +32,7 @@ class PortfolioEntry extends React.Component {
     }
 
     async animateContentEntry(elementRef) {
-        if (!this.containerRef.current && elementRef) {
+        if (!this.containerRef.current && elementRef && elementRef !== this.containerRef) {
             this.containerRef.current = elementRef;
             const containerElement = this.containerRef.current;
             const transitionWrapElements = containerElement.querySelectorAll('.transition-element');
@@ -92,18 +92,13 @@ class PortfolioEntry extends React.Component {
 
         return (
             <Overlay>
-                <div
-                    className={ classNames(classes['portfolio-entry']) }
-                    ref={ this.animateContentEntry.bind(this) }
-                >
-                    <Media query="(max-width: 767px)">
-                    {
-                        (smallMatches) => !!smallMatches ?
-                            <PortfolioEntrySmall data={ item } /> :
-                            <PortfolioEntryLarge data={ item } />
-                    }
-                    </Media>
-                </div>
+                <Media query="(max-width: 767px)">
+                {
+                    (smallMatches) => !!smallMatches ?
+                        <PortfolioEntrySmall data={ item } ref={ this.animateContentEntry.bind(this) } /> :
+                        <PortfolioEntryLarge data={ item } ref={ this.animateContentEntry.bind(this) } />
+                }
+                </Media>
             </Overlay>
         );
     }
