@@ -23,7 +23,7 @@ const Gallery = ({ className, assets, videoPlaceholderImage }) => {
     const [scrollHandler] = useDebouncedCallback(() => {
         const currentScrollLeft = containerRef.current.scrollLeft;
         const targetSlide = Math.round(currentScrollLeft / galleryWidth);
-        console.log(targetSlide);
+        
         setCurrentSlide(targetSlide);
     }, 50);
 

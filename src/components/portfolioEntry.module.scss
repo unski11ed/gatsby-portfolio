@@ -1,0 +1,19 @@
+@import './../styles/variables';
+
+.text {
+    h2 {
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid darken($border, 65%);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #fff;
+    }
+
+    color: #868a8e;
+    font-size: 1.07rem;
+
+    li + li {
+        margin-top: 1rem;
+    }
+}

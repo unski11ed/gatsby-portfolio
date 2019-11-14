@@ -16,20 +16,7 @@
     @include scrollbar;
 }
 
-.close {
-    --icon-size: 2rem;
 
-    margin-left: -10px;
-    margin-right: 1rem;
-
-    &__icon {
-        background-color: $links;
-
-        &:hover {
-            background-color: $focus;
-        }
-    }
-}
 
 // Info Box
 .info-box {
@@ -58,42 +45,6 @@
 
         display: flex;
         flex-direction: column;;
-    }
-}
-
-.info {
-    display: flex;
-    flex-direction: column;
-
-    &--description {
-        text-align: justify;
-
-        p {
-            margin: 0;
-        }
-    }
-
-    &__title {
-        font-weight: 600;
-        color: #fff;
-        margin-bottom: 0.5rem;
-    }
-
-    &__content {
-        + .info-title {
-            margin-top: 1rem;
-        }
-
-        // Inner content Styling
-        color: #868a8e;
-
-        p {
-            margin: 0;
-        }
-    }
-
-    + .info {
-        margin-top: 1rem;
     }
 }
 
@@ -127,6 +78,8 @@
 
 .content__text {
     grid-area: entry-text;
+
+    margin-top: 3rem;
 }
 
 .content__wrap {
@@ -151,7 +104,6 @@
 .content__gallery {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 3rem;
 
     max-width: 970px;
 }
@@ -221,7 +173,11 @@
         margin-top: 0.5rem;
     }
 }
- 
+
+.mobile-navbar {
+    display: none;
+}
+
 @media (max-width: 767px) {
     .content {
         height: auto;
@@ -234,5 +190,29 @@
         &__text {
             padding: 0 1.5rem 1.5rem 1.5rem;
         }
+
+        &__gallery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000px;
+        }
+    }
+
+    .info-box {
+        .close {
+            display: none;
+        }
+    }
+
+    .mobile-navbar {
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        z-index: 2000;
+        background: black;
     }
 }

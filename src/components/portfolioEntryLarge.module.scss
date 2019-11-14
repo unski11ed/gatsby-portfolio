@@ -1,0 +1,104 @@
+@import './../styles/variables';
+
+.content {
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 320px auto;
+    grid-gap: 0;
+    grid-template-rows: 100vh;
+    grid-template-areas: "entry-info entry-wrap";
+
+    &__header {
+        grid-area: entry-header;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        background: $background-alt;
+        padding: 1rem 1.5rem;
+
+        > * {
+            margin: none;
+        }
+    }
+
+    &__text {
+        grid-area: entry-text;
+    }
+
+    &__wrap {
+        grid-area: entry-wrap;
+
+        overflow-y: auto;
+
+        &__inner {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 3rem;
+
+            max-width: 970px;
+            padding: 0 1rem 0 1rem;
+        }
+    }
+
+    &__info {
+        grid-area: entry-info;
+        
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__gallery {
+        grid-area: entry-gallery;
+
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 970px;
+    }
+}
+
+.info-box {
+    background: $color-black;
+    box-shadow: 0px 10px 3px 3px rgba($color-black, 0.25);
+    padding: 1rem 1.5rem;
+
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        align-items: center;
+
+        h1 {
+            margin: 0;
+            line-height: 1;
+        }
+    }
+
+    &__content {
+        flex: 1 1 auto;
+        margin-top: 1rem;
+
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.close {
+    --icon-size: 2rem;
+
+    margin-left: -10px;
+    margin-right: 1rem;
+
+    &__icon {
+        background-color: $links;
+
+        &:hover {
+            background-color: $focus;
+        }
+    }
+}
