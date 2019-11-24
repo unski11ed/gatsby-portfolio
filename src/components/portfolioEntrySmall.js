@@ -9,9 +9,8 @@ import classNames from 'classnames';
 import TransitionWrap from './transitionWrap';
 import Gallery from './gallery';
 import Icon from './icon';
-import Tooltip from './tooltip';
-
 import PortfolioEntryInfoBox from './portfolioEntryInfoBox';
+import { scrollToPosition } from './../common/scrollTo';
 
 import commonClasses from './portfolioEntry.module.scss';
 import localClasses from './portfolioEntrySmall.module.scss';
@@ -21,8 +20,9 @@ const classes = {
     ...localClasses,
 };
 
-const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data }, ref) {
+const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prevPathName }, ref) {
     const [galleryHeight, setGalleryHeight] = useState(0);
+    const [galleryHidden, setGalleryHidden] = useState(false);
     const galleryRef = useRef();
     const containerRef = useRef();
 
@@ -32,6 +32,12 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data }, re
         ...data.gallery
     ];
     const galleryItemsPortrait = data.galleryPhone;
+
+    const scrollToTopHandler = (e) => {
+        e.preventDefault();
+
+        scrollToPosition({ y: 0 }, { }, containerRef.current);
+    };
 
     useEffect(() => {
         // Watch the size of gallery
@@ -58,6 +64,8 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data }, re
             const scrollLength = scrollTop / galleryHeight;
 
             containerRef.current.style.setProperty('--scroll-length', scrollLength > 1 ? 1 : scrollLength);
+
+            setGalleryHidden(scrollTop > galleryHeight);
         };
 
         containerRef.current.addEventListener('scroll', scrollHandler);
@@ -79,9 +87,24 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data }, re
             } }
         >
             <div className={ classes['navbar'] }>
-                <Link to="/portfolio" className={ classes['navbar__close'] }>
-                    <Icon glyph="angle-left" shadow/>
+                <Link to={ prevPathName || '/portfolio' } className={ classes['navbar-command'] }>
+                    <Icon glyph="angle-left" shadow className={ classes['navbar-command__icon'] } />
+                    <span className={ classes['navbar-command__text'] }>
+                        Back
+                    </span>
                 </Link>
+
+                <a
+                    href="#"
+                    className={ classes['navbar-command'] }
+                    onClick={ scrollToTopHandler }
+                    style={{ opacity: galleryHidden ? 1 : 0 }}
+                >
+                    <span className={ classes['navbar-command__text'] }>
+                        Top
+                    </span>
+                    <Icon glyph="angle-up" shadow className={ classes['navbar-command__icon'] } />
+                </a>
             </div>
             <div className={ classes['content-wrap'] }>
                 <article className={ classes['content'] }>
@@ -97,6 +120,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data }, re
                                     <Gallery
                                         assets={ portraitMatches ? galleryItemsPortrait : galleryItemsLandscape }
                                         videoPlaceholderImage={ data.heroImage }
+                                        showNav={ false }
                                     />
                                 </TransitionWrap>
                             </section>
@@ -141,6 +165,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data }, re
 });
 PortfolioEntrySmall.propTypes = {
     data: PropTypes.object.isRequired,
+    prevPathName: PropTypes.string,
 };
 
 export default PortfolioEntrySmall;

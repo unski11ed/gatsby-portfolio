@@ -19,7 +19,7 @@ const classes = {
     ...localClasses,
 };
 
-const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data }, ref) {
+const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data, prevPathName }, ref) {
     const textHtml = get(data, 'body.childMarkdownRemark.html');
     const galleryItems = [
         data.heroVideo,
@@ -35,7 +35,7 @@ const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data }, re
                             <header className={  classes['info-box'] }>
                                 <div className={ classes['info-box__header'] }>
                                     <Tooltip text="Close" placement="right">
-                                        <Link to="/portfolio" className={ classes['close'] }>
+                                        <Link to={ prevPathName || '/portfolio' } className={ classes['close'] }>
                                             <Icon glyph="angle-left" className={ classes['close__icon'] }/>
                                         </Link>
                                     </Tooltip>
@@ -78,6 +78,7 @@ const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data }, re
 });
 PortfolioEntryLarge.propTypes = {
     data: PropTypes.object.isRequired,
+    prevPathName: PropTypes.string,
 };
 
 export default PortfolioEntryLarge;

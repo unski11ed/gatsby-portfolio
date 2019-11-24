@@ -53,50 +53,22 @@ class PortfolioEntry extends React.Component {
 
     render() {
         const item = get(this.props, 'data.contentfulPortfolioProject');
-        /*
-        const textHtml = get(item, 'body.childMarkdownRemark.html');
-        const descriptionHtml = get(item, 'description.childMarkdownRemark.html');
-        const galleryItems = [
-            item.heroVideo,
-            ...item.gallery
-        ];
-        const galleryPhoneItems = item.galleryPhone;
-
-        const galleryElement = (
-            <Media query="(orientation: portrait)">
-            {
-                (portraitMatches) => (
-                    <section id="project-gallery" className={ classes['content__gallery'] }>
-                        <TransitionWrap>
-                            <Gallery
-                                assets={ portraitMatches ? galleryPhoneItems : galleryItems }
-                                videoPlaceholderImage={ item.heroImage }
-                                videoPlayEnabled={ this.state.galleryVideoPlayable }
-                            />
-                        </TransitionWrap>
-                    </section>
-                )
-            }
-            </Media>
-        );
-
-        const contentElement = (
-            <section id="project-text" className={ classes['content__text'] }>
-                <TransitionWrap>
-                    <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
-                    </div>
-                </TransitionWrap>
-            </section>
-        );
-        */
 
         return (
             <Overlay>
                 <Media query="(max-width: 767px)">
                 {
                     (smallMatches) => !!smallMatches ?
-                        <PortfolioEntrySmall data={ item } ref={ this.animateContentEntry.bind(this) } /> :
-                        <PortfolioEntryLarge data={ item } ref={ this.animateContentEntry.bind(this) } />
+                        <PortfolioEntrySmall
+                            data={ item }
+                            prevPathName={ this.context.prevPathName }
+                            ref={ this.animateContentEntry.bind(this) }
+                        /> :
+                        <PortfolioEntryLarge
+                            data={ item }
+                            prevPathName={ this.context.prevPathName }
+                            ref={ this.animateContentEntry.bind(this) }
+                        />
                 }
                 </Media>
             </Overlay>

@@ -114,7 +114,7 @@
         background: $action-color;
         padding: 0.5rem 1rem;
         color: $text-main;
-        flex: 1 1 auto;
+        flex: 1 1 50%;
 
         display: inline-flex;
         align-items: center;
@@ -129,7 +129,7 @@
             text-decoration: none;
         }
 
-        span {
+        svg {
             margin-left: 0.5rem;
         }
 

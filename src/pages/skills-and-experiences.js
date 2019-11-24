@@ -10,6 +10,7 @@ import TransitionWrap from './../components/transitionWrap';
 import TextNavigation from './../components/textNavigation';
 import TextNavigationNavigator from './../components/textNavigationNavigator';
 import TextNavigationTextWrap from './../components/textNavigationTextWrap';
+import TextBlock from './../components/textBlock';
 import Timeline from './../components/timeline';
 
 import classes from './skills-and-experiences.module.scss';
@@ -49,15 +50,15 @@ class SkillsAndExperiences extends React.Component {
                                         <Timeline tag="section">
                                             <Timeline.Section>
                                                 <Timeline.Label>2001</Timeline.Label>
-                                                <div dangerouslySetInnerHTML={{ __html: get(timelineHobbystic, 'content.childContentfulRichText.html') }}></div>
+                                                <TextBlock htmlContent={ get(timelineHobbystic, 'content.childContentfulRichText.html') }></TextBlock>
                                             </Timeline.Section>
                                             <Timeline.Section>
                                                 <Timeline.Label>2013</Timeline.Label>
-                                                <div dangerouslySetInnerHTML={{ __html: get(timelineCommercial, 'content.childContentfulRichText.html') }}></div>
+                                                <TextBlock htmlContent={ get(timelineCommercial, 'content.childContentfulRichText.html') }></TextBlock>
                                             </Timeline.Section>
                                             <Timeline.Section>
                                                 <Timeline.Label>2016</Timeline.Label>
-                                                <div dangerouslySetInnerHTML={{ __html: get(timelineAdvanced, 'content.childContentfulRichText.html') }}></div>
+                                                <TextBlock htmlContent={ get(timelineAdvanced, 'content.childContentfulRichText.html') }></TextBlock>
                                             </Timeline.Section>
                                         </Timeline>
                                     </article>

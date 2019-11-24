@@ -55,7 +55,7 @@ const PortfolioEntryInfoBox = ({ data, className }) => {
                                             ) 
                                         }
                                     >
-                                        <Icon glyph="circle" className={`bg-${tagColors[tag]}`} />
+                                        <Icon glyph="circle" className={`text-${tagColors[tag]}`} />
 
                                         <span>{ startCase(tag) }</span>
                                     </div>
@@ -99,7 +99,7 @@ const PortfolioEntryInfoBox = ({ data, className }) => {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            GitHub Source
+                            GitHub
                             <Icon glyph="github" className={ classes['button__icon'] } />
                         </Button>
                     )
@@ -130,8 +130,8 @@ const PortfolioEntryInfoBox = ({ data, className }) => {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            CodeSandbox Demo
-                            <Icon glyph="codesandbox" className={ classes['button__icon'] } />
+                            CodePen
+                            <Icon glyph="codepen" className={ classes['button__icon'] } />
                         </Button>
                     )
                 }

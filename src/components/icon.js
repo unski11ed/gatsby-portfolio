@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleLeft,
     faAngleRight,
+    faAngleUp,
     faAlignJustify,
     faChevronLeft,
     faChevronDown,
@@ -45,6 +46,7 @@ const iconImages = {
     ['times']: faTimes,
     ['angle-left']: faAngleLeft,
     ['angle-right']: faAngleRight,
+    ['angle-up']: faAngleUp,
     ['align-justify']: faAlignJustify,
     ['calendar']: faCalendar,
     ['chevron-left']: faChevronLeft,

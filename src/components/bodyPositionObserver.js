@@ -40,7 +40,12 @@ class BodyPositionObserver extends React.Component {
         if (typeof window !== 'undefined' && this.element) {
             window.addEventListener('resize', this.onWindowSizeChanged);
 
-            this.onWindowSizeChanged();
+            // Double RAF for safe recalc
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    this.onWindowSizeChanged();
+                });
+            });
         }
     }
 

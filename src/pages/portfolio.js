@@ -147,7 +147,7 @@ const PortfolioItem = forwardRef(
                                             ) 
                                         }
                                     >
-                                        <Icon glyph="circle" className={`bg-${tagColors[tag]}`} />
+                                        <Icon glyph="circle" className={`text-${tagColors[tag]}`} />
 
                                         <span>{ startCase(tag) }</span>
                                     </div>
@@ -197,14 +197,14 @@ const PortfolioItem = forwardRef(
                 <div className={ classes['portfolio-item__actions'] }>
                     {
                         data.links.gitHub &&
-                            <a href={ data.links.gitHub } target="_blank" rel="noopener noreferrer">
+                            <a href={ data.links.gitHub }  target="_blank" rel="noopener noreferrer">
                                 Source <Icon glyph="github"/>
                             </a>
                     }
                     {
                         data.links.live &&
                             <a href={ data.links.live } target="_blank" rel="noopener noreferrer">
-                                Live Demo <Icon glyph="play"/>
+                                Demo <Icon glyph="play"/>
                             </a>
                     }
                     {
@@ -214,9 +214,11 @@ const PortfolioItem = forwardRef(
                             </a>
                     }
                     {
+                        // There is no CodeSandbox icon at the moment in FontAwesome, so ....
+                        // let's treat it as CodePen ;P
                         data.links.codeSandbox &&
                             <a href={ data.links.codeSandbox } target="_blank" rel="noopener noreferrer">
-                                CodeSandbox <Icon glyph="codesandbox"/>
+                                CodePen <Icon glyph="codepen"/>
                             </a>
                     }
                 </div>

@@ -90,15 +90,16 @@
 
 .close {
     --icon-size: 2rem;
-
-    margin-left: -10px;
+    
     margin-right: 1rem;
 
     &__icon {
-        background-color: $links;
+        display: block;
+
+        color: $links;
 
         &:hover {
-            background-color: $focus;
+            color: $focus;
         }
     }
 }

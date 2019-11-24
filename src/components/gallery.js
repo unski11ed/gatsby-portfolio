@@ -13,7 +13,7 @@ import { scrollToPosition } from './../common/scrollTo';
 
 import classes from './gallery.module.scss';
 
-const Gallery = ({ className, assets, videoPlaceholderImage }) => {
+const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
     const containerRef = useRef();
     const [isGalleryVisible, setIsGalleryVisible] = useState(true);
     const [isTouchEnabled, setIsTouchEnabled] = useState(false);
@@ -161,18 +161,24 @@ const Gallery = ({ className, assets, videoPlaceholderImage }) => {
                         }
                     </div>
                 </div>
-                <a
-                    onClick={ slideLeft }
-                    className={ classNames(classes['gallery__nav'], classes['gallery__nav--left']) }
-                >
-                    <Icon glyph="chevron-left" />
-                </a>
-                <a
-                    onClick={ slideRight }
-                    className={ classNames(classes['gallery__nav'], classes['gallery__nav--right']) }
-                >
-                    <Icon glyph="chevron-right" />
-                </a>
+                {
+                    showNav && (
+                        <>
+                            <a
+                                onClick={ slideLeft }
+                                className={ classNames(classes['gallery__nav'], classes['gallery__nav--left']) }
+                            >
+                                <Icon glyph="chevron-left" shadow />
+                            </a>
+                            <a
+                                onClick={ slideRight }
+                                className={ classNames(classes['gallery__nav'], classes['gallery__nav--right']) }
+                            >
+                                <Icon glyph="chevron-right" shadow />
+                            </a>
+                        </>
+                    )
+                }
                 <div className={ classes['gallery__track'] }>
                     <div className={ classes['gallery__track__pointer'] } />
                 </div>
@@ -184,6 +190,10 @@ Gallery.propTypes = {
     className: PropTypes.string,
     assets: PropTypes.array,
     videoPlaceholderImage: PropTypes.object,
+    showNav: PropTypes.bool
+};
+Gallery.defaultProps = {
+    showNav: true
 };
 
 export default Gallery;

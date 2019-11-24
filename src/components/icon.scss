@@ -2,9 +2,10 @@
 
 .icon {
     display: inline-block;
-    width: var(--icon-size, 1rem) !important;
-    height: var(--icon-size, 1rem) !important;
-    position: relative;
+    width: var(--icon-block-size, initial);
+    height: var(--icon-block-size, initial);
+
+    font-size: var(--icon-size, inherit);
 
     + * {
         vertical-align: middle;
@@ -20,5 +21,5 @@
 }
 
 .icon-fa {
-    color: var(--icon-color, $text-muted);
+    color: var(--icon-color, color);
 }

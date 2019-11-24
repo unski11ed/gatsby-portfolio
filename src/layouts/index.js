@@ -3,6 +3,7 @@ import PropTypes, { element } from 'prop-types';
 import Helmet from 'react-helmet';
 import classNames from 'classnames';
 import { Link } from 'gatsby';
+import { Location } from '@reach/router';
 
 import 'water.css/dist/dark.css';
 import './base.scss';
@@ -38,6 +39,7 @@ class Layout extends React.Component {
             transitionAnimationEnabled: true,
             navbarTransparent: false,
             themeColor: DEFAULT_THEME_COLOR,
+            prevPathName: null,
         }
 
         this.contentElement = null;
@@ -46,6 +48,7 @@ class Layout extends React.Component {
         this.toggleNavbarTransparent = this.toggleNavbarTransparent.bind(this);
         this.setThemeColor = this.setThemeColor.bind(this);
         this.resetThemeColor = this.resetThemeColor.bind(this);
+        this.currentPathName = null;
     }
 
     contentElementRef(element) {
@@ -83,12 +86,31 @@ class Layout extends React.Component {
         })
     }
     
+    // Lifecycle Methods ========================
+    componentDidMount() {
+        this.currentPathName = this.props.location.pathname;
+    }
+
+    componentDidUpdate({ location: prevLocation }) {
+        const { location: currentLocation } = this.props;
+
+        if (
+            prevLocation.pathname !== currentLocation.pathname &&
+            this.currentPathName !== currentLocation.pathname
+        ) {
+            this.setState({
+                prevPathName: this.currentPathName
+            });
+            this.currentPathName = currentLocation.pathname;
+        }
+    }
+
     // Render ===================================
     render() {
         const { children, location } = this.props;
         const { pathname } = location;
         const pageSlug = pathname.replace(/\//g, '')  || 'home';
-        
+
         return (
             <React.Fragment>
                 <Helmet>
@@ -164,7 +186,18 @@ class Layout extends React.Component {
     }
 }
 Layout.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    location: PropTypes.object,
 }
 
-export default Layout;
+const LocationLayout = (props) => (
+    <Location>
+    {
+        (location) => (
+            <Layout location={ location } { ...props } />
+        )
+    }
+    </Location>
+);
+
+export default LocationLayout;

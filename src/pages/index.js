@@ -99,7 +99,7 @@ class RootIndex extends React.PureComponent {
 
     onAnimationColPosChanged(position) {
         const docSize = getDocumentSize(document);
-
+        console.log(position);
         this.setState({
             lightOrigin: {
                 x: position.x / docSize.width,

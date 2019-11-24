@@ -13,4 +13,25 @@ $colors: (
     .bg-#{$key} {
         background-color: $value !important;
     }
+    .text-#{$key} {
+        color: $value !important;
+    }
+}
+
+.text-muted {
+    color: $text-muted !important;
+}
+
+$margins: (
+    1: 0.25rem,
+    2: 0.5rem,
+    3: 1rem,
+);
+@each $id, $size in $margins {
+    .mr-#{ $id } {
+        margin-right: $size;
+    }
+    .ml-#{ $id } {
+        margin-left: $size;
+    }
 }

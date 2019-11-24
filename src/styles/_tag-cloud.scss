@@ -6,6 +6,8 @@ $TAG_MARGIN: 0.5rem;
     margin: #{-$TAG_MARGIN / 2} #{-$TAG_MARGIN / 2};
 
     .tag-cloud__tag {
+        --icon-block-size: 1rem;
+        
         margin: $TAG_MARGIN / 2;
         flex: 0 0 auto;
     }

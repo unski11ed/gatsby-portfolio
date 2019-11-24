@@ -39,8 +39,13 @@ const NavbarSocial = ({ addresses }) => (
         <div className={ classes['navbar__social__column'] } data-fade-order="101">
             <span className={ cn(classes['label'], classes['show-collapsed']) }>Email:</span>
 
-            <span className={ cn(classes['navbar__social__item'], classes['navbar__social__item--icon-text']) }>
-                <Icon glyph="paper-plane" target="_blank" rel="noopener noreferrer" className={ classes['hide-collapsed'] } />
+            <span className={ cn(classes['navbar__social__item']) }>
+                <Icon
+                    glyph="paper-plane"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={ cn(classes['hide-collapsed'], 'mr-2') }
+                />
                 { addresses.email }
             </span>
         </div>
