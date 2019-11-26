@@ -29,8 +29,6 @@ import Overlay from './../components/overaly';
 import { tagColors } from './../common/consts';
 import { getContentEntryBySlug } from './../common/helpers';
 
-import LayoutContext from './../layouts/layoutContext';
-
 import classes from './portfolio.module.scss';
 
 const PortfolioItem = forwardRef(
@@ -45,8 +43,6 @@ const PortfolioItem = forwardRef(
         refCallback
     ) {
         const itemRef = useRef();
-        const transitionMaskRef = useRef();
-        const layoutContext = useContext(LayoutContext);
 
         const clickHandler = async (targetUrl) => {
             const outAnimation = anime({
@@ -348,7 +344,7 @@ export const pageQuery = graphql`
                     endDate(formatString: "MMM YYYY")
                     heroImage {
                         fluid(maxWidth: 1080, resizingBehavior: SCALE) {
-                            ...GatsbyContentfulFluid_tracedSVG
+                            ...GatsbyContentfulFluid_withWebp
                         }
                     },
                     heroVideo {

@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import ContentfulImage from './contentfulImage';
 import Delayed from './delayed';
@@ -126,51 +126,55 @@ const ContentfulVideo = ({
                 )
             }
 
+            <ContentfulImage imageData={ placeholderImage.fluid }>
             {
-                showControls && !state.videoReady && placeholderImage &&  (
-                    <div className={ classNames(classes['control'], classes['control--loading']) }>
-                        <ContentfulImage
-                            imageData={ placeholderImage.fluid }
-                            className={ classes['control__placeholder'] }
-                        >
+                ({ ...imageSrcs }) => (
+                    <>
                         {
-                            (imageSrcs) => (
-                                <Image
-                                    wrapClassName={ classes['control__placeholder'] }
-                                    { ...imageSrcs }
-                                />
-                            )
+                            !state.videoReady && !isEmpty(imageSrcs.src) &&  (
+                                <div className={ classNames(classes['control'], classes['control--loading']) }>
+                                    <Image
+                                        wrapClassName={ classes['control__placeholder'] }
+                                        { ...imageSrcs }
+                                    />
+
+                                    {
+                                        showControls && (
+                                            <Delayed delay={ 2000 }>
+                                                <span className={ classes['control__icon'] }>
+                                                    <Icon glyph="spinner" />
+                                                </span>
+                                            </Delayed>
+                                        )
+                                    }
+                                </div>
+                            ) 
                         }
-                        </ContentfulImage>
 
-                        <Delayed delay={ 2000 }>
-                            <span className={ classes['control__icon'] }>
-                                <Icon glyph="spinner" />
-                            </span>
-                        </Delayed>
-                    </div>
-                ) 
+                        <video
+                            loop
+                            preload="metadata"
+                            className={ classes['video'] }
+                            muted={ muted }
+                            ref={ videoElement }
+                            onCanPlay={ () => { dispatch({ type: 'ready' }) } }
+                            onTimeUpdate={(e) => {
+                                const player = e.currentTarget;
+                                if (!isNaN(player.duration)) {
+                                    dispatch({
+                                        type: 'changePlayProgress',
+                                        value: player.currentTime / player.duration * 100,
+                                    })
+                                }
+                            }}
+                            poster={ imageSrcs.src.jpeg }
+                        >
+                            <source src={ videoUrl } type="video/mp4" />
+                        </video>
+                    </>
+                )
             }
-
-            <video
-                loop
-                preload="metadata"
-                className={ classes['video'] }
-                muted={ muted }
-                ref={ videoElement }
-                onCanPlay={ () => { dispatch({ type: 'ready' }) } }
-                onTimeUpdate={(e) => {
-                    const player = e.currentTarget;
-                    if (!isNaN(player.duration)) {
-                        dispatch({
-                            type: 'changePlayProgress',
-                            value: player.currentTime / player.duration * 100,
-                        })
-                    }
-                }}
-            >
-                <source src={ videoUrl } type="video/mp4" />
-            </video>
+            </ContentfulImage>
 
             {
                 progress && (
@@ -201,6 +205,7 @@ ContentfulVideo.defaultProps = {
     showControls: true,
     muted: true,
     progress: true,
+    placeholderImage: { }
 };
 
 export default ContentfulVideo;

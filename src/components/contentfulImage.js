@@ -5,7 +5,7 @@ import urlJoin from 'url-join';
 
 const ContentfulImage = ({ children, imageData }) => {
     if (!imageData) {
-        return null;
+        return children({ src: { }, srcPlaceholder: { }, srcSet: { } });
     }
     const images = imageData.srcSet.split(',\n').map((urlSize) => {
         const [url, width] = urlSize.split(' ');
