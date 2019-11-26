@@ -94,14 +94,15 @@ class Layout extends React.Component {
     componentDidUpdate({ location: prevLocation }) {
         const { location: currentLocation } = this.props;
 
-        if (
-            prevLocation.pathname !== currentLocation.pathname &&
-            this.currentPathName !== currentLocation.pathname
-        ) {
-            this.setState({
-                prevPathName: this.currentPathName
-            });
-            this.currentPathName = currentLocation.pathname;
+        if (prevLocation.pathname !== currentLocation.pathname) {
+            if (this.currentPathName !== currentLocation.pathname) {
+                this.setState({
+                    prevPathName: this.currentPathName
+                });
+                this.currentPathName = currentLocation.pathname;
+            }
+
+            this.contentElement.scrollTop = 0;
         }
     }
 
