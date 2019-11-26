@@ -227,7 +227,7 @@ RootIndex.propTypes = {
     setThemeColor: PropTypes.func.isRequired,
 };
 
-const RootIndexWrap = (props) => {
+const RootIndexWrap = () => {
     const {
         toggleNavbarTransparent,
         setThemeColor,
