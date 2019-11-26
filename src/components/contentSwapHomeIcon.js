@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import anime from 'animejs';
 
@@ -68,4 +68,4 @@ ContentSwapHomeIcon.defaultProps = {
     duration: 500,
 };
 
-export default ContentSwapHomeIcon;
+export default memo(ContentSwapHomeIcon);

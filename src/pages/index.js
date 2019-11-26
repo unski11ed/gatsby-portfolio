@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
 import { Link } from 'gatsby';
 import Color from 'color';
-import MediaQuery from 'react-responsive';
 
 import Button from '../components/button';
 import HomeBackground from '../components/homeBackground';
@@ -11,12 +10,11 @@ import BodyPositionObserver from '../components/bodyPositionObserver';
 import LayoutContext from './../layouts/layoutContext';
 import ContentSwapFade from './../components/contentSwapFade';
 import ContentSwapHomeIcon from './../components/contentSwapHomeIcon';
-import HomeIconIdleAnimation from './../components/homeIconIdleAnimation';
 
 import classes from './index.module.scss';
 
 import { colors } from './../common/consts';
-import { getDocumentSize, compose } from './../common/helpers';
+import { getDocumentSize } from './../common/helpers';
 
 const SLIDES = [
     {
@@ -55,8 +53,6 @@ const SLIDE_TRANSITION_DURATION = 1000;
 const ICON_CHANGE_DELAY = SLIDE_CHANGE_INTERVAL - SLIDE_TRANSITION_DURATION / 2;
 
 class RootIndex extends React.PureComponent {
-    static contextType = LayoutContext;
-
     state = {
         currentSlideIndex: 0,
         currentIconIndex: 0,
@@ -86,7 +82,8 @@ class RootIndex extends React.PureComponent {
         this.setState({
             currentSlideIndex: nextSlideIndex,
         });
-        this.context.setThemeColor(
+
+        this.props.setThemeColor(
             SLIDES[this.state.currentSlideIndex].themeColor
         );
     }
@@ -99,7 +96,7 @@ class RootIndex extends React.PureComponent {
 
     onAnimationColPosChanged(position) {
         const docSize = getDocumentSize(document);
-        console.log(position);
+
         this.setState({
             lightOrigin: {
                 x: position.x / docSize.width,
@@ -111,7 +108,7 @@ class RootIndex extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.context.toggleNavbarTransparent(true);
+        this.props.toggleNavbarTransparent(true);
 
         this.slideChangeInterval = setInterval(this.nextSlide, SLIDE_CHANGE_INTERVAL);
         // Set an interval offset between icon and rest of the content change
@@ -122,15 +119,15 @@ class RootIndex extends React.PureComponent {
         }, ICON_CHANGE_DELAY);
 
         // Set the Layout Theme Color - Brand Logo etc.
-        this.context.setThemeColor(SLIDES[this.state.currentSlideIndex].themeColor);
+        this.props.setThemeColor(SLIDES[this.state.currentSlideIndex].themeColor);
     }
 
     componentWillUnmount() {
         clearInterval(this.slideChangeInterval);
         clearInterval(this.iconChangeInterval);
 
-        this.context.toggleNavbarTransparent(false);
-        this.context.resetThemeColor();
+        this.props.toggleNavbarTransparent(false);
+        this.props.resetThemeColor();
     }
 
     render() {
@@ -225,5 +222,25 @@ class RootIndex extends React.PureComponent {
         );
     }
 }
+RootIndex.propTypes = {
+    toggleNavbarTransparent: PropTypes.func.isRequired,
+    setThemeColor: PropTypes.func.isRequired,
+};
 
-export default RootIndex;
+const RootIndexWrap = (props) => {
+    const {
+        toggleNavbarTransparent,
+        setThemeColor,
+        resetThemeColor,
+    } = useContext(LayoutContext);
+
+    return (
+        <RootIndex
+            toggleNavbarTransparent={ toggleNavbarTransparent }
+            setThemeColor={ setThemeColor }
+            resetThemeColor={ resetThemeColor }
+        />
+    );
+}
+
+export default RootIndexWrap;

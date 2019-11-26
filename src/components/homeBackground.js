@@ -11,7 +11,7 @@ import classes from './homeBackground.module.scss';
 // Particles Count for a 1920px Width
 const PARTICLES_COUNT = 700;
 
-class HomeBackground extends React.Component {
+class HomeBackground extends React.PureComponent {
     static propTypes = {
         className: PropTypes.string,
         origin: PropTypes.object,

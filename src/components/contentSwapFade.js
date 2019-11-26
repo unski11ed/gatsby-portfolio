@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import anime from 'animejs';
 import PropTypes from 'prop-types';
 
@@ -56,4 +56,4 @@ ContentSwapFade.defaultProps = {
     exitEasing: 'easeInSine'
 };
 
-export default ContentSwapFade;
+export default memo(ContentSwapFade);
