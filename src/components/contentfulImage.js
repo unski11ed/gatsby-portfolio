@@ -26,7 +26,7 @@ const ContentfulImage = ({ children, imageData }) => {
             webp: urlJoin(placeholderImageUrl, '?fm=webp')
         },
         srcSet: {
-            jpeg: map(images, image => `${urlJoin(image.url, '?fm=jpeg')} ${image.width}`).join(',\n'),
+            jpeg: map(images, image => `${urlJoin(image.url, '?fm=jpg')} ${image.width}`).join(',\n'),
             webp: map(images, image => `${urlJoin(image.url, '?fm=webp')} ${image.width}`).join(',\n'), 
         },
     });
