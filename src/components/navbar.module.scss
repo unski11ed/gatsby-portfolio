@@ -191,6 +191,10 @@
     }
 }
 
+.navbar--transparent .navbar__social {
+    border-bottom-color: transparent;
+}
+
 .show-collapsed {
     display: none;
 }

@@ -28,6 +28,8 @@
     &__contact {
         grid-area: contact;
         padding-top: 38px;
+
+        --icon-color: #{$text-muted};
     }
 
     &__bio {

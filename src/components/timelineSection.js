@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 
 import classes from './timeline.module.scss';
 
-const TimelineSection = ({ children, tag: Tag }) => (
-    <Tag className={ classes['timeline__section'] }>
+const TimelineSection = ({ children, tag: Tag, year }) => (
+    <Tag className={ classes['timeline__section'] } style={{ '--year': `"${year}"` }}>
         { children }
     </Tag>
 );
 TimelineSection.propTypes = {
     children: PropTypes.node,
-    tag: PropTypes.elementType
+    tag: PropTypes.elementType,
+    year: PropTypes.string,
 };
 TimelineSection.defaultProps = {
     tag: 'section'

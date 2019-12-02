@@ -48,16 +48,13 @@ class SkillsAndExperiences extends React.Component {
                                         <h1>Experiences</h1>
 
                                         <Timeline tag="section">
-                                            <Timeline.Section>
-                                                <Timeline.Label>2001</Timeline.Label>
+                                            <Timeline.Section year="2001">
                                                 <TextBlock htmlContent={ get(timelineHobbystic, 'content.childContentfulRichText.html') }></TextBlock>
                                             </Timeline.Section>
-                                            <Timeline.Section>
-                                                <Timeline.Label>2013</Timeline.Label>
+                                            <Timeline.Section year="2013">
                                                 <TextBlock htmlContent={ get(timelineCommercial, 'content.childContentfulRichText.html') }></TextBlock>
                                             </Timeline.Section>
-                                            <Timeline.Section>
-                                                <Timeline.Label>2016</Timeline.Label>
+                                            <Timeline.Section year="2014">
                                                 <TextBlock htmlContent={ get(timelineAdvanced, 'content.childContentfulRichText.html') }></TextBlock>
                                             </Timeline.Section>
                                         </Timeline>
