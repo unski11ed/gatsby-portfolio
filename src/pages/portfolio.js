@@ -90,7 +90,7 @@ const PortfolioItem = forwardRef(
                     ) : (
                         <ContentfulVideo
                             videoData={ get(data, 'heroVideo') }
-                            placeholderImage={ get(data, 'heroImage.fluid') }
+                            placeholderImage={ get(data, 'heroImage') }
                             showControls={ false }
                             canBePlayed={ isActive }
                             className={ classes['portfolio-item__image-wrap'] }
@@ -171,9 +171,17 @@ const PortfolioItem = forwardRef(
             >
                 {
                     data.contentless ? (
-                        <div className={ classes['portfolio-item__content'] }>
+                        <a
+                            className={ classes['portfolio-item__content'] }
+                            href={ 
+                                data.links.codePen ||
+                                data.links.codeSandbox ||
+                                data.links.live
+                            }
+                            target="_blank" rel="noopener noreferrer"
+                        >
                             { innerContent }
-                        </div>
+                        </a>
                     ) : (
                         <a
                             className={ classes['portfolio-item__content'] }
