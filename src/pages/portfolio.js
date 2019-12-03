@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import Container from './../components/container';
 import Grid from './../components/grid';
 import GridItem from './../components/gridItem';
+import Footer from './../components/footer';
 import ContentfulImage from './../components/contentfulImage';
 import ContentfulVideo from './../components/contentfulVideo';
 import Image from './../components/image';
@@ -243,16 +244,16 @@ class Portfolio extends React.Component {
     render() {
         const projects = get(this.props, 'data.allContentfulPortfolioProject.edges');
         const orderedProjects = orderBy(projects, [(project, index) => !project.node.endDate ? 1: 0], ['desc']);
-
         const textContent = get(this.props, 'data.allContentfulContentEntry.edges');
-        const headEntry = getContentEntryBySlug(textContent, 'portfolio-head');
+        const headContent = getContentEntryBySlug(textContent, 'portfolio-head');
+        const footerContent = getContentEntryBySlug(textContent, 'portfolio-footer');
 
         return (
             <Container className="page-wrap">
                 <header className={ classes['heading'] }>
                     <h1>Portfolio</h1>
                     <TextBlock
-                        htmlContent={ get(headEntry, 'content.childContentfulRichText.html') }
+                        htmlContent={ get(headContent, 'content.childContentfulRichText.html') }
                     />
                 </header>
 
@@ -315,6 +316,8 @@ class Portfolio extends React.Component {
                         }}
                     />
                 </Overlay>
+
+                <Footer html={ get(footerContent, 'content.childContentfulRichText.html') } />
             </Container>
         );
     }

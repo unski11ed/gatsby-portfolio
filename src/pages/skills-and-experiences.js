@@ -12,6 +12,7 @@ import TextNavigationNavigator from './../components/textNavigationNavigator';
 import TextNavigationTextWrap from './../components/textNavigationTextWrap';
 import TextBlock from './../components/textBlock';
 import Timeline from './../components/timeline';
+import Footer from './../components/footer';
 
 import classes from './skills-and-experiences.module.scss';
 
@@ -22,6 +23,7 @@ class SkillsAndExperiences extends React.Component {
         const timelineHobbystic = getContentEntryBySlug(data, 'timeline-hobbystic');
         const timelineCommercial = getContentEntryBySlug(data, 'timeline-commercial');
         const timelineAdvanced = getContentEntryBySlug(data, 'timeline-advanced');
+        const footerContent = getContentEntryBySlug(data, 'skills-and-experiences-footer');
 
         return (
             <MediaQuery maxWidth='819px'>
@@ -62,6 +64,11 @@ class SkillsAndExperiences extends React.Component {
                                 </TextNavigationTextWrap>
                             </TransitionWrap>
                         </TextNavigation>
+
+                        <Footer
+                            className={ classes['footer'] }
+                            html={ get(footerContent, 'content.childContentfulRichText.html') }
+                        />
                     </Container>
                 )
             }
