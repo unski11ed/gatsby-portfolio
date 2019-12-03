@@ -12,6 +12,7 @@ import {
 } from 'lodash';
 import anime from 'animejs';
 import classNames from 'classnames';
+import Helmet from 'react-helmet';
 
 import Container from './../components/container';
 import Grid from './../components/grid';
@@ -250,6 +251,11 @@ class Portfolio extends React.Component {
 
         return (
             <Container className="page-wrap">
+                <Helmet>
+                    <title>Portfolio | mkurban.dev</title>
+                    <meta name="robots" content="noindex"></meta>
+                </Helmet>
+
                 <header className={ classes['heading'] }>
                     <h1>Portfolio</h1>
                     <TextBlock

@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { get } from 'lodash';
 import MediaQuery from 'react-responsive';
+import Helmet from 'react-helmet';
 
 import { getContentEntryBySlug } from './../common/helpers';
 
@@ -26,53 +27,58 @@ class SkillsAndExperiences extends React.Component {
         const footerContent = getContentEntryBySlug(data, 'skills-and-experiences-footer');
 
         return (
-            <MediaQuery maxWidth='819px'>
-            {
-                (matches) => (
-                    <Container className={ classNames("page-wrap", classes.template) }>
-                        <TextNavigation>
-                            {
-                                !matches && (
-                                    <TransitionWrap>
-                                        <nav className={ classes.navigation }>
-                                            <TextNavigationNavigator/>
-                                        </nav>
-                                    </TransitionWrap>
-                                )
-                            }
-                            <TransitionWrap>
-                                <TextNavigationTextWrap>
-                                    <article className={ classNames("text-styling", classes.content) }>
-                                        <h1>Skills</h1>
+            <>
+                <Helmet>
+                    <title>Skills &amp; Experiences | mkurban.dev</title>
+                </Helmet>
+                <MediaQuery maxWidth='819px'>
+                {
+                    (matches) => (
+                        <Container className={ classNames("page-wrap", classes.template) }>
+                            <TextNavigation>
+                                {
+                                    !matches && (
+                                        <TransitionWrap>
+                                            <nav className={ classes.navigation }>
+                                                <TextNavigationNavigator/>
+                                            </nav>
+                                        </TransitionWrap>
+                                    )
+                                }
+                                <TransitionWrap>
+                                    <TextNavigationTextWrap>
+                                        <article className={ classNames("text-styling", classes.content) }>
+                                            <h1>Skills</h1>
 
-                                        <section dangerouslySetInnerHTML={{ __html: get(skills, 'content.childContentfulRichText.html') }} />
+                                            <section dangerouslySetInnerHTML={{ __html: get(skills, 'content.childContentfulRichText.html') }} />
 
-                                        <h1>Experiences</h1>
+                                            <h1>Experiences</h1>
 
-                                        <Timeline tag="section">
-                                            <Timeline.Section year="2001">
-                                                <TextBlock htmlContent={ get(timelineHobbystic, 'content.childContentfulRichText.html') }></TextBlock>
-                                            </Timeline.Section>
-                                            <Timeline.Section year="2013">
-                                                <TextBlock htmlContent={ get(timelineCommercial, 'content.childContentfulRichText.html') }></TextBlock>
-                                            </Timeline.Section>
-                                            <Timeline.Section year="2014">
-                                                <TextBlock htmlContent={ get(timelineAdvanced, 'content.childContentfulRichText.html') }></TextBlock>
-                                            </Timeline.Section>
-                                        </Timeline>
-                                    </article>
-                                </TextNavigationTextWrap>
-                            </TransitionWrap>
-                        </TextNavigation>
+                                            <Timeline tag="section">
+                                                <Timeline.Section year="2001">
+                                                    <TextBlock htmlContent={ get(timelineHobbystic, 'content.childContentfulRichText.html') }></TextBlock>
+                                                </Timeline.Section>
+                                                <Timeline.Section year="2013">
+                                                    <TextBlock htmlContent={ get(timelineCommercial, 'content.childContentfulRichText.html') }></TextBlock>
+                                                </Timeline.Section>
+                                                <Timeline.Section year="2014">
+                                                    <TextBlock htmlContent={ get(timelineAdvanced, 'content.childContentfulRichText.html') }></TextBlock>
+                                                </Timeline.Section>
+                                            </Timeline>
+                                        </article>
+                                    </TextNavigationTextWrap>
+                                </TransitionWrap>
+                            </TextNavigation>
 
-                        <Footer
-                            className={ classes['footer'] }
-                            html={ get(footerContent, 'content.childContentfulRichText.html') }
-                        />
-                    </Container>
-                )
-            }
-            </MediaQuery>
+                            <Footer
+                                className={ classes['footer'] }
+                                html={ get(footerContent, 'content.childContentfulRichText.html') }
+                            />
+                        </Container>
+                    )
+                }
+                </MediaQuery>
+            </>
         );
     }
 }

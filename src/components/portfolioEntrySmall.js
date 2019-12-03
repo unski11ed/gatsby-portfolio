@@ -87,7 +87,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
             } }
         >
             <div className={ classes['navbar'] }>
-                <Link to={ prevPathName || '/portfolio' } className={ classes['navbar-command'] }>
+                <Link to={ prevPathName || '/portfolio/' } className={ classes['navbar-command'] }>
                     <Icon glyph="angle-left" shadow className={ classes['navbar-command__icon'] } />
                     <span className={ classes['navbar-command__text'] }>
                         Back

@@ -29,7 +29,6 @@ exports.createPages = ({ graphql, actions }) => {
 
                 const posts = result.data.allContentfulPortfolioProject.edges
                 posts.forEach((post, index) => {
-                    console.log(post);
                     createPage({
                         path: `/portfolio-entry/${post.node.slug}/`,
                         component: portfolioEntry,

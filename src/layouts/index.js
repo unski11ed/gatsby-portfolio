@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes, { element } from 'prop-types';
 import Helmet from 'react-helmet';
-import classNames from 'classnames';
-import { Link } from 'gatsby';
 import { Location } from '@reach/router';
 
 import 'water.css/dist/dark.css';
@@ -112,6 +110,17 @@ class Layout extends React.Component {
         return (
             <React.Fragment>
                 <Helmet>
+                    <title>Maciej Kurbański | mkurban.dev</title>
+                    <meta name="description" content="Profile of Maciej Kurbański - experienced WebDeveloper focused on the future of Frontend. Check out my Portfolio nad Contact me if needed!" />
+                    
+                    <meta property="og:type" content="profile" />
+                    <meta property="og:title" content="Maciej Kurbański - WebDeveloper" />
+                    <meta property="og:url" content="https://mkurban.dev" />
+                    <meta property="og:image" content="https://mkurban.dev/og-icon.png" />
+                    <meta property="profile:first_name" content="Maciej" />
+                    <meta property="profile:last_name" content="Kurbański" />
+                    <meta property="og:description" content="Profile of Maciej Kurbański - experienced WebDeveloper focused on the future of Frontend. Check out my Portfolio nad Contact me if needed!" />
+
                     <link rel="preload" as="font" href={sourceSansPro300} type="font/woff2" crossOrigin="anonymous"/>
                     <link rel="preload" as="font" href={sourceSansPro400} type="font/woff2" crossOrigin="anonymous"/>
                     <link rel="preload" as="font" href={sourceSansPro400Italic} type="font/woff2" crossOrigin="anonymous"/>
@@ -121,6 +130,8 @@ class Layout extends React.Component {
                     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
                     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
                     <meta name="theme-color" content="#000000" />
+
+                    <html lang="en" />
                 </Helmet>
 
                 <LayoutContext.Provider
@@ -146,15 +157,15 @@ class Layout extends React.Component {
                                 />
 
                                 <NavbarNavigation>
-                                    <NavbarNavigationItem to="/portfolio">
+                                    <NavbarNavigationItem to="/portfolio/">
                                         Portfolio
                                     </NavbarNavigationItem>
 
-                                    <NavbarNavigationItem to="/skills-and-experiences">
+                                    <NavbarNavigationItem to="/skills-and-experiences/">
                                         Skills &amp; Exeriences
                                     </NavbarNavigationItem>
 
-                                    <NavbarNavigationItem to="/about-me">
+                                    <NavbarNavigationItem to="/about-me/">
                                         About Me
                                     </NavbarNavigationItem>
                                 </NavbarNavigation>

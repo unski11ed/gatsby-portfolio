@@ -271,7 +271,8 @@
             flex-direction: column;
             
             border-top: 1px solid darken($background-alt, 3%);
-
+            border-bottom: none;
+            
             padding: 1rem 1.5rem;
 
             .label {

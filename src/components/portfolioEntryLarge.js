@@ -35,7 +35,7 @@ const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data, prev
                             <header className={  classes['info-box'] }>
                                 <div className={ classes['info-box__header'] }>
                                     <Tooltip text="Close" placement="right">
-                                        <Link to={ prevPathName || '/portfolio' } className={ classes['close'] }>
+                                        <Link to={ prevPathName || '/portfolio/' } className={ classes['close'] }>
                                             <Icon glyph="angle-left" className={ classes['close__icon'] }/>
                                         </Link>
                                     </Tooltip>

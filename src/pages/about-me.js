@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import { get, map, chain } from 'lodash';
 import MediaQuery from 'react-responsive';
+import Helmet from 'react-helmet';
 
 import TransitionWrap from './../components/transitionWrap';
 
@@ -42,69 +43,74 @@ class AboutMe extends React.Component {
         const subTitle = get(data, 'subTitle');
 
         return (
-            <MediaQuery query="(max-width: 759px)">
-            {
-                (phoneMatches) => (
-                    <div className={ classes['about-me-wrap'] }>
-                        <div className={ classes['about-me'] }>
-                            <TransitionWrap>
-                                <div className={ classes['about-me__photo'] }>
-                                    <ContentfulImage imageData={ !!phoneMatches ? photoMobile : photoDesktop }>
+            <>
+                <Helmet>
+                    <title>About Me | mkurban.dev</title>
+                </Helmet>
+                <MediaQuery query="(max-width: 759px)">
+                {
+                    (phoneMatches) => (
+                        <div className={ classes['about-me-wrap'] }>
+                            <div className={ classes['about-me'] }>
+                                <TransitionWrap>
+                                    <div className={ classes['about-me__photo'] }>
+                                        <ContentfulImage imageData={ !!phoneMatches ? photoMobile : photoDesktop }>
+                                            {
+                                                (imageSrcs) => (
+                                                    <Image { ...imageSrcs } alt='Photo' />
+                                                )
+                                            }
+                                        </ContentfulImage>
+                                    </div>
+                                </TransitionWrap>
+                                <TransitionWrap>
+                                    <header className={ cn(classes['about-me__header'], classes['header']) }>
+                                        <h1 className={ cn(classes['header__title']) }>
+                                            { title }
+                                        </h1>
+                                        <p className={ classes['header__subtitle'] }>
+                                            { subTitle }
+                                        </p>
+                                        <div className={ classes['header__stack'] }>
+                                            {
+                                                map(stackItems, stackItem => (
+                                                    <TechIcon name={ stackItem } key={ stackItem } />
+                                                ))
+                                            }
+                                        </div>
+                                    </header>
+                                </TransitionWrap>
+                                <TransitionWrap>
+                                    <div className={ classes['about-me__contact'] }>
                                         {
-                                            (imageSrcs) => (
-                                                <Image { ...imageSrcs } alt='Photo' />
-                                            )
-                                        }
-                                    </ContentfulImage>
-                                </div>
-                            </TransitionWrap>
-                            <TransitionWrap>
-                                <header className={ cn(classes['about-me__header'], classes['header']) }>
-                                    <h1 className={ cn(classes['header__title']) }>
-                                        { title }
-                                    </h1>
-                                    <p className={ classes['header__subtitle'] }>
-                                        { subTitle }
-                                    </p>
-                                    <div className={ classes['header__stack'] }>
-                                        {
-                                            map(stackItems, stackItem => (
-                                                <TechIcon name={ stackItem } key={ stackItem } />
-                                            ))
+                                            chain(contact)
+                                                .keys()
+                                                .map(key => {
+                                                    return (
+                                                        <div className={ classes['contact'] } key={ key }>
+                                                            <Icon glyph={ contactToIcon(key) } />
+                                                            <span className={ classes['contact__username'] }>
+                                                                { contact[key].userName }
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                })
+                                                .value()
                                         }
                                     </div>
-                                </header>
-                            </TransitionWrap>
-                            <TransitionWrap>
-                                <div className={ classes['about-me__contact'] }>
-                                    {
-                                        chain(contact)
-                                            .keys()
-                                            .map(key => {
-                                                return (
-                                                    <div className={ classes['contact'] } key={ key }>
-                                                        <Icon glyph={ contactToIcon(key) } />
-                                                        <span className={ classes['contact__username'] }>
-                                                            { contact[key].userName }
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })
-                                            .value()
-                                    }
-                                </div>
-                            </TransitionWrap>
-                            <TransitionWrap>
-                                <section className={ classes['about-me__bio'] }>
-                                    <TextBlock htmlContent={ bioContent } />
-                                </section>
-                            </TransitionWrap>
-                            
+                                </TransitionWrap>
+                                <TransitionWrap>
+                                    <section className={ classes['about-me__bio'] }>
+                                        <TextBlock htmlContent={ bioContent } />
+                                    </section>
+                                </TransitionWrap>
+                                
+                            </div>
                         </div>
-                    </div>
-                )
-            }
-            </MediaQuery>
+                    )
+                }
+                </MediaQuery>
+            </>
         );
     }
 }

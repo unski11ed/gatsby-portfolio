@@ -15,6 +15,7 @@ const NavbarSocial = ({ addresses }) => (
                 href={ addresses.messenger }
                 className={ classes['navbar__social__item'] }
                 target="_blank" rel="noopener noreferrer"
+                aria-label="Messenger Contact"
             >
                 <Icon glyph="facebook-messenger" target="_blank" rel="noopener noreferrer" />
             </a>
@@ -23,6 +24,7 @@ const NavbarSocial = ({ addresses }) => (
                 href={ addresses.gitHub }
                 className={ cn(classes['navbar__social__item']) }
                 target="_blank" rel="noopener noreferrer"
+                aria-label="GitHub Profile"
             >
                 <Icon glyph="github" />
             </a>
@@ -31,6 +33,7 @@ const NavbarSocial = ({ addresses }) => (
                 href={ addresses.linkedIn }
                 className={ cn(classes['navbar__social__item']) }
                 target="_blank" rel="noopener noreferrer"
+                aria-label="LinkedIn Profile"
             >
                 <Icon glyph="linkedin-in" />
             </a>

@@ -143,6 +143,15 @@ ul {
     padding-left: 1.2rem;
 }
 
+a {
+    transition: color 200ms ease-in-out;
+
+    &:hover {
+        text-decoration: none;
+        color: lighten($links, 15%);
+    }
+}
+
 /*
 body {
     background-color: $background-color;

@@ -5,8 +5,6 @@
     flex-direction: column;
 
     &--description {
-        text-align: justify;
-
         p {
             margin: 0;
         }
@@ -53,6 +51,6 @@
     }
 
     + .button {
-        margin-top: 0.5rem;
+        margin-top: 1rem;
     }
 }
