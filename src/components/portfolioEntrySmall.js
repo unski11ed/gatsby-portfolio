@@ -3,7 +3,7 @@ import ResizeObserver from '@juggle/resize-observer';
 import PropTypes from 'prop-types';
 import Media from 'react-responsive';
 import { Link } from 'gatsby';
-import { get, first } from 'lodash';
+import { get, first, find, includes } from 'lodash';
 import classNames from 'classnames';
 
 import TransitionWrap from './transitionWrap';
@@ -32,6 +32,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
         ...data.gallery
     ];
     const galleryItemsPortrait = data.galleryPhone;
+    const firstImage = find(galleryItemsPortrait, item => includes(item.file.contentType, 'image'));
 
     const scrollToTopHandler = (e) => {
         e.preventDefault();
@@ -119,7 +120,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
                                 <TransitionWrap>
                                     <Gallery
                                         assets={ portraitMatches ? galleryItemsPortrait : galleryItemsLandscape }
-                                        videoPlaceholderImage={ data.heroImage }
+                                        videoPlaceholderImage={ firstImage }
                                         showNav={ false }
                                     />
                                 </TransitionWrap>

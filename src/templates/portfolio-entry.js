@@ -121,7 +121,8 @@ export const pageQuery = graphql`
                     ...GatsbyContentfulFluid_withWebp
                 }
                 file {
-                    url
+                    url,
+                    contentType
                 }
             }
             galleryPhone {
@@ -132,6 +133,7 @@ export const pageQuery = graphql`
                 }
                 file {
                     url
+                    contentType
                 }
             }
             description {

@@ -94,14 +94,23 @@ const ContentfulVideo = ({
         }
     }, [canBePlayed, showControls]);
 
-    if (videoElement.current && state.videoReady) {
-        if (state.isPlaying) {
-            videoElement.current.play();
+    useEffect(() => {
+        const togglePlay = async (play) => {
+            if (play) {
+                await videoElement.current.play();
+            } else {
+                await videoElement.current.pause();
+            }
+        };
 
-        } else {
-            videoElement.current.pause();
-        }   
-    }
+        if (videoElement.current && state.videoReady) {
+            togglePlay(state.isPlaying);  
+        }
+    }, [
+        videoElement.current,
+        state.videoReady,
+        state.isPlaying
+    ]);
     
     return (
         <div
@@ -157,7 +166,7 @@ const ContentfulVideo = ({
                             className={ classes['video'] }
                             muted={ muted }
                             ref={ videoElement }
-                            onCanPlay={ () => { dispatch({ type: 'ready' }) } }
+                            onCanPlayThrough={ () => { dispatch({ type: 'ready' }) } }
                             onTimeUpdate={(e) => {
                                 const player = e.currentTarget;
                                 if (!isNaN(player.duration)) {
