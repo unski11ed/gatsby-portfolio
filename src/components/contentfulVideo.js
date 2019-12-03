@@ -162,7 +162,7 @@ const ContentfulVideo = ({
 
                         <video
                             loop
-                            preload="metadata"
+                            preload="auto"
                             className={ classes['video'] }
                             muted={ muted }
                             ref={ videoElement }
