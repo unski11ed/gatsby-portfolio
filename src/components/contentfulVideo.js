@@ -96,10 +96,15 @@ const ContentfulVideo = ({
 
     useEffect(() => {
         const togglePlay = async (play) => {
-            if (play) {
-                await videoElement.current.play();
-            } else {
-                await videoElement.current.pause();
+            try {
+                if (play) {
+                    await videoElement.current.play();
+                } else {
+                    await videoElement.current.pause();
+                }
+            } catch(e) {
+                // HACK: I don't really know how to handle it properly...
+                // play is asynchronous, and you shouldnt be able to call pause
             }
         };
 
