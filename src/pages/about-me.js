@@ -86,12 +86,31 @@ class AboutMe extends React.Component {
                                             chain(contact)
                                                 .keys()
                                                 .map(key => {
-                                                    return (
-                                                        <div className={ classes['contact'] } key={ key }>
+                                                    const {
+                                                        userName,
+                                                        url,
+                                                    } = contact[key];
+                                                    const innerContent = (
+                                                        <>
                                                             <Icon glyph={ contactToIcon(key) } />
                                                             <span className={ classes['contact__username'] }>
-                                                                { contact[key].userName }
+                                                                { userName }
                                                             </span>
+                                                        </>
+                                                    );
+                                                    return url ? (
+                                                        <a 
+                                                            className={ classes['contact'] }
+                                                            key={ key }
+                                                            href={ url }
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            { innerContent }
+                                                        </a>
+                                                    ) : (
+                                                        <div className={ classes['contact'] } key={ key }>
+                                                            { innerContent }
                                                         </div>
                                                     );
                                                 })
@@ -141,10 +160,8 @@ export const pageQuery = graphql`
                         mail {
                             userName
                         }
-                        phone {
-                            userName
-                        }
                         github {
+                            url
                             userName
                         }
                         linkedIn {
