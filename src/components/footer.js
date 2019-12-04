@@ -13,7 +13,7 @@ const Footer = ({ className, html }) => (
         htmlContent={ html }
     />
 );
-Footer.PropTypes = {
+Footer.propTypes = {
     html: PropTypes.string.isRequired,
     className: PropTypes.string,
 };

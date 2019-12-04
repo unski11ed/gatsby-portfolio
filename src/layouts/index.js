@@ -7,12 +7,6 @@ import 'water.css/dist/dark.css';
 import './base.scss';
 import './../styles/styles.scss';
 
-import sourceSansPro300 from './../fonts/source-sans-pro-300-latin-ext.woff2';
-import sourceSansPro400 from './../fonts/source-sans-pro-400-latin-ext.woff2';
-import sourceSansPro400Italic from './../fonts/source-sans-pro-400-italic-latin-ext.woff2';
-import sourceSansPro600 from './../fonts/source-sans-pro-600-latin-ext.woff2';
-import sourceSansPro700 from './../fonts/source-sans-pro-700-latin-ext.woff2';
-
 import classes from './layout.module.scss';
 
 import Navbar from './../components/navbar';
@@ -121,11 +115,11 @@ class Layout extends React.Component {
                     <meta property="profile:last_name" content="Kurbański" />
                     <meta property="og:description" content="Profile of Maciej Kurbański - experienced WebDeveloper focused on the future of Frontend. Check out my Portfolio nad Contact me if needed!" />
 
-                    <link rel="preload" as="font" href={sourceSansPro300} type="font/woff2" crossOrigin="anonymous"/>
-                    <link rel="preload" as="font" href={sourceSansPro400} type="font/woff2" crossOrigin="anonymous"/>
-                    <link rel="preload" as="font" href={sourceSansPro400Italic} type="font/woff2" crossOrigin="anonymous"/>
-                    <link rel="preload" as="font" href={sourceSansPro600} type="font/woff2" crossOrigin="anonymous"/>
-                    <link rel="preload" as="font" href={sourceSansPro700} type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href="/fonts/source-sans-pro-300-latin-ext.woff2" type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href="/fonts/source-sans-pro-400-latin-ext.woff2" type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href="/fonts/source-sans-pro-400-italic-latin-ext.woff2" type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href="/fonts/source-sans-pro-600-latin-ext.woff2" type="font/woff2" crossOrigin="anonymous"/>
+                    <link rel="preload" as="font" href="/fonts/source-sans-pro-700-latin-ext.woff2" type="font/woff2" crossOrigin="anonymous"/>
                     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
                     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
                     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
