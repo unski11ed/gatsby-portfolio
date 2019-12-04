@@ -40,3 +40,23 @@
         margin-top: 1rem;
     }
 }
+
+.footer {
+    padding: 3rem 0;
+    text-align: center;
+    border-top: none;
+
+    > * {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    > .footer__lead {
+        font-size: 1.2rem;
+        margin-bottom: 0.15rem;
+    }
+
+    > .footer__content {
+        color: $text-muted;
+    }
+}
