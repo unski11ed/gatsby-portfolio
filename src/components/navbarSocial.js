@@ -29,6 +29,7 @@ const NavbarSocial = ({ addresses }) => (
                 <Icon glyph="github" />
             </a>
 
+            {/*
             <a
                 href={ addresses.linkedIn }
                 className={ cn(classes['navbar__social__item']) }
@@ -36,6 +37,15 @@ const NavbarSocial = ({ addresses }) => (
                 aria-label="LinkedIn Profile"
             >
                 <Icon glyph="linkedin-in" />
+            </a>
+            */}
+            <a
+                href={ `skype:${addresses.skype}?chat` }
+                className={ cn(classes['navbar__social__item']) }
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Skype Chat"
+            >
+                <Icon glyph="skype" style={{ transform: 'scale(1.2)' }}/>
             </a>
         </div>
 
@@ -60,6 +70,7 @@ NavbarSocial.propTypes = {
         email: PropTypes.string,
         gitHub: PropTypes.string,
         linkedIn: PropTypes.string,
+        skype: PropTypes.string,
         messenger: PropTypes.string,
     })
 }

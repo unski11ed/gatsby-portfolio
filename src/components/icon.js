@@ -36,6 +36,7 @@ import {
     faCodepen,
     faLinkedinIn,
     faFacebookMessenger,
+    faSkype,
 } from '@fortawesome/free-brands-svg-icons';
 
 import './icon.scss';
@@ -69,6 +70,7 @@ const iconImages = {
     ['codepen']: faCodepen,
     ['linkedin-in']: faLinkedinIn,
     ['facebook-messenger']: faFacebookMessenger,
+    ['skype']: faSkype,
 }
 
 const Icon = ({ children, glyph, className, style, fixedWidth, shadow }) => {
@@ -90,7 +92,9 @@ const Icon = ({ children, glyph, className, style, fixedWidth, shadow }) => {
                         ['icon--shadow']: shadow
                     })
                 }
+                style={ style }
                 icon={ iconImages[glyph] }
+                fixedWidth={ fixedWidth }
             />
         )
     }

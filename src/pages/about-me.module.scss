@@ -83,6 +83,10 @@
         margin-left: 1rem;
         color: $text-bright;
     }
+
+    + .contact {
+        margin-top: 0.5rem;
+    }
 }
 
 @media (max-width: 959px) {
@@ -108,9 +112,11 @@
     .about-me-wrap {
         padding-top: 1rem;
         padding-bottom: 1rem;
+        align-items: flex-start;
     }
 
     .about-me {
+        z-index: 0;
         grid-template-columns: auto;
         grid-template-rows: auto auto auto auto;
         grid-template-areas: "photo" "header" "contact" "bio";

@@ -64,7 +64,7 @@ class Image extends React.Component {
                 <picture onLoad={ this.onImageLoaded }>
                     <source srcSet={ srcSet.webp } type="image/webp" />
                     <source srcSet={ srcSet.jpeg } type="image/jpeg" />
-                    <img className={ imageHighClass } srcSet={ srcSet.jpeg } alt={ alt } />
+                    <img className={ imageHighClass } src={ srcSet.jpeg } alt={ alt } />
                 </picture>
                 {
                     this.state.placeholderVisible && (

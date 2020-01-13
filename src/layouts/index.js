@@ -1,7 +1,8 @@
 import React from 'react';
-import PropTypes, { element } from 'prop-types';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Location } from '@reach/router';
+import Div100vh from 'react-div-100vh';
 
 import 'water.css/dist/dark.css';
 import './base.scss';
@@ -138,7 +139,7 @@ class Layout extends React.Component {
                         contentElement: this.contentElement,
                     }}
                 >
-                    <main className={ classes['layout'] }>
+                    <Div100vh className={ classes['layout'] }>
                         { /* Portal Backgrounds will spawn here: */ }
                         <div className={ classes['layout__background'] } id="layout-background-portal" />
 
@@ -168,7 +169,8 @@ class Layout extends React.Component {
                                     addresses={{
                                         email: 'maciej.kurbanski@outlook.com',
                                         gitHub: 'https://github.com/unski11ed',
-                                        messenger: 'http://m.me/mkurban.dev'
+                                        messenger: 'http://m.me/mkurban.dev',
+                                        skype: 'xtc888',
                                     }}
                                 />
                             </Navbar>
@@ -185,7 +187,7 @@ class Layout extends React.Component {
 
                         { /* Portal Overlay will spawn here: */ }
                         <div className={ classes['layout__overlay'] } id="layout-overlay-portal" />
-                    </main>
+                    </Div100vh>
                 </LayoutContext.Provider>
             </React.Fragment>
         );

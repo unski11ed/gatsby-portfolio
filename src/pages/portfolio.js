@@ -210,7 +210,7 @@ const PortfolioItem = forwardRef(
                     {
                         data.links.live &&
                             <a href={ data.links.live } target="_blank" rel="noopener noreferrer">
-                                Demo <Icon glyph="play"/>
+                                Demo <Icon glyph="play" style={{ transform: 'scale(0.9)' }}/>
                             </a>
                     }
                     {

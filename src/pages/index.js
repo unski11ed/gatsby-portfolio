@@ -172,7 +172,7 @@ class RootIndex extends React.PureComponent {
                                     classes['info__actions__interactive'],
                                     'transition-element'
                                 ) }
-                                to="/portfolio"
+                                to="/portfolio/"
                             >
                                 View Portfolio
                             </Button>
@@ -181,7 +181,7 @@ class RootIndex extends React.PureComponent {
                                 outline
                                 tag={ Link }
                                 className='transition-element'
-                                to="/skills-and-experiences"
+                                to="/skills-and-experiences/"
                             >
                                 Skills &amp; Experiences
                             </Button>

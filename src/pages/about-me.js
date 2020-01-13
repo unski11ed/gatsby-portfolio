@@ -26,6 +26,8 @@ const contactToIcon = (key) => {
             return 'phone';
         case 'github':
             return 'github';
+        case 'skype':
+            return 'skype';
         default:
             return '';
     }
@@ -92,7 +94,7 @@ class AboutMe extends React.Component {
                                                     } = contact[key];
                                                     const innerContent = (
                                                         <>
-                                                            <Icon glyph={ contactToIcon(key) } />
+                                                            <Icon glyph={ contactToIcon(key) } fixedWidth />
                                                             <span className={ classes['contact__username'] }>
                                                                 { userName }
                                                             </span>
@@ -164,7 +166,7 @@ export const pageQuery = graphql`
                             url
                             userName
                         }
-                        linkedIn {
+                        skype {
                             url
                             userName
                         }

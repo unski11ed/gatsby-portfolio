@@ -30,6 +30,7 @@
     "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
+    "react-div-100vh": "^0.3.8",
     "react-dom": "^16.11.0",
     "react-flip-toolkit": "^7.0.6",
     "react-helmet": "^5.2.1",
