@@ -11,7 +11,7 @@ const getHeaderDefinitions = (parentElement, layoutContentElement, headersToFind
     return Array.from(headerElements).map((element, index) => {
         const layoutContentRect = layoutContentElement ? 
             layoutContentElement.getBoundingClientRect() :
-            { x: 0, y: 0 };
+            { left: 0, top: 0 };
         const elementRect = element.getBoundingClientRect();
 
         return {
@@ -19,8 +19,8 @@ const getHeaderDefinitions = (parentElement, layoutContentElement, headersToFind
             content: element.innerText,
             level: parseInt(element.tagName.replace('H', '')),
             position: {
-                x: elementRect.x - layoutContentRect.x,
-                y: elementRect.y - layoutContentRect.y
+                x: elementRect.left - layoutContentRect.left,
+                y: elementRect.top - layoutContentRect.top
             },
             element
         };

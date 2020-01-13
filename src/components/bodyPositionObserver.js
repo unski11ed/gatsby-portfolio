@@ -19,8 +19,8 @@ class BodyPositionObserver extends React.Component {
     onWindowSizeChanged() {
         const elementRect = this.element.getBoundingClientRect();
         
-        const docX = elementRect.x + window.scrollX;
-        const docY = elementRect.y + window.scrollY;
+        const docX = elementRect.left + window.scrollX;
+        const docY = elementRect.top + window.scrollY;
 
         this.props.onPositionChanged({
             x: docX,
