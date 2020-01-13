@@ -78,9 +78,9 @@ const PortfolioEntryLarge = forwardRef(function PortfolioEntryLarge({ data, prev
                             </section>
 
                             <div className={ classes['footer'] }>
-                                <p className={ classes['footer__lead'] }>You seem to be interested! :)</p>
+                                <p className={ classes['footer__lead'] }>You seem to be interested!</p>
                                 <p className={ classes['footer__content'] }>
-                                    Unfortunately that's all :( <a href="#" onClick={ scrollToTopHandler }>Back Top</a>
+                                    Please check out my <Link to={ prevPathName || '/portfolio/' }>other projects</Link> or go <a href="#" onClick={ scrollToTopHandler }>back to top.</a>
                                 </p>
                             </div>
                         </div>

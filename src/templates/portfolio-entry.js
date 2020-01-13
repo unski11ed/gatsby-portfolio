@@ -13,8 +13,6 @@ import { entryAnimationConfig } from './../common/transitionAnimations';
 import PortfolioEntryLarge from './../components/portfolioEntryLarge';
 import PortfolioEntrySmall from './../components/portfolioEntrySmall';
 
-import classes from './portfolio-entry.module.scss';
-
 class PortfolioEntry extends React.Component {
     static contextType = LayoutConext;
 
