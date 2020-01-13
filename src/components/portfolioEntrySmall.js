@@ -1,5 +1,5 @@
 import React, { useEffect, useState, forwardRef, useRef } from 'react';
-import ResizeObserver from '@juggle/resize-observer';
+import { ResizeObserver } from '@juggle/resize-observer';
 import PropTypes from 'prop-types';
 import Media from 'react-responsive';
 import { Link } from 'gatsby';
