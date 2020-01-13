@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Location } from '@reach/router';
-import Div100vh from 'react-div-100vh';
 
 import 'water.css/dist/dark.css';
 import './base.scss';
@@ -20,6 +19,15 @@ import PageTransition from './../components/pageTransition';
 import LayoutContext from './layoutContext';
 
 const DEFAULT_THEME_COLOR = 'primary';
+
+const isIosSafari = () => {
+    const ua = window.navigator.userAgent;
+    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+    const webkit = !!ua.match(/WebKit/i);
+    const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+
+    return iOSSafari;
+}
 
 class Layout extends React.Component {
     constructor(props) {
@@ -139,7 +147,11 @@ class Layout extends React.Component {
                         contentElement: this.contentElement,
                     }}
                 >
-                    <Div100vh className={ classes['layout'] }>
+                    <main
+                        className={ classes['layout'] }
+                        // Hack for IOS Safari
+                        style={{ '--vh': `${isIosSafari() ? (window.innerHeight * 0.01) + 'px' : '1vh'}` }}
+                    >
                         { /* Portal Backgrounds will spawn here: */ }
                         <div className={ classes['layout__background'] } id="layout-background-portal" />
 
@@ -187,7 +199,7 @@ class Layout extends React.Component {
 
                         { /* Portal Overlay will spawn here: */ }
                         <div className={ classes['layout__overlay'] } id="layout-overlay-portal" />
-                    </Div100vh>
+                    </main>
                 </LayoutContext.Provider>
             </React.Fragment>
         );
