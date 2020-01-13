@@ -136,6 +136,7 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
                                             canBePlayed={ index === currentSlide && isGalleryVisible }
                                             placeholderImage={ videoPlaceholderImage }
                                             progress={ false }
+                                            preloadContent
                                         />
                                     );
                                 }

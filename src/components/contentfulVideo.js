@@ -66,6 +66,7 @@ const ContentfulVideo = ({
     placeholderImage,
     muted,
     progress,
+    preloadContent,
     ...otherProps
 }) => {
     const videoUrl = get(videoData, 'file.url');
@@ -167,7 +168,7 @@ const ContentfulVideo = ({
 
                         <video
                             loop
-                            preload="auto"
+                            preload={ preloadContent ? 'auto' : 'metadata' }
                             className={ classes['video'] }
                             muted={ muted }
                             ref={ videoElement }
@@ -213,13 +214,15 @@ ContentfulVideo.propTypes = {
     placeholderImage: PropTypes.object,
     muted: PropTypes.bool,
     progress: PropTypes.bool,
+    preloadContent: PropTypes.bool,
 };
 ContentfulVideo.defaultProps = {
     canBePlayed: true,
     showControls: true,
     muted: true,
     progress: true,
-    placeholderImage: { }
+    placeholderImage: { },
+    preloadContent: false,
 };
 
 export default ContentfulVideo;
