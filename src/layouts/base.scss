@@ -103,6 +103,8 @@ body {
     padding: 0;
     line-height: $line-height;
     letter-spacing: 1.1px;
+    background-color: $background-body;
+    color: $text-main;
 
     font-family: 'Source Sans Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -151,42 +153,3 @@ a {
         color: lighten($links, 15%);
     }
 }
-
-/*
-body {
-    background-color: $background-color;
-    color: $color;
-    font-family: 'Avenir';
-    margin: 0;
-    overflow: overlay;
-
-    @include scrollbar;
-}
-
-a {
-    text-decoration: none;
-    color: $link-color;
-    transition: 100ms color ease-in-out;
-
-    &:hover {
-        color: $link-color-hover;
-    }
-}
-
-ul, li {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-h1, h2, h3, h4, h5, h5 {
-    text-align: left;
-    margin: 0 0 0.25rem 0;
-}
-
-p {
-    text-align: left;
-    margin: 0 0 1rem 0;
-    line-height: 1.5;
-}
-*/

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { isEqual } from 'lodash/fp';
 import Color from 'color';
 
 import RippledParticles from './rippledParticles';
@@ -107,8 +107,8 @@ class HomeBackground extends React.PureComponent {
             // If Document Size or Origin has changed - update
             // the Gravity Source
             if (
-                !_.isEqual(prevOrigin, this.props.origin) ||
-                !_.isEqual(prevParentSize, this.state.parentSize)
+                !isEqual(prevOrigin, this.props.origin) ||
+                !isEqual(prevParentSize, this.state.parentSize)
             ) {
                 const { origin } = this.props;
                 const { parentSize } = this.state;

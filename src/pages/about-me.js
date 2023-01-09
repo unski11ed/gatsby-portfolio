@@ -1,8 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
-import { get, map, chain } from 'lodash';
+import { graphql } from 'gatsby';
+import { get, map, pipe, keys } from 'lodash/fp';
 import MediaQuery from 'react-responsive';
 import Helmet from 'react-helmet';
+import { renderRichText } from 'gatsby-source-contentful/rich-text';
 
 import TransitionWrap from './../components/transitionWrap';
 
@@ -35,14 +37,14 @@ const contactToIcon = (key) => {
 
 class AboutMe extends React.Component {
     render() {
-        const data = get(this.props, 'data.allContentfulAboutMe.edges[0].node');
-        const bioContent = get(data, 'bio.childContentfulRichText.html');
-        const contact = get(data, 'contactInfo');
-        const photoDesktop = get(data, 'photoDesktop.fluid');
-        const photoMobile = get(data, 'photoMobile.fluid');
-        const stackItems = get(data, 'stack');
-        const title = get(data, 'title');
-        const subTitle = get(data, 'subTitle');
+        const data = get('data.allContentfulAboutMe.edges[0].node')(this.props);
+        const bioContent = get('bio')(data);
+        const contact = get('contactInfo')(data);
+        const photoDesktop = get('photoDesktop')(data);
+        const photoMobile = get('photoMobile')(data);
+        const stackItems = get('stack')(data);
+        const title = get('title')(data);
+        const subTitle = get('subTitle')(data);
 
         return (
             <>
@@ -75,9 +77,9 @@ class AboutMe extends React.Component {
                                         </p>
                                         <div className={ classes['header__stack'] }>
                                             {
-                                                map(stackItems, stackItem => (
+                                                map(stackItem => (
                                                     <TechIcon name={ stackItem } key={ stackItem } />
-                                                ))
+                                                ))(stackItems)
                                             }
                                         </div>
                                     </header>
@@ -85,9 +87,9 @@ class AboutMe extends React.Component {
                                 <TransitionWrap>
                                     <div className={ classes['about-me__contact'] }>
                                         {
-                                            chain(contact)
-                                                .keys()
-                                                .map(key => {
+                                            pipe(
+                                                keys,
+                                                map(key => {
                                                     const {
                                                         userName,
                                                         url,
@@ -116,13 +118,15 @@ class AboutMe extends React.Component {
                                                         </div>
                                                     );
                                                 })
-                                                .value()
+                                            )(contact)
                                         }
                                     </div>
                                 </TransitionWrap>
                                 <TransitionWrap>
                                     <section className={ classes['about-me__bio'] }>
-                                        <TextBlock htmlContent={ bioContent } />
+                                        <TextBlock>
+                                            { renderRichText(bioContent) }
+                                        </TextBlock>
                                     </section>
                                 </TransitionWrap>
                                 
@@ -138,7 +142,7 @@ class AboutMe extends React.Component {
 
 export default AboutMe;
 
-export const pageQuery = graphql`
+export const query = graphql`
     query PortfolioAboutMe {
         allContentfulAboutMe(filter: { node_locale: {eq: "en-US"} }) {
             edges {
@@ -148,15 +152,11 @@ export const pageQuery = graphql`
                     stack
                     photoDesktop {
                         id
-                        fluid(maxWidth: 440, quality: 100) {
-                            ...GatsbyContentfulFluid_withWebp
-                        }
+                        gatsbyImageData(width: 440, quality: 100)
                     }
                     photoMobile {
                         id
-                        fluid(maxWidth: 440, quality: 100) {
-                            ...GatsbyContentfulFluid_withWebp
-                        }
+                        gatsbyImageData(width: 440, quality: 100)
                     }
                     contactInfo {
                         mail {
@@ -166,7 +166,7 @@ export const pageQuery = graphql`
                             url
                             userName
                         }
-                        skype {
+                        linkedIn {
                             url
                             userName
                         }
@@ -176,9 +176,7 @@ export const pageQuery = graphql`
                         }
                     }
                     bio {
-                        childContentfulRichText {
-                            html
-                        }
+                        raw
                     }
                 }
             }

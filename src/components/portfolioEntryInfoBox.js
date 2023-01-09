@@ -89,7 +89,7 @@ const PortfolioEntryInfoBox = ({ data, className }) => {
             { /* Links */ }
             <div className={ classes['buttons'] }>
                 {
-                    data.links.gitHub && (
+                    (data.links || {}).gitHub && (
                         <Button
                             outline
                             size="md"
@@ -105,7 +105,7 @@ const PortfolioEntryInfoBox = ({ data, className }) => {
                     )
                 }
                 {
-                    data.links.live && (
+                    (data.links || {}).live && (
                         <Button
                             size="md"
                             className={ classes['button'] }
@@ -120,7 +120,7 @@ const PortfolioEntryInfoBox = ({ data, className }) => {
                     )
                 }
                 {
-                    data.links.codeSandbox && (
+                    (data.links || {}).codeSandbox && (
                         <Button
                             outline
                             size="md"

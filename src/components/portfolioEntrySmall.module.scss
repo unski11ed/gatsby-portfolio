@@ -69,9 +69,6 @@
 
     transition: opacity 250ms ease-in-out;
 
-    &__icon {
-
-    }
     &__text {
         color: $text-muted;
         opacity: var(--scroll-length, 0);

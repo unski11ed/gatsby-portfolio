@@ -1,10 +1,10 @@
-import { chain } from 'lodash';
+import { pipe, find, get } from 'lodash/fp';
 
 export const getContentEntryBySlug = (dataSet, slug) =>
-    chain(dataSet)
-        .find(({ node }) => node.slug === slug)
-        .get('node')
-        .value();
+    pipe(
+        find(({ node }) => node.slug === slug),
+        get('node'),
+    )(dataSet);
 
 export const getDocumentSize = (document) => {
     const body = document.body;

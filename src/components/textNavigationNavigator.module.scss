@@ -1,9 +1,5 @@
 @import './../styles/variables';
 
-.navigator {
-   
-}
-
 .navigator__entries {
     display: flex;
     flex-direction: column;
@@ -15,6 +11,7 @@
     color: $text-muted;
     font-size: 0.9rem;
     white-space: nowrap;
+    text-align: left;
 
     transition: color 250ms $easing-cubic-in-out;
 

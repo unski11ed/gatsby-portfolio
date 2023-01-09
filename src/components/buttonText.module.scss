@@ -1,0 +1,14 @@
+.button-text {
+    background: none;
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    
+    &:hover {
+        background: none;
+    }
+
+    &:focus {
+        box-shadow: none;
+    }
+}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const ShortDescription = React.memo(({ html, className, ...otherProps }) => {
-    const paragraphContentRegexp = /\<p\>(.*)\<\/p\>/g;
+    const paragraphContentRegexp = /<p>(.*)<\/p>/g;
     const regexpMatches = paragraphContentRegexp.exec(html);
     const firstParagraphContent = regexpMatches[1];
 

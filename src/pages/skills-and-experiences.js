@@ -1,8 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
+import { graphql } from 'gatsby';
 import { get } from 'lodash';
 import MediaQuery from 'react-responsive';
 import Helmet from 'react-helmet';
+import { renderRichText } from 'gatsby-source-contentful/rich-text';
 
 import { getContentEntryBySlug } from './../common/helpers';
 
@@ -50,19 +52,27 @@ class SkillsAndExperiences extends React.Component {
                                         <article className={ classNames("text-styling", classes.content) }>
                                             <h1>Skills</h1>
 
-                                            <section dangerouslySetInnerHTML={{ __html: get(skills, 'content.childContentfulRichText.html') }} />
+                                            <section>
+                                                { renderRichText(skills.content) }
+                                            </section>
 
                                             <h1>Experiences</h1>
 
                                             <Timeline tag="section">
                                                 <Timeline.Section year="2001">
-                                                    <TextBlock htmlContent={ get(timelineHobbystic, 'content.childContentfulRichText.html') }></TextBlock>
+                                                    <TextBlock>
+                                                        { renderRichText(timelineHobbystic.content) }
+                                                    </TextBlock>
                                                 </Timeline.Section>
                                                 <Timeline.Section year="2013">
-                                                    <TextBlock htmlContent={ get(timelineCommercial, 'content.childContentfulRichText.html') }></TextBlock>
+                                                    <TextBlock>
+                                                        { renderRichText(timelineCommercial.content) }
+                                                    </TextBlock>
                                                 </Timeline.Section>
                                                 <Timeline.Section year="2014">
-                                                    <TextBlock htmlContent={ get(timelineAdvanced, 'content.childContentfulRichText.html') }></TextBlock>
+                                                    <TextBlock>
+                                                        { renderRichText(timelineAdvanced.content) }
+                                                    </TextBlock>
                                                 </Timeline.Section>
                                             </Timeline>
                                         </article>
@@ -70,10 +80,9 @@ class SkillsAndExperiences extends React.Component {
                                 </TransitionWrap>
                             </TextNavigation>
 
-                            <Footer
-                                className={ classes['footer'] }
-                                html={ get(footerContent, 'content.childContentfulRichText.html') }
-                            />
+                            <Footer className={ classes['footer'] }>
+                                { renderRichText(footerContent.content) }
+                            </Footer>
                         </Container>
                     )
                 }
@@ -85,7 +94,7 @@ class SkillsAndExperiences extends React.Component {
 
 export default SkillsAndExperiences;
 
-export const pageQuery = graphql`
+export const query = graphql`
     query SkillsAndExperiencesQuery {
         allContentfulContentEntry(filter: { node_locale: {eq: "en-US"}, group: {eq: "skills-and-experiences"} }) {
             edges {
@@ -95,9 +104,7 @@ export const pageQuery = graphql`
                     slug
                     group
                     content {
-                        childContentfulRichText {
-                            html
-                        }
+                        raw
                     }
                     node_locale
                 }

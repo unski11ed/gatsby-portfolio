@@ -10,6 +10,7 @@ import TransitionWrap from './transitionWrap';
 import Gallery from './gallery';
 import Icon from './icon';
 import PortfolioEntryInfoBox from './portfolioEntryInfoBox';
+import ButtonText from './buttonText';
 import { scrollToPosition } from './../common/scrollTo';
 
 import commonClasses from './portfolioEntry.module.scss';
@@ -28,7 +29,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
 
     const textHtml = get(data, 'body.childMarkdownRemark.html');
     const galleryItemsLandscape = [
-        data.heroVideo,
+        (data.heroVideo || data.heroImage),
         ...data.gallery
     ];
     const galleryItemsPortrait = data.galleryPhone;
@@ -59,24 +60,25 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
     }, [galleryHeight]);
 
     useEffect(() => {
+        const containerElement = containerRef.current;
         // Watch scroll position and set the CSS variable
         const scrollHandler = (e) => {
             const scrollTop = e.target.scrollTop;
             const scrollLength = scrollTop / galleryHeight;
 
-            containerRef.current.style.setProperty('--scroll-length', scrollLength > 1 ? 1 : scrollLength);
+            containerElement.style.setProperty('--scroll-length', scrollLength > 1 ? 1 : scrollLength);
 
             setGalleryHidden(scrollTop > galleryHeight);
         };
 
-        containerRef.current.addEventListener('scroll', scrollHandler);
+        containerElement.addEventListener('scroll', scrollHandler);
 
         return () => {
-            if (containerRef.current) {
-                containerRef.current.removeEventListener('scroll', scrollHandler);
+            if (containerElement) {
+                containerElement.removeEventListener('scroll', scrollHandler);
             }
         }
-    }, [galleryHeight, containerRef.current]);
+    }, [galleryHeight]);
 
     return (
         <div
@@ -89,14 +91,13 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
         >
             <div className={ classes['navbar'] }>
                 <Link to={ prevPathName || '/portfolio/' } className={ classes['navbar-command'] }>
-                    <Icon glyph="angle-left" shadow className={ classes['navbar-command__icon'] } />
+                    <Icon glyph="angle-left" size="sm" shadow className={ classes['navbar-command__icon'] } />
                     <span className={ classes['navbar-command__text'] }>
                         Back
                     </span>
                 </Link>
 
-                <a
-                    href="#"
+                <ButtonText
                     className={ classes['navbar-command'] }
                     onClick={ scrollToTopHandler }
                     style={{ opacity: galleryHidden ? 1 : 0 }}
@@ -104,8 +105,8 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
                     <span className={ classes['navbar-command__text'] }>
                         Top
                     </span>
-                    <Icon glyph="angle-up" shadow className={ classes['navbar-command__icon'] } />
-                </a>
+                    <Icon glyph="angle-up" size="sm" shadow className={ classes['navbar-command__icon'] } />
+                </ButtonText>
             </div>
             <div className={ classes['content-wrap'] }>
                 <article className={ classes['content'] }>
@@ -154,8 +155,7 @@ const PortfolioEntrySmall = forwardRef(function PortfolioEntrySmall({ data, prev
 
                         <section id="project-text" className={ classNames(classes['content__text'], classes['text']) }>
                             <TransitionWrap>
-                                <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling">
-                                </div>
+                                <div dangerouslySetInnerHTML={{ __html: textHtml }} className="text-styling" />
                             </TransitionWrap>
                         </section>
                     </div>

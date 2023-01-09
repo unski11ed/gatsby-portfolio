@@ -9,7 +9,7 @@ const linkClickHandler = function(e) {
     navigate(this.pathname);
 };
 
-const TextBlock = ({ htmlContent, className, tag: Tag }) => {
+const TextBlock = ({ children, className, tag: Tag }) => {
     const containerRef = useRef();
 
     useEffect(() => {
@@ -35,19 +35,19 @@ const TextBlock = ({ htmlContent, className, tag: Tag }) => {
                 linkElement.removeEventListener('click', linkClickHandler);
             }
         };
-    }, [htmlContent]);
+    }, [children]);
 
     return (
         <Tag
             className={ classNames(className, 'text-styling') }
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
             ref={ containerRef }
         >
+            { children }
         </Tag>
-    )
+    );
 }
 TextBlock.propTypes = {
-    htmlContent: PropTypes.string,
+    children: PropTypes.node,
     className: PropTypes.string,
     tag: PropTypes.oneOfType([
         PropTypes.string,

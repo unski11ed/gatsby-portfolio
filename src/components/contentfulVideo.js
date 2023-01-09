@@ -6,7 +6,7 @@ import { get, isEmpty } from 'lodash';
 import ContentfulImage from './contentfulImage';
 import Delayed from './delayed';
 import Icon from './icon';
-import Image from './image';
+import ButtonText from './buttonText';
 
 import classes from './contentfulVideo.module.scss';
 
@@ -113,7 +113,6 @@ const ContentfulVideo = ({
             togglePlay(state.isPlaying);  
         }
     }, [
-        videoElement.current,
         state.videoReady,
         state.isPlaying
     ]);
@@ -126,70 +125,57 @@ const ContentfulVideo = ({
         >
             {
                 showControls && state.videoReady && (
-                    <a
+                    <ButtonText
                         className={ classNames(classes['control'], {
                             [classes['control--paused']]: !state.isPlaying,
                             [classes['control--playing']]: state.isPlaying
                         })}
-                        href="javascript:;"
                         onClick={ () => { state.isPlaying ? dispatch({ type: 'pause' }) : dispatch({ type: 'play' }) } }
                     >
                         <span className={ classes['control__icon'] }>
                             <Icon glyph={ state.isPlaying ? 'pause-circle' : 'play-circle' } />
                         </span>
-                    </a>
+                    </ButtonText>
                 )
             }
 
-            <ContentfulImage imageData={ placeholderImage.fluid }>
             {
-                ({ ...imageSrcs }) => (
-                    <>
+                !state.videoReady && !isEmpty(placeholderImage) &&  (
+                    <div className={ classNames(classes['control'], classes['control--loading']) }>
+                        <ContentfulImage imageData={placeholderImage} className={classes['control__placeholder']} />
                         {
-                            !state.videoReady && !isEmpty(imageSrcs.src) &&  (
-                                <div className={ classNames(classes['control'], classes['control--loading']) }>
-                                    <Image
-                                        wrapClassName={ classes['control__placeholder'] }
-                                        { ...imageSrcs }
-                                    />
-
-                                    {
-                                        showControls && (
-                                            <Delayed delay={ 2000 }>
-                                                <span className={ classes['control__icon'] }>
-                                                    <Icon glyph="spinner" />
-                                                </span>
-                                            </Delayed>
-                                        )
-                                    }
-                                </div>
-                            ) 
+                            showControls && (
+                                <Delayed delay={ 2000 }>
+                                    <span className={ classes['control__icon'] }>
+                                        <Icon glyph="spinner" />
+                                    </span>
+                                </Delayed>
+                            )
                         }
-
-                        <video
-                            loop
-                            preload={ preloadContent ? 'auto' : 'metadata' }
-                            className={ classes['video'] }
-                            muted={ muted }
-                            ref={ videoElement }
-                            onCanPlayThrough={ () => { dispatch({ type: 'ready' }) } }
-                            onTimeUpdate={(e) => {
-                                const player = e.currentTarget;
-                                if (!isNaN(player.duration)) {
-                                    dispatch({
-                                        type: 'changePlayProgress',
-                                        value: player.currentTime / player.duration * 100,
-                                    })
-                                }
-                            }}
-                            poster={ imageSrcs.src.jpeg }
-                        >
-                            <source src={ videoUrl } type="video/mp4" />
-                        </video>
-                    </>
-                )
+                    </div>
+                ) 
             }
-            </ContentfulImage>
+
+            <video
+                loop
+                preload={ preloadContent ? 'auto' : 'metadata' }
+                className={ classes['video'] }
+                muted={ muted }
+                ref={ videoElement }
+                onCanPlayThrough={ () => { dispatch({ type: 'ready' }) } }
+                onTimeUpdate={(e) => {
+                    const player = e.currentTarget;
+                    if (!isNaN(player.duration)) {
+                        dispatch({
+                            type: 'changePlayProgress',
+                            value: player.currentTime / player.duration * 100,
+                        })
+                    }
+                }}
+                // poster={ imageSrcs.src.jpeg }
+            >
+                <source src={ videoUrl } type="video/mp4" />
+            </video>
 
             {
                 progress && (

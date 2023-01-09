@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useContext } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, navigate } from 'gatsby';
 import MediaQuery from 'react-responsive';
@@ -13,6 +13,7 @@ import {
 import anime from 'animejs';
 import classNames from 'classnames';
 import Helmet from 'react-helmet';
+import { renderRichText } from 'gatsby-source-contentful/rich-text';
 
 import Container from './../components/container';
 import Grid from './../components/grid';
@@ -76,7 +77,7 @@ const PortfolioItem = forwardRef(
             <React.Fragment>
                 {
                     isEmpty(data.heroVideo) ? (
-                        <ContentfulImage imageData={ get(data, 'heroImage.fluid') }>
+                        <ContentfulImage imageData={ data.heroImage }>
                         {
                             (imageSrcs) => (
                                 <Image
@@ -202,19 +203,19 @@ const PortfolioItem = forwardRef(
                 { /*    Actions     */ }
                 <div className={ classes['portfolio-item__actions'] }>
                     {
-                        data.links.gitHub &&
+                        (data.links || {}).gitHub &&
                             <a href={ data.links.gitHub }  target="_blank" rel="noopener noreferrer">
                                 Source <Icon glyph="github"/>
                             </a>
                     }
                     {
-                        data.links.live &&
+                        (data.links || {}).live &&
                             <a href={ data.links.live } target="_blank" rel="noopener noreferrer">
                                 Demo <Icon glyph="play" style={{ transform: 'scale(0.9)' }}/>
                             </a>
                     }
                     {
-                        data.links.codePen &&
+                        (data.links || {}).codePen &&
                             <a href={ data.links.codePen } target="_blank" rel="noopener noreferrer">
                                 CodePen <Icon glyph="codepen"/>
                             </a>
@@ -222,7 +223,7 @@ const PortfolioItem = forwardRef(
                     {
                         // There is no CodeSandbox icon at the moment in FontAwesome, so ....
                         // let's treat it as CodePen ;P
-                        data.links.codeSandbox &&
+                        (data.links || {}).codeSandbox &&
                             <a href={ data.links.codeSandbox } target="_blank" rel="noopener noreferrer">
                                 CodePen <Icon glyph="codepen"/>
                             </a>
@@ -266,9 +267,9 @@ class Portfolio extends React.Component {
 
                 <header className={ classes['heading'] }>
                     <h1>Portfolio</h1>
-                    <TextBlock
-                        htmlContent={ get(headContent, 'content.childContentfulRichText.html') }
-                    />
+                    <TextBlock>
+                        { renderRichText(headContent.content) }
+                    </TextBlock>
                 </header>
 
                 <MediaQuery maxWidth="659px">
@@ -331,7 +332,9 @@ class Portfolio extends React.Component {
                     />
                 </Overlay>
 
-                <Footer html={ get(footerContent, 'content.childContentfulRichText.html') } />
+                <Footer>
+                    { renderRichText(footerContent.content) }
+                </Footer>
             </Container>
         );
     }
@@ -339,9 +342,9 @@ class Portfolio extends React.Component {
 
 export default Portfolio;
 
-export const pageQuery = graphql`
+export const query = graphql`
     query ProjectsIndexQuery {
-        allContentfulPortfolioProject(sort: { fields: [endDate], order: DESC }, filter: { node_locale: {eq: "en-US"} }) {
+        allContentfulPortfolioProject(sort: { endDate: DESC }, filter: { node_locale: {eq: "en-US"} }) {
             edges {
                 node {
                     id
@@ -360,9 +363,7 @@ export const pageQuery = graphql`
                     startDate(formatString: "MMM YYYY")
                     endDate(formatString: "MMM YYYY")
                     heroImage {
-                        fluid(maxWidth: 1080, resizingBehavior: SCALE) {
-                            ...GatsbyContentfulFluid_withWebp
-                        }
+                        gatsbyImageData(width: 1080)
                     },
                     heroVideo {
                         file {
@@ -386,9 +387,7 @@ export const pageQuery = graphql`
                     slug
                     group
                     content {
-                        childContentfulRichText {
-                            html
-                        }
+                        raw
                     }
                     node_locale
                 }
