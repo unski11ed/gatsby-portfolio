@@ -6,15 +6,16 @@ import TextBlock from './textBlock';
 
 import classes from './footer.module.scss';
 
-const Footer = ({ className, html }) => (
+const Footer = ({ children, className }) => (
     <TextBlock
         tag="footer"
         className={ cn(className, classes['footer']) }
-        htmlContent={ html }
-    />
+    >
+        { children }
+    </TextBlock>
 );
 Footer.propTypes = {
-    html: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
 };
 

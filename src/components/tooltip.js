@@ -13,7 +13,7 @@ const Tooltip = ({ children, placement, text }) => {
             classes.tooltip,
             `toooltip--${placement}`
         ),
-        ['data-tooltip']: text,
+        'data-tooltip': text,
     });
 };
 Tooltip.propTypes = {

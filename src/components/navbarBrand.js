@@ -5,10 +5,14 @@ import { map, keys } from 'lodash';
 
 import classes from './navbar.module.scss';
 
+import logoPrimary from './../images/logo-blue.svg';
+import logoSuccess from './../images/logo-green.svg';
+import logoDanger from './../images/logo-red.svg';
+
 const logos = {
-    primary: require('./../images/logo-blue.svg'),
-    success: require('./../images/logo-green.svg'),
-    danger: require('./../images/logo-red.svg'),
+    primary: logoPrimary,
+    success: logoSuccess,
+    danger: logoDanger,
 };
 
 const NavbarLogos = ({ alt, themeColor }) => (

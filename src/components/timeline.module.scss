@@ -38,7 +38,7 @@ $timeline-vertical-padding: 4%;
             height: 100%;
             position: absolute;
             top: 0;
-            left: #{($timeline-track-width) / 2 + $timeline-label-width};
+            left: #{$timeline-track-width * 0.5 + $timeline-label-width};
             background: linear-gradient(
                 0deg,
                 rgba($timeline-color, 0) 0%,
@@ -75,7 +75,7 @@ $timeline-vertical-padding: 4%;
                     border-radius: 50%;
                     left: 0;
                     top: 50%;
-                    transform: translate(calc(-50% - #{$timeline-track-width / 2} + #{$timeline-width / 2}), -50%);
+                    transform: translate(calc(-50% - #{$timeline-track-width * 0.5} + #{$timeline-width * 0.5}), -50%);
                 }
             }
         }

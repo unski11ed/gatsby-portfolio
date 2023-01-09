@@ -22,4 +22,9 @@
 
 .icon-fa {
     color: var(--icon-color, color);
+    width: 1em;
+
+    &.fa-sm {
+        width: 0.5em
+    }
 }

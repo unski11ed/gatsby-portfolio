@@ -40,7 +40,6 @@ class Image extends React.Component {
             wrapClassName,
             className,
             srcPlaceholder,
-            src,
             srcSet,
             style,
             alt,

@@ -3,6 +3,7 @@ import { map } from 'lodash';
 import classNames from 'classnames';
 
 import TextNavigationContext from './textNavigationContext';
+import ButtonText from './buttonText';
 
 import classes from './textNavigationNavigator.module.scss';
 
@@ -14,9 +15,8 @@ const TextNavigationNavigator = () => {
             <div className={ classes['navigator__entries'] }>
                 {
                     map(textNavContext.headers, (header, index) => (
-                        <a
+                        <ButtonText
                             key={ index }
-                            href="#"
                             className={
                                 classNames(
                                     classes['navigator-entry'],
@@ -35,7 +35,7 @@ const TextNavigationNavigator = () => {
                             }}
                         >
                             { header.content }
-                        </a>
+                        </ButtonText>
                     ))
                 }
             </div>

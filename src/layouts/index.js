@@ -182,7 +182,7 @@ class Layout extends React.Component {
                                         email: 'maciej.kurbanski@outlook.com',
                                         gitHub: 'https://github.com/unski11ed',
                                         messenger: 'http://m.me/mkurban.dev',
-                                        skype: 'xtc888',
+                                        linkedIn: 'https://www.linkedin.com/in/maciej-kurba%C5%84ski-123a78a7',
                                     }}
                                 />
                             </Navbar>

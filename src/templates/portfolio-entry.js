@@ -81,7 +81,7 @@ class PortfolioEntry extends React.Component {
 
 export default PortfolioEntry;
 
-export const pageQuery = graphql`
+export const query = graphql`
     query PortfolioEntryBySlug($slug: String!) {
         site {
             siteMetadata {
@@ -102,9 +102,7 @@ export const pageQuery = graphql`
             }
             heroImage {
                 id
-                fluid(maxWidth: 1080, resizingBehavior: SCALE) {
-                    ...GatsbyContentfulFluid_withWebp
-                }
+                gatsbyImageData(width: 1080)
             }
             heroVideo {
                 id
@@ -115,9 +113,7 @@ export const pageQuery = graphql`
             gallery {
                 id
                 title
-                fluid(maxWidth: 1880, resizingBehavior: SCALE, quality: 100) {
-                    ...GatsbyContentfulFluid_withWebp
-                }
+                gatsbyImageData(width: 1880)
                 file {
                     url,
                     contentType
@@ -126,9 +122,7 @@ export const pageQuery = graphql`
             galleryPhone {
                 id
                 title
-                fluid(maxWidth: 1052, resizingBehavior: SCALE, quality: 100) {
-                    ...GatsbyContentfulFluid_withWebp
-                }
+                gatsbyImageData(width: 1052)
                 file {
                     url
                     contentType

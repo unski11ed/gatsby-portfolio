@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { map, get } from 'lodash';
 import classNames from 'classnames';
@@ -6,9 +6,9 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import ContentfulImage from './contentfulImage';
 import ContentfulVideo from './contentfulVideo';
-import Image from './image';
 import Icon from './icon';
 import IntersectionObserver from './intersectionObserver';
+import ButtonText from './buttonText';
 import { scrollToPosition } from './../common/scrollTo';
 
 import classes from './gallery.module.scss';
@@ -20,22 +20,49 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
     const [galleryWidth, setGalleryWidth] = useState(0);
     const [currentSlide, setCurrentSlide] = useState(0);
     const totalSlides = assets.length;
-    const [scrollHandler] = useDebouncedCallback(() => {
+
+    const scrollHandler = useDebouncedCallback(() => {
         const currentScrollLeft = containerRef.current.scrollLeft;
         const targetSlide = Math.round(currentScrollLeft / galleryWidth);
         
         setCurrentSlide(targetSlide);
     }, 50);
 
-    const resizeHandler = () => {
+    const setSlide = useCallback((slideNo) => {
+        const targetSlide = slideNo < 0 ?
+            totalSlides + (slideNo % totalSlides) :
+            slideNo % totalSlides;
+        
+        const targetX = galleryWidth * targetSlide;
+
+        scrollToPosition({ x: targetX }, { duration: 400 }, containerRef.current);
+
+        setCurrentSlide(targetSlide);
+    }, [totalSlides, setCurrentSlide, galleryWidth]);
+
+    const slideLeft = useCallback(() => {
+        setSlide(currentSlide - 1);
+
+        return false;
+    }, [setSlide, currentSlide]);
+
+    const slideRight = useCallback(() => {
+        setSlide(currentSlide + 1);
+
+        return false;
+    }, [setSlide, currentSlide]);
+
+    const resizeHandler = useCallback(() => {
         const rect = containerRef.current.getBoundingClientRect();
 
         setGalleryWidth(rect.width);
 
         setSlide(currentSlide);
-    };
+    }, [setGalleryWidth, setSlide, currentSlide]);
 
     useLayoutEffect(() => {
+        const containerElement = containerRef.current;
+
         if (typeof window !== 'undefined') {
             window.addEventListener('resize', resizeHandler);
 
@@ -50,41 +77,18 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
             setIsTouchEnabled(isTouch);
 
             if (isTouch) {
-                containerRef.current.addEventListener('scroll', scrollHandler);
+                containerElement.addEventListener('scroll', scrollHandler);
             }
         }
 
         return () => {
             if (typeof window !== 'undefined') {
                 window.removeEventListener('resize', resizeHandler);
-                containerRef.current.removeEventListener('scroll', scrollHandler);
+                containerElement.removeEventListener('scroll', scrollHandler);
             }
         };
-    }, []);
+    }, [resizeHandler, scrollHandler, setIsTouchEnabled]);
 
-    const setSlide = (slideNo) => {
-        const targetSlide = slideNo < 0 ?
-            totalSlides + (slideNo % totalSlides) :
-            slideNo % totalSlides;
-        
-        const targetX = galleryWidth * targetSlide;
-
-        scrollToPosition({ x: targetX }, { duration: 400 }, containerRef.current);
-
-        setCurrentSlide(targetSlide);
-    }
-
-    const slideLeft = () => {
-        setSlide(currentSlide - 1);
-
-        return false;
-    }
-
-    const slideRight = () => {
-        setSlide(currentSlide + 1);
-
-        return false;
-    }
 
     return (
         <IntersectionObserver
@@ -118,13 +122,7 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
                                 const fileUrl = get(asset, 'file.url', '');
 
                                 const isVideo = fileUrl.indexOf('.mp4') >= 0;
-                                const isImage = (
-                                    fileUrl.indexOf('.png') >= 0 ||
-                                    fileUrl.indexOf('.jpg') >= 0
-                                );
-                                const itemClassName = classNames(classes['gallery__item'], {
-                                    //[classes['gallery__item--active']]: index === currentPhotoIndex
-                                });
+                                const isImage = !!asset.gatsbyImageData;
 
                                 //  Handle Video
                                 if (isVideo) {
@@ -132,7 +130,7 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
                                         <ContentfulVideo
                                             key={ asset.id }
                                             videoData={ asset }
-                                            className={ itemClassName }
+                                            className={ classes['gallery__item'] }
                                             canBePlayed={ index === currentSlide && isGalleryVisible }
                                             placeholderImage={ videoPlaceholderImage }
                                             progress={ false }
@@ -144,16 +142,11 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
                                 // Handle Image
                                 if (isImage) {
                                     return (
-                                        <ContentfulImage imageData={ get(asset, 'fluid') } key={ asset.id }>
-                                        {
-                                            (imageSrcs) => (
-                                                <Image
-                                                    { ...imageSrcs }
-                                                    wrapClassName={ itemClassName }
-                                                />
-                                            )
-                                        }
-                                        </ContentfulImage>
+                                        <ContentfulImage
+                                            imageData={ asset }
+                                            key={ asset.id }
+                                            className={ classes['gallery__item'] }
+                                        />
                                     );
                                 }
 
@@ -165,18 +158,18 @@ const Gallery = ({ className, assets, videoPlaceholderImage, showNav }) => {
                 {
                     showNav && (
                         <>
-                            <a
+                            <ButtonText
                                 onClick={ slideLeft }
                                 className={ classNames(classes['gallery__nav'], classes['gallery__nav--left']) }
                             >
-                                <Icon glyph="chevron-left" shadow />
-                            </a>
-                            <a
+                                <Icon glyph="chevron-left" size="sm" shadow />
+                            </ButtonText>
+                            <ButtonText
                                 onClick={ slideRight }
                                 className={ classNames(classes['gallery__nav'], classes['gallery__nav--right']) }
                             >
-                                <Icon glyph="chevron-right" shadow />
-                            </a>
+                                <Icon glyph="chevron-right" size="sm" shadow />
+                            </ButtonText>
                         </>
                     )
                 }

@@ -11,6 +11,10 @@ import LayoutContext from './../layouts/layoutContext';
 import ContentSwapFade from './../components/contentSwapFade';
 import ContentSwapHomeIcon from './../components/contentSwapHomeIcon';
 
+import iconGrowth from '../images/home/growth.svg';
+import iconRocket from '../images/home/rocket.svg';
+import iconHeart from '../images/home/heart.svg';
+
 import classes from './index.module.scss';
 
 import { colors } from './../common/consts';
@@ -19,7 +23,7 @@ import { getDocumentSize } from './../common/helpers';
 const SLIDES = [
     {
         key: "experienced",
-        animation: require('./../images/home/growth.svg'),
+        animation: iconGrowth,
         themeColor: 'primary',
         description: (
             <React.Fragment>
@@ -29,7 +33,7 @@ const SLIDES = [
     },
     {
         key: "productive",
-        animation: require('./../images/home/rocket.svg'),
+        animation: iconRocket,
         themeColor: 'success',
         description: (
             <React.Fragment>
@@ -39,7 +43,7 @@ const SLIDES = [
     },
     {
         key: "passionate",
-        animation: require('./../images/home/heart.svg'),
+        animation: iconHeart,
         themeColor: 'danger',
         description: (
             <React.Fragment>
@@ -84,7 +88,7 @@ class RootIndex extends React.PureComponent {
         });
 
         this.props.setThemeColor(
-            SLIDES[this.state.currentSlideIndex].themeColor
+            SLIDES[nextSlideIndex].themeColor
         );
     }
 
