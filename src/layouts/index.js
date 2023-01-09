@@ -21,12 +21,15 @@ import LayoutContext from './layoutContext';
 const DEFAULT_THEME_COLOR = 'primary';
 
 const isIosSafari = () => {
-    const ua = window.navigator.userAgent;
-    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-    const webkit = !!ua.match(/WebKit/i);
-    const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
-
-    return iOSSafari;
+    if (typeof window !== 'undefined') {
+        const ua = window.navigator.userAgent;
+        const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+        const webkit = !!ua.match(/WebKit/i);
+        const iOSSafari = iOS && webkit && !ua.match(/CriOS/i);
+    
+        return iOSSafari;
+    }
+    return false;
 }
 
 class Layout extends React.Component {
