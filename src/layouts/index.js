@@ -155,9 +155,6 @@ class Layout extends React.Component {
                         // Hack for IOS Safari
                         style={{ '--vh': `${isIosSafari() ? (window.innerHeight * 0.01) + 'px' : '1vh'}` }}
                     >
-                        { /* Portal Backgrounds will spawn here: */ }
-                        <div className={ classes['layout__background'] } id="layout-background-portal" />
-
                         { /* Navbar */ }
                         <div className={ classes['layout__navbar'] }>
                             <Navbar isTransparent={ this.state.navbarTransparent }>

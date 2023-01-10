@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash/fp';
 import Color from 'color';
+import classNames from 'classnames';
 
 import RippledParticles from './rippledParticles';
 
@@ -146,59 +146,51 @@ class HomeBackground extends React.PureComponent {
             parentSize
         } = this.state;
 
-        if (typeof document !== 'undefined') {
-            const targetPortalElement = document.querySelector('#layout-background-portal');
-
-            return targetPortalElement ? ReactDOM.createPortal((
-                <div
-                    className={ className }
-                    ref={ this.initialize }
-                    style={{
-                        '--light-color': Color(color).alpha(spotLightAlpha).toString(),
-                        '--ambient-color': Color(color).alpha(ambientLightAlpha).toString(),
-                        '--transition-duration': `${rippleAnimationDuration}ms`,
-                        width: '100%',
-                        height: '100%',
+        return (
+            <div
+                className={ classNames(className, classes.wrap) }
+                ref={ this.initialize }
+                style={{
+                    '--light-color': Color(color).alpha(spotLightAlpha).toString(),
+                    '--ambient-color': Color(color).alpha(ambientLightAlpha).toString(),
+                    '--transition-duration': `${rippleAnimationDuration}ms`,
+                }}
+            >
+                <RippledParticles
+                    onReady={ (api) => { this.particlesApi = api; } }
+                    config={{
+                        initialColor: this.initialColor,
+                        gravitySourceRect: {
+                            x: origin.x,
+                            y: origin.y,
+                            width: origin.widthPx,
+                            height: origin.heightPx,
+                        },
+                        rippleConfig: {
+                            rippleAnimationDuration,
+                        }
                     }}
-                >
-                    <RippledParticles
-                        onReady={ (api) => { this.particlesApi = api; } }
-                        config={{
-                            initialColor: this.initialColor,
-                            gravitySourceRect: {
-                                x: origin.x,
-                                y: origin.y,
-                                width: origin.widthPx,
-                                height: origin.heightPx,
-                            },
-                            rippleConfig: {
-                                rippleAnimationDuration,
-                            }
-                        }}
-                        particlesCount={ Math.round(PARTICLES_COUNT * parentSize.width / 1920) }
-                        className={ classes['particles'] }
-                    />
+                    particlesCount={ Math.round(PARTICLES_COUNT * parentSize.width / 1920) }
+                    className={ classes['particles'] }
+                />
 
-                    { /* Ambient Light */ }
-                    <div
-                        className={ classes['color-overlay'] }
-                    />
+                { /* Ambient Light */ }
+                <div
+                    className={ classes['color-overlay'] }
+                />
 
-                    { /* Spot Light */ }
-                    <div
-                        className={ classes['spotlight'] }
-                        style={{
-                            left: origin.x * parentSize.width,
-                            top: origin.y * parentSize.height,
-                            width: `${origin.widthPx}px`,
-                            height: `${origin.heightPx}px`,
-                        }}
-                    />
-                </div>
-            ), targetPortalElement): null;
-        }
-
-        return null;
+                { /* Spot Light */ }
+                <div
+                    className={ classes['spotlight'] }
+                    style={{
+                        left: origin.x * parentSize.width,
+                        top: origin.y * parentSize.height,
+                        width: `${origin.widthPx}px`,
+                        height: `${origin.heightPx}px`,
+                    }}
+                />
+            </div>
+        );
     }
 }
 
