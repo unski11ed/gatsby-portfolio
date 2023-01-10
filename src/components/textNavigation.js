@@ -14,9 +14,9 @@ const TextNavigation = ({ children, headersToFind, offsetTop }) => {
         <TextNavigationContext.Provider
             value={{
                 headersToFind,
-                setActiveHeader: (headerDef) => { setActiveHeader(headerDef) },
+                setActiveHeader: setActiveHeader,
                 activeHeader: activeHeader,
-                registerHeaders: (headers) => { setHeaderDefinitions(headers) },
+                registerHeaders: setHeaderDefinitions,
                 headers: headerDefinitions,
                 onHeaderClicked: (clickedHeader) => {
                     scrollToPosition(

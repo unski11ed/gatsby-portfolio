@@ -89,7 +89,7 @@ const Navbar = ({ children, className, isTransparent, currentPath }) => {
                     style={{
                         /* For height animation with CSS transitions on mobile only */
                         height: navbarRef.current && phoneMatches ?
-                            `${navbarRef.current.scrollHeight}px` : '',
+                            `${navbarRef.current.scrollHeight}px` : 'inherit',
                     }}
                     ref={ navbarRef }
                 >

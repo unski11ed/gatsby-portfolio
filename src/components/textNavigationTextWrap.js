@@ -29,7 +29,12 @@ const getHeaderDefinitions = (parentElement, layoutContentElement, headersToFind
 
 const TextNavigationWrap = ({ children, tag: Tag, ...otherProps }) => {
     const contentElementRef = useRef();
-    const textNavContext = useContext(TextNavigationContext);
+    const {
+        registerHeaders,
+        setActiveHeader,
+        offsetTop,
+        headersToFind,
+    } = useContext(TextNavigationContext);
     const layoutContext = useContext(LayoutContext);
     const [areFontsLoaded, setAreFontsLoaded] = useState(false);
     const { contentElement: layoutContentElement } = layoutContext;
@@ -51,12 +56,12 @@ const TextNavigationWrap = ({ children, tag: Tag, ...otherProps }) => {
         const headerDefinitions = getHeaderDefinitions(
             contentElementRef.current,
             layoutContentElement,
-            textNavContext.headersToFind
+            headersToFind
         );
-        textNavContext.registerHeaders(headerDefinitions);
+        registerHeaders(headerDefinitions);
 
         // Set the first header active on startup
-        textNavContext.setActiveHeader(first(headerDefinitions));
+        setActiveHeader(first(headerDefinitions));
         
         // Register Scroll Event if window is available
         if (window !== undefined && layoutContentElement) {
@@ -67,7 +72,7 @@ const TextNavigationWrap = ({ children, tag: Tag, ...otherProps }) => {
 
                 for (const headerDefinition of headerDefinitions) {
                     const headerPositionY = Math.floor(
-                        headerDefinition.position.y - textNavContext.offsetTop
+                        headerDefinition.position.y - offsetTop
                     );
 
                     if (headerPositionY <= windowY) {
@@ -75,7 +80,7 @@ const TextNavigationWrap = ({ children, tag: Tag, ...otherProps }) => {
                     }
                 }
                 
-                textNavContext.setActiveHeader(headerToActivate);
+                setActiveHeader(headerToActivate);
             };
             // Register the Handler
             layoutContentElement.addEventListener('scroll', scrollHandler);
@@ -85,7 +90,15 @@ const TextNavigationWrap = ({ children, tag: Tag, ...otherProps }) => {
                 layoutContentElement.removeEventListener('scroll', scrollHandler);
             }
         }
-    }, [children, layoutContentElement, areFontsLoaded]);
+    }, [
+        children,
+        layoutContentElement,
+        areFontsLoaded,
+        registerHeaders,
+        setActiveHeader,
+        offsetTop,
+        headersToFind
+    ]);
 
     return (
         <Tag
